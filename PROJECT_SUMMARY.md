@@ -1,7 +1,7 @@
 # Selected Mall 项目完成总结
 
 ## 项目概述
-Selected Mall 是一个完整的电商网站项目，使用 Vue 3 + Element Plus + Vue Router + JavaScript 技术栈，采用 LocalStorage 实现本地数据持久化。
+Selected Mall 是一个纯前端的电商网站项目，使用 Vue 3 + Element Plus + Vue Router + JavaScript 技术栈，采用 pinia 实现本地数据持久化。
 
 ## 项目结构
 
@@ -9,11 +9,10 @@ Selected Mall 是一个完整的电商网站项目，使用 Vue 3 + Element Plus
 SelectedMall/
 ├── public/
 │   ├── favicon.ico
-│   ├── logo.png
-│   └── product.json          # 商品数据
 ├── src/
 │   ├── assets/
 │   │   └── images/           # 静态资源
+│   │   └── banners/          # 轮播图资源
 │   ├── components/
 │   │   ├── Header/           # 头部组件
 │   │   ├── Footer/           # 底部组件
@@ -28,6 +27,8 @@ SelectedMall/
 │   │   ├── cart.js           # 购物车状态管理
 │   │   ├── order.js          # 订单状态管理
 │   │   └── favorite.js       # 收藏状态管理
+│   │   └── banner.js         # 轮播图数据管理
+│   │   └── product.js        # 产品数据管理
 │   ├── utils/
 │   │   └── storage.js        # LocalStorage工具类
 │   ├── views/
@@ -128,12 +129,3 @@ npm run build
 1. 这是一个演示项目，数据存储在 LocalStorage 中，刷新页面后会保留
 2. 图片使用 placeholder 服务，实际使用时需要替换为真实图片
 3. 订单功能为模拟实现，实际项目中需要对接后端 API
-
-## 待完善功能
-1. 对接真实后端 API
-2. 添加支付功能
-3. 添加物流追踪功能
-4. 添加评价和评分功能
-5. 添加优惠券系统
-6. 添加推荐算法
-7. 添加商品评论系统

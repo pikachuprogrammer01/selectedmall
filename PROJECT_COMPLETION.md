@@ -6,7 +6,7 @@
 
 ### 项目概况
 - 项目名称: Selected Mall
-- 技术栈: Vue 3 + Element Plus + Vue Router + JavaScript + LocalStorage
+- 技术栈: Vue 3 + Element Plus + Vue Router + JavaScript + LocalStorage + Pinia
 - 项目类型: 电商网站
 
 ---
@@ -188,4 +188,4 @@ npm run dev
 ---
 
 **创建时间**: 2026-03-06
-**项目状态**: ✅ 已完成
+**项目状态**: 
