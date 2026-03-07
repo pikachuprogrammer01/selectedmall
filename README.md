@@ -6,4 +6,4 @@
   - Piain
   - vite
 ---
-github地址：
+github地址：https://github.com/pikachuprogrammer01/selectedmall.git
