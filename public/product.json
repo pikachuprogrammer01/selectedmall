@@ -1,0 +1,76 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "智能手机 X Pro",
+      "price": 3999,
+      "image": "https://via.placeholder.com/300x300?text=Phone",
+      "category": "手机数码",
+      "stock": 100,
+      "description": "最新旗舰手机，采用最新处理器，超长续航，超大屏幕"
+    },
+    {
+      "id": 2,
+      "name": "笔记本电脑 Air",
+      "price": 5999,
+      "image": "https://via.placeholder.com/300x300?text=Laptop",
+      "category": "电脑办公",
+      "stock": 50,
+      "description": "轻薄便携，性能强劲，采用最新处理器"
+    },
+    {
+      "id": 3,
+      "name": "无线耳机",
+      "price": 999,
+      "image": "https://via.placeholder.com/300x300?text=Headphone",
+      "category": "手机数码",
+      "stock": 200,
+      "description": "高清音质，主动降噪，长时间续航"
+    },
+    {
+      "id": 4,
+      "name": "智能手表",
+      "price": 1299,
+      "image": "https://via.placeholder.com/300x300?text=Watch",
+      "category": "手机数码",
+      "stock": 80,
+      "description": "健康监测，运动追踪，长续航"
+    },
+    {
+      "id": 5,
+      "name": "平板电脑 Pro",
+      "price": 4999,
+      "image": "https://via.placeholder.com/300x300?text=Tablet",
+      "category": "手机数码",
+      "stock": 120,
+      "description": "大屏体验，高性能，适合办公娱乐"
+    },
+    {
+      "id": 6,
+      "name": "游戏手柄",
+      "price": 299,
+      "image": "https://via.placeholder.com/300x300?text=Gamepad",
+      "category": "手机数码",
+      "stock": 300,
+      "description": "精准操控，长续航，多种模式"
+    },
+    {
+      "id": 7,
+      "name": "移动电源",
+      "price": 199,
+      "image": "https://via.placeholder.com/300x300?text=PowerBank",
+      "category": "手机数码",
+      "stock": 500,
+      "description": "大容量，快充，多设备兼容"
+    },
+    {
+      "id": 8,
+      "name": "蓝牙音箱",
+      "price": 399,
+      "image": "https://via.placeholder.com/300x300?text=Speaker",
+      "category": "手机数码",
+      "stock": 150,
+      "description": "音质出色，便携设计，智能控制"
+    }
+  ]
+}
