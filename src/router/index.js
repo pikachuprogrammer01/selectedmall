@@ -85,4 +85,16 @@ const router = createRouter({
   routes
 })
 
+// 全局路由守卫，检查用户是否登录
+router.beforeEach((to, from, next) => {
+  const publicPages = ['/login', '/register']
+  const authRequired = !publicPages.includes(to.path)
+  const token = localStorage.getItem('token')
+  if (authRequired && !token) {
+    next('/login')
+  } else {
+    next()
+  }
+})
+
 export default router

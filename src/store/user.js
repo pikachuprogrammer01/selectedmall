@@ -59,10 +59,5 @@ export const useUserStore = defineStore('user', {
       storage.remove('token')
       storage.remove('userInfo')
     },
-
-    // 是否登录
-    isLogin() {
-      return storage.get('token') && storage.get('userInfo') ? true : false
-    }
   }
 })
