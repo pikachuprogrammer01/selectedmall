@@ -1,49 +1,46 @@
 <script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { User, Lock, Message, ArrowRight } from '@element-plus/icons-vue'
-import { useUserStore } from '@/store/user'
-import { ElMessage } from 'element-plus'
+  import { ref } from "vue";
+  import { useRouter } from "vue-router";
+  import { User, Lock, Message, ArrowRight } from "@element-plus/icons-vue";
+  import { useUserStore } from "@/store/user";
+  import { ElMessage } from "element-plus";
 
-const router = useRouter()
-const userStore = useUserStore()
+  const router = useRouter();
+  const userStore = useUserStore();
 
-const loginForm = ref({
-  username: 'admin',
-  password: '123456'
-})
+  const loginForm = ref({
+    username: "admin",
+    password: "123456",
+  });
 
-const loading = ref(false)
-const activeTab = ref('login')
+  const loading = ref(false);
+  const activeTab = ref("login");
 
-const handleLogin = async () => {
-  if (!loginForm.value.username || !loginForm.value.password) {
-    ElMessage.warning('请输入用户名和密码')
-    return
-  }
+  const handleLogin = async () => {
+    if (!loginForm.value.username || !loginForm.value.password) {
+      ElMessage.warning("请输入用户名和密码");
+      return;
+    }
 
-  loading.value = true
-  try {
-    await userStore.login(
-      loginForm.value.username,
-      loginForm.value.password
-    )
-    ElMessage.success('登录成功')
-    router.push('/')
-  } catch (error) {
-    ElMessage.error(error || '登录失败')
-  } finally {
-    loading.value = false
-  }
-}
+    loading.value = true;
+    try {
+      await userStore.login(loginForm.value.username, loginForm.value.password);
+      ElMessage.success("登录成功");
+      router.push("/");
+    } catch (error) {
+      ElMessage.error(error || "登录失败");
+    } finally {
+      loading.value = false;
+    }
+  };
 
-const handleRegister = () => {
-  router.push('/register')
-}
+  const handleRegister = () => {
+    router.push("/register");
+  };
 
-const handleForgotPassword = () => {
-  ElMessage.info('请联系管理员重置密码')
-}
+  const handleForgotPassword = () => {
+    ElMessage.info("请联系管理员重置密码");
+  };
 </script>
 
 <template>
@@ -90,7 +87,7 @@ const handleForgotPassword = () => {
               size="large"
               :loading="loading"
               @click="handleLogin"
-              style="width: 100%;"
+              style="width: 100%"
             >
               登录
               <el-icon><ArrowRight /></el-icon>
@@ -139,7 +136,7 @@ const handleForgotPassword = () => {
               type="primary"
               size="large"
               @click="handleRegister"
-              style="width: 100%;"
+              style="width: 100%"
             >
               注册
               <el-icon><ArrowRight /></el-icon>
@@ -149,7 +146,11 @@ const handleForgotPassword = () => {
       </el-tabs>
 
       <div class="login-footer">
-        <p>还没有账号？<el-button type="text" @click="handleRegister">立即注册</el-button></p>
+        <p>
+          还没有账号？<el-button type="text" @click="handleRegister"
+            >立即注册</el-button
+          >
+        </p>
         <p>演示账号: admin / 123456</p>
       </div>
     </div>
@@ -157,64 +158,64 @@ const handleForgotPassword = () => {
 </template>
 
 <style scoped>
-.login-container {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-}
+  .login-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
 
-.login-card {
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 450px;
-  padding: 40px;
-}
+  .login-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 450px;
+    padding: 40px;
+  }
 
-.login-header {
-  text-align: center;
-  margin-bottom: 30px;
-}
+  .login-header {
+    text-align: center;
+    margin-bottom: 30px;
+  }
 
-.login-header h1 {
-  font-size: 32px;
-  font-weight: 700;
-  color: #333;
-  margin-bottom: 10px;
-}
+  .login-header h1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 10px;
+  }
 
-.login-header p {
-  color: #666;
-  font-size: 14px;
-}
+  .login-header p {
+    color: #666;
+    font-size: 14px;
+  }
 
-.login-tabs {
-  margin-bottom: 20px;
-}
+  .login-tabs {
+    margin-bottom: 20px;
+  }
 
-.form-options {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+  .form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 
-.login-footer {
-  text-align: center;
-  margin-top: 20px;
-}
+  .login-footer {
+    text-align: center;
+    margin-top: 20px;
+  }
 
-.login-footer p {
-  color: #999;
-  font-size: 14px;
-  margin-bottom: 10px;
-}
+  .login-footer p {
+    color: #999;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
 
-.login-footer p .el-button {
-  color: #409eff;
-  padding: 0;
-}
+  .login-footer p .el-button {
+    color: #409eff;
+    padding: 0;
+  }
 </style>

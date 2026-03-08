@@ -9,7 +9,7 @@ export const useUserStore = defineStore('user', {
   }),
   actions: {
     // 登录
-    async login({ username, password }) {
+    async login(username, password) {
       // 模拟登录，实际项目中应该调用API
       return new Promise((resolve, reject) => {
         setTimeout(() => {
