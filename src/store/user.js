@@ -33,8 +33,6 @@ function addUserList(user, password) {
     name,
     email: user.email
   }
-  this.userInfo = userInfo
-  this.token = token
   
   const userInfoDetail = ref({
     ...userInfo,
@@ -43,6 +41,8 @@ function addUserList(user, password) {
   })
 
   this.userList.push(userInfoDetail) // 将用户信息添加到用户列表中
+
+  return token
 }
 
 // 生成唯一ID并存储
@@ -52,6 +52,12 @@ function setID() {
   storage.set('id', ID);
 
   return ID;
+}
+
+// 记住用户信息
+function remberUserInfo(userInfo) {
+  this.userInfo = userInfo
+  storage.set('userInfo', userInfo)
 }
 
 export const useUserStore = defineStore('user', {
@@ -64,20 +70,23 @@ export const useUserStore = defineStore('user', {
   }),
   actions: {
     // 登录
-    async login(username, password) {
+    async login(username, password, remember) {
       // 模拟登录，实际项目中应该调用API
       return new Promise((resolve, reject) => {
         if (!this.userList.some(u => u.username === 'admin' && u.password === '123456' && u.id === 1)) {
           const ID = 1;
           this.ids.push(ID);
           storage.set('id', ID);
+          this.token = token
+          storage.set('token', token)
           
           const userInfo = addAdminUser.call(this, ID, username, password);
           
           this.isLoggedIn = true
           
-          storage.set('token', token)
-          storage.set('userInfo', userInfo)
+          if (remember) {
+            remberUserInfo.call(this, userInfo);
+          }
 
           resolve(userInfo)
           return
@@ -86,13 +95,17 @@ export const useUserStore = defineStore('user', {
           // 简单的用户验证
           const user = this.userList.find(u => u.username === username);
           const password = this.userList.find(u => u.password === password);
-          if (user && password) {
-            addUserList.call(this, user, password);
+          const id = this.userList.find(u => u.id === storage.get('id'));
+          if (user && password && id) {
+            const token = addUserList.call(this, user, password);
+            this.token = token
+            storage.set('token', token)
             
             this.isLoggedIn = true
             
-            storage.set('token', token)
-            storage.set('userInfo', userInfo)
+            if (remember) {
+              remberUserInfo.call(this, userInfo);
+            }
             
             resolve(userInfo)
           } else {
@@ -107,12 +120,14 @@ export const useUserStore = defineStore('user', {
       // 模拟注册，实际项目中应该调用API
       return new Promise((resolve, reject) => {
         setTimeout(() => {
-          addUserList.call(this, userInfo, userInfo.password);
-
+          const token = addUserList.call(this, userInfo, userInfo.password);
+          this.token = token
+          storage.set('token', token)
           this.isLoggedIn = true
 
-          storage.set('token', token)
-          storage.set('userInfo', userInfo)
+          if (remember) {
+            remberUserInfo.call(this, userInfo);
+          }
           
           resolve(userInfo)
         }, 500)

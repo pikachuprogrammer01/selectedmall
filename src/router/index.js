@@ -14,6 +14,7 @@ import UserCenter from '@/views/UserCenter/UserCenter.vue'
 import Profile from '@/views/Profile/Profile.vue'
 import Address from '@/views/Address/Address.vue'
 import Favorite from '@/views/Favorite/Favorite.vue'
+import { ElMessage } from "element-plus";
 
 const routes = [
   {
@@ -84,13 +85,16 @@ const router = createRouter({
   history: createWebHistory(),
   routes
 })
-
+  
 // 全局路由守卫，检查用户是否登录
 router.beforeEach((to, from, next) => {
   const publicPages = ['/login', '/register']
   const authRequired = !publicPages.includes(to.path)
   const token = localStorage.getItem('token')
   if (authRequired && !token) {
+    setTimeout(() => {
+      ElMessage.info("请先登录再访问！")
+    }, 500);
     next('/login')
   } else {
     next()

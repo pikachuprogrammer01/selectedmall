@@ -21,6 +21,7 @@
     confirmPassword: "",
     phone: "",
     email: "",
+    agree: false,
   });
 
   const rules = {
@@ -67,6 +68,20 @@
     email: [
       { required: true, message: "请输入电子邮箱", trigger: "blur" },
       { type: "email", message: "邮箱格式不正确", trigger: "blur" },
+    ],
+    agree: [
+      {
+        type: "boolean",
+        required: true,
+        validator: (rule, value, callback) => {
+          if (!value) {
+            callback(new Error("请阅读并同意用户协议"));
+          } else {
+            callback();
+          }
+        },
+        trigger: "change",
+      },
     ],
   };
 
@@ -170,8 +185,8 @@
           />
         </el-form-item>
 
-        <el-form-item>
-          <el-checkbox>
+        <el-form-item prop="agree">
+          <el-checkbox v-model="registerForm.agree">
             我已阅读并同意
             <el-button type="text">用户协议</el-button>
             和

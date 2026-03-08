@@ -11,6 +11,7 @@
   const loginForm = ref({
     username: "admin",
     password: "123456",
+    remember: false,
   });
 
   const ruleFormRef = ref();
@@ -26,16 +27,23 @@
   const activeTab = ref("login");
 
   const handleLogin = async () => {
-    if (!loginForm.value.username || !loginForm.value.password) {
-      ElMessage.warning("请输入用户名和密码");
-      return;
-    }
-
     loading.value = true;
     try {
-      await userStore.login(loginForm.value.username, loginForm.value.password);
-      ElMessage.success("登录成功");
-      router.push("/");
+      ruleFormRef.value.validate(async (valid) => {
+        if (valid) {
+          await userStore.login(
+            loginForm.value.username,
+            loginForm.value.password,
+            loginForm.value.remember,
+          );
+          ElMessage.success("登录成功！");
+          ruleFormRef.value.resetFields();
+          router.push("/");
+        } else {
+          ElMessage.error("请完善用户名和密码");
+          return false;
+        }
+      });
     } catch (error) {
       ElMessage.error(error || "登录失败");
     } finally {
@@ -157,7 +165,7 @@
 
             <el-form-item>
               <div class="form-options">
-                <el-checkbox>记住我</el-checkbox>
+                <el-checkbox v-model="loginForm.remember">记住我</el-checkbox>
                 <el-button type="text" @click="handleForgotPassword">
                   忘记密码？
                 </el-button>
