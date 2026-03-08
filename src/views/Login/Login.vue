@@ -13,6 +13,15 @@
     password: "123456",
   });
 
+  const ruleFormRef = ref();
+  const registerForm = ref({
+    username: "",
+    password: "",
+    confirmPassword: "",
+    phone: "",
+    email: "",
+  });
+
   const loading = ref(false);
   const activeTab = ref("login");
 
@@ -34,7 +43,80 @@
     }
   };
 
-  const handleRegister = () => {
+  /**
+   * 手机号校验
+   */
+  const validatePhone = (rule, value, callback) => {
+    const phoneReg = /^1[3-9]\d{9}$/;
+
+    if (!value) {
+      callback(new Error("请输入手机号"));
+    } else if (!phoneReg.test(value)) {
+      callback(new Error("请输入正确的手机号"));
+    } else {
+      callback();
+    }
+  };
+
+  /**
+   * 确认密码校验
+   */
+  const validateConfirmPassword = (rule, value, callback) => {
+    if (!value) {
+      callback(new Error("请再次输入密码"));
+    } else if (value !== registerForm.value.password) {
+      callback(new Error("两次输入密码不一致"));
+    } else {
+      callback();
+    }
+  };
+
+  const rules = {
+    username: [
+      { required: true, message: "请输入用户名", trigger: "blur" },
+      { min: 3, max: 20, message: "用户名长度3-20位", trigger: "blur" },
+    ],
+
+    password: [
+      { required: true, message: "请输入密码", trigger: "blur" },
+      { min: 6, message: "密码至少6位", trigger: "blur" },
+    ],
+
+    confirmPassword: [{ validator: validateConfirmPassword, trigger: "blur" }],
+
+    phone: [{ validator: validatePhone, trigger: "blur" }],
+  };
+
+  /**
+   * 注册提交
+   */
+  const handleRegister = async () => {
+    loading.value = true;
+    try {
+      ruleFormRef.value.validate((valid) => {
+        if (valid) {
+          ElMessage.success("注册成功！");
+          ruleFormRef.value.resetFields();
+          userStore.register({
+            username: registerForm.value.username,
+            password: registerForm.value.password,
+            phone: registerForm.value.phone,
+            email: registerForm.value.email,
+          });
+          router.push("/login");
+        } else {
+          ElMessage.error("请完善注册信息");
+          return false;
+        }
+      });
+    } catch (error) {
+      ElMessage.error(error || "注册失败");
+    } finally {
+      loading.value = false;
+    }
+  };
+
+  const goToRegister = () => {
     router.push("/register");
   };
 
@@ -56,7 +138,7 @@
           <el-form :model="loginForm" label-position="top">
             <el-form-item label="用户名">
               <el-input
-                v-model="loginForm.username"
+                v-model.trim="loginForm.username"
                 placeholder="请输入用户名"
                 :prefix-icon="User"
               />
@@ -64,7 +146,7 @@
 
             <el-form-item label="密码">
               <el-input
-                v-model="loginForm.password"
+                v-model.trim="loginForm.password"
                 type="password"
                 placeholder="请输入密码"
                 :prefix-icon="Lock"
@@ -96,18 +178,23 @@
         </el-tab-pane>
 
         <el-tab-pane label="快速注册" name="register">
-          <el-form label-position="top">
-            <el-form-item label="用户名">
+          <el-form
+            label-position="top"
+            ref="ruleFormRef"
+            :model="registerForm"
+            :rules="rules"
+          >
+            <el-form-item label="用户名" prop="username">
               <el-input
-                v-model="loginForm.username"
+                v-model.trim="registerForm.username"
                 placeholder="请输入用户名"
                 :prefix-icon="User"
               />
             </el-form-item>
 
-            <el-form-item label="密码">
+            <el-form-item label="密码" prop="password">
               <el-input
-                v-model="loginForm.password"
+                v-model.trim="registerForm.password"
                 type="password"
                 placeholder="请输入密码"
                 :prefix-icon="Lock"
@@ -115,8 +202,9 @@
               />
             </el-form-item>
 
-            <el-form-item label="确认密码">
+            <el-form-item label="确认密码" prop="confirmPassword">
               <el-input
+                v-model.trim="registerForm.confirmPassword"
                 type="password"
                 placeholder="请再次输入密码"
                 :prefix-icon="Lock"
@@ -124,9 +212,11 @@
               />
             </el-form-item>
 
-            <el-form-item label="手机号">
+            <el-form-item label="手机号" prop="phone">
               <el-input
-                v-model="loginForm.username"
+                v-model.trim="registerForm.phone"
+                type="tel"
+                maxlength="11"
                 placeholder="请输入手机号"
                 :prefix-icon="Message"
               />
@@ -139,7 +229,6 @@
               style="width: 100%"
             >
               注册
-              <el-icon><ArrowRight /></el-icon>
             </el-button>
           </el-form>
         </el-tab-pane>
@@ -147,7 +236,7 @@
 
       <div class="login-footer">
         <p>
-          还没有账号？<el-button type="text" @click="handleRegister"
+          还没有账号？<el-button type="text" @click="goToRegister"
             >立即注册</el-button
           >
         </p>
