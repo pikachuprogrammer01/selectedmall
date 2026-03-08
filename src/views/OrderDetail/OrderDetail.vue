@@ -2,8 +2,8 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { ArrowLeft, Location, Phone, Clock, Pointer, SuccessFilled, Goods, Document } from '@element-plus/icons-vue'
-import { useOrderStore } from '../../store/order'
-import { useUserStore } from '../../store/user'
+import { useOrderStore } from '@/store/order'
+import { useUserStore } from '@/store/user'
 import { ElMessage } from 'element-plus'
 
 const router = useRouter()

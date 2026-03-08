@@ -1,8 +1,8 @@
 <script setup>
   import { ref, computed } from "vue";
   import { useRouter, useRoute } from "vue-router";
-  import { useUserStore } from "../../store/user";
-  import { useCartStore } from "../../store/cart";
+  import { useUserStore } from "@/store/user";
+  import { useCartStore } from "@/store/cart";
 
   // 导入图标组件
   import {

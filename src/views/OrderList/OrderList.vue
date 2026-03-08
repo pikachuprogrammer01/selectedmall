@@ -2,8 +2,8 @@
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { Location, Clock, Pointer, SuccessFilled } from '@element-plus/icons-vue'
-import { useOrderStore } from '../../store/order'
-import { useUserStore } from '../../store/user'
+import { useOrderStore } from '@/store/order'
+import { useUserStore } from '@/store/user'
 import { ElMessage, ElMessageBox } from 'element-plus'
 
 const router = useRouter()

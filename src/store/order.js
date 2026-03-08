@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import storage from '../utils/storage'
+import storage from '@/utils/storage'
 
 export const useOrderStore = defineStore('order', {
   state: () => ({

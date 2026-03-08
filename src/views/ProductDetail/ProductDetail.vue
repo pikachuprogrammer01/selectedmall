@@ -2,7 +2,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { ShoppingCart, Star, ChatDotRound, ArrowLeft, Share } from '@element-plus/icons-vue'
-import { useCartStore } from '../../store/cart'
+import { useCartStore } from '@/store/cart'
 import { ElMessage } from 'element-plus'
 
 const router = useRouter()

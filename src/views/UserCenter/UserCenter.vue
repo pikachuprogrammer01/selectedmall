@@ -8,8 +8,8 @@
     Location,
     Setting,
   } from "@element-plus/icons-vue";
-  import { useUserStore } from "../../store/user";
-  import { useOrderStore } from "../../store/order";
+  import { useUserStore } from "@/store/user";
+  import { useOrderStore } from "@/store/order";
 
   const router = useRouter();
   const userStore = useUserStore();

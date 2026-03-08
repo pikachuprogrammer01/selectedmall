@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { User, Lock, Phone, Edit } from '@element-plus/icons-vue'
-import { useUserStore } from '../../store/user'
+import { useUserStore } from '@/store/user'
 import { ElMessage, ElMessageBox } from 'element-plus'
 
 const router = useRouter()

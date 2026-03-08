@@ -2,7 +2,7 @@
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { ArrowRight } from '@element-plus/icons-vue'
-import { useCartStore } from '../../store/cart'
+import { useCartStore } from '@/store/cart'
 import { ElMessage, ElMessageBox } from 'element-plus'
 
 const router = useRouter()

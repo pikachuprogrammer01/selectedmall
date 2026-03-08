@@ -1,6 +1,6 @@
 <script setup>
   import { defineProps } from "vue";
-  import OverflowTooltip from "../OverflowTooltip/OverflowTooltip.vue";
+  import OverflowTooltip from "@/components/OverflowTooltip/OverflowTooltip.vue";
 
   const props = defineProps({
     product: {
