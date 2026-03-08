@@ -2,7 +2,7 @@
   import { ref, computed } from "vue";
   import { useRouter, useRoute } from "vue-router";
   import { Filter, ArrowDown, ArrowUp } from "@element-plus/icons-vue";
-  import { useProductStore } from "../../store/product";
+  import { useProductStore } from "@/store/product";
 
   const router = useRouter();
   const route = useRoute();
@@ -15,7 +15,7 @@
   const sortOrder = ref("asc");
 
   // 模拟商品数据
-  const products = useProductStore().value.products;
+  const products = useProductStore().products;
 
   // 分页
   const currentPage = ref(1);
@@ -43,7 +43,7 @@
       });
     }
 
-    return result;
+    return result || [];
   });
 
   // 分页后的商品

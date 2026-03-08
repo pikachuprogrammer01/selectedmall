@@ -2,6 +2,7 @@
   import { ref, computed, onMounted } from "vue";
   import { useRouter } from "vue-router";
   import { useCartStore } from "@/store/cart";
+  import { useBannerStore } from "@/store/banner";
   import { useProductStore } from "@/store/product";
   import CategoryMenu from "@/components/CategoryMenu/CategoryMenu.vue";
   import BackToTop from "@/components/BackToTop/BackToTop.vue";
@@ -11,19 +12,19 @@
   const cartStore = useCartStore();
 
   // 轮播图数据
-  const banners = useBannerStore().banner;
+  const banners = useBannerStore().banners;
 
   // 商品数据
-  const products = useProductStore().products;
+  const productsStore = useProductStore();
 
   // 热门商品
   const hotProducts = computed(() => {
-    return products.value.slice(0, 4);
+    return productsStore.products.slice(0, 4);
   });
 
   // 新品推荐
   const newProducts = computed(() => {
-    return products.value.slice(0, 4);
+    return productsStore.products.slice(0, 4);
   });
 
   // 跳转到商品列表
