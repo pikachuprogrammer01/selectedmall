@@ -19,7 +19,7 @@
     },
     {
       name: "服装鞋帽",
-      icon: "T-shirt",
+      icon: "ShoppingBag",
     },
     {
       name: "美妆护肤",

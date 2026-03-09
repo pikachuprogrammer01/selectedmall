@@ -81,6 +81,7 @@
 
         <div class="header-actions">
           <el-button type="primary" size="large" @click="navigateTo('/cart')">
+            <span class="cart-text">购物车</span>
             <el-icon class="search-icon"><ShoppingBag /></el-icon>
             <span class="cart-count" v-if="cartCount > 0"
               >({{ cartCount }})</span
@@ -188,6 +189,10 @@
     display: flex;
     align-items: center;
     gap: 15px;
+  }
+
+  .cart-text {
+    margin-right: 5px;
   }
 
   .cart-count {
