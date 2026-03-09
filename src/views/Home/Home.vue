@@ -7,6 +7,7 @@
   import CategoryMenu from "@/components/CategoryMenu/CategoryMenu.vue";
   import BackToTop from "@/components/BackToTop/BackToTop.vue";
   import { ShoppingCart, Star, Histogram } from "@element-plus/icons-vue";
+  import OverflowTooltip from "@/components/OverflowTooltip/OverflowTooltip.vue";
 
   const router = useRouter();
   const cartStore = useCartStore();
@@ -19,12 +20,18 @@
 
   // 热门商品
   const hotProducts = computed(() => {
-    return productsStore.products.slice(0, 4);
+    const randomProducts = [...productsStore.products].sort(
+      () => 0.5 - Math.random(),
+    );
+    return randomProducts.slice(0, 4);
   });
 
   // 新品推荐
   const newProducts = computed(() => {
-    return productsStore.products.slice(0, 4);
+    const randomProducts = [...productsStore.products].sort(
+      () => 0.5 - Math.random(),
+    );
+    return randomProducts.slice(0, 4);
   });
 
   // 跳转到商品列表
@@ -88,7 +95,8 @@
             </div>
             <div class="product-info">
               <h3>{{ product.name }}</h3>
-              <p class="product-category">{{ product.category }}</p>
+              <p class="product-category">{{ product.categories }}</p>
+              <OverflowTooltip :text="product.description" />
               <div class="product-price">¥{{ product.price }}</div>
               <div class="product-actions">
                 <el-button
@@ -100,6 +108,7 @@
                 </el-button>
                 <el-button size="small" @click="addToCart(product)">
                   <el-icon><ShoppingCart /></el-icon>
+                  <span class="add-cart">加入购物车</span>
                 </el-button>
               </div>
             </div>
@@ -124,7 +133,8 @@
             </div>
             <div class="product-info">
               <h3>{{ product.name }}</h3>
-              <p class="product-category">{{ product.category }}</p>
+              <p class="product-category">{{ product.categories }}</p>
+              <OverflowTooltip :text="product.description" />
               <div class="product-price">¥{{ product.price }}</div>
               <div class="product-actions">
                 <el-button
@@ -136,6 +146,7 @@
                 </el-button>
                 <el-button size="small" @click="addToCart(product)">
                   <el-icon><ShoppingCart /></el-icon>
+                  <span class="add-cart">加入购物车</span>
                 </el-button>
               </div>
             </div>
@@ -284,5 +295,9 @@
       grid-template-columns: repeat(2, 1fr);
       gap: 15px;
     }
+  }
+
+  .add-cart {
+    margin-left: 5px;
   }
 </style>
