@@ -65,6 +65,7 @@
 
 <style scoped>
   .category-menu {
+    width: 78vw;
     background: #fff;
     border-radius: 8px;
     padding: 20px;
@@ -73,7 +74,7 @@
 
   .category-list {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(8, 1fr);
     gap: 20px;
   }
 

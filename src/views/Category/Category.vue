@@ -9,18 +9,6 @@
   const router = useRouter();
   const currentCategory = ref("全部商品");
 
-  const categories = ref([
-    { name: "全部商品", icon: "Grid" },
-    { name: "手机数码", icon: "Cellphone" },
-    { name: "电脑办公", icon: "Monitor" },
-    { name: "家用电器", icon: "House" },
-    { name: "服装鞋帽", icon: "T-shirt" },
-    { name: "美妆护肤", icon: "Brush" },
-    { name: "食品饮料", icon: "IceCream" },
-    { name: "运动户外", icon: "FirstAidKit" },
-    { name: "图书音像", icon: "Reading" },
-  ]);
-
   // 模拟商品数据
   const productsStore = useProductStore();
 
@@ -48,32 +36,19 @@
 <template>
   <div class="category">
     <div class="category-header">
-      <el-button type="text" @click="router.push('/')">
+      <el-button link @click="router.push('/')">
         <el-icon><ArrowLeft /></el-icon>
         返回首页
       </el-button>
-      <h1>{{ currentCategory }}</h1>
+      <CategoryMenu @category-change="handleCategoryChange" />
     </div>
 
     <div class="category-content">
-      <div class="category-menu">
-        <div
-          v-for="cat in categories"
-          :key="cat.name"
-          class="category-item"
-          :class="{ active: currentCategory === cat.name }"
-          @click="handleCategoryChange(cat.name)"
-        >
-          <el-icon><component :is="cat.icon" /></el-icon>
-          <span>{{ cat.name }}</span>
-        </div>
-      </div>
-
       <div class="product-list">
         <div class="section-title">
           <el-icon><Grid /></el-icon>
           <span>商品列表</span>
-          <span class="count">({{ filteredProducts }}件商品)</span>
+          <span class="count">({{ filteredProducts.length }}件商品)</span>
         </div>
 
         <div class="product-grid">
@@ -96,6 +71,9 @@
   }
 
   .category-header {
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
     background: #fff;
     padding: 20px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -105,34 +83,9 @@
     max-width: 1200px;
     margin: 20px auto;
     padding: 0 20px;
-    display: grid;
+    display: flex;
     grid-template-columns: 240px 1fr;
     gap: 20px;
-  }
-
-  .category-menu {
-    background: #fff;
-    border-radius: 8px;
-    padding: 20px;
-  }
-
-  .category-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px 16px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.3s;
-    margin-bottom: 5px;
-  }
-
-  .category-item:last-child {
-    margin-bottom: 0;
-  }
-
-  .category-item:hover {
-    background: #f5f5f5;
   }
 
   .category-item.active {
@@ -169,15 +122,5 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
     gap: 20px;
-  }
-
-  @media (max-width: 768px) {
-    .category-content {
-      grid-template-columns: 1fr;
-    }
-
-    .category-menu {
-      display: none;
-    }
   }
 </style>
