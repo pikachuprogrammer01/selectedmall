@@ -188,9 +188,9 @@
         <el-form-item prop="agree">
           <el-checkbox v-model="registerForm.agree">
             我已阅读并同意
-            <el-button type="text">用户协议</el-button>
+            <el-button link>用户协议</el-button>
             和
-            <el-button type="text">隐私政策</el-button>
+            <el-button link>隐私政策</el-button>
           </el-checkbox>
         </el-form-item>
 
@@ -208,9 +208,7 @@
 
       <div class="register-footer">
         <p>
-          已有账号？<el-button type="text" @click="handleToLogin"
-            >立即登录</el-button
-          >
+          已有账号？<el-button link @click="handleToLogin">立即登录</el-button>
         </p>
       </div>
     </div>
