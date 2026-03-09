@@ -1,23 +1,24 @@
 <script setup>
   import { RouterView } from "vue-router";
-  import { createPinia } from "pinia";
   import Header from "@/components/Header/Header.vue";
   import Footer from "@/components/Footer/Footer.vue";
+  import { storeToRefs } from "pinia";
+  import { useUserStore } from "@/store/user.js";
 
-  const pinia = createPinia();
+  const { isLoggedIn } = storeToRefs(useUserStore());
 </script>
 
 <template>
   <div id="app">
-    <Header />
+    <Header v-if="isLoggedIn" />
     <main>
       <RouterView />
     </main>
-    <Footer />
+    <Footer v-if="isLoggedIn" />
   </div>
 </template>
 
-<style>
+<style scoped>
   * {
     margin: 0;
     padding: 0;
@@ -25,7 +26,11 @@
   }
 
   #app {
+    width: 100%;
     min-height: 100vh;
+    max-width: none;
+    margin: 0;
+    padding: 0;
     display: flex;
     flex-direction: column;
   }

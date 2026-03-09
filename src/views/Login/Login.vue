@@ -38,7 +38,6 @@
             loginForm.value.remember,
           );
           ElMessage.success("登录成功！");
-          loginRuleFormRef.value.resetFields();
           router.push("/");
         } else {
           ElMessage.error("请完善用户名和密码");
@@ -117,7 +116,6 @@
       registerRuleFormRef.value.validate((valid) => {
         if (valid) {
           ElMessage.success("注册成功！");
-          registerRuleFormRef.value.resetFields();
           userStore.register({
             username: registerForm.value.username,
             password: registerForm.value.password,
@@ -184,7 +182,7 @@
             <el-form-item>
               <div class="form-options">
                 <el-checkbox v-model="loginForm.remember">记住我</el-checkbox>
-                <el-button type="text" @click="handleForgotPassword">
+                <el-button link @click="handleForgotPassword">
                   忘记密码？
                 </el-button>
               </div>
@@ -262,9 +260,7 @@
 
       <div class="login-footer">
         <p>
-          还没有账号？<el-button type="text" @click="goToRegister"
-            >立即注册</el-button
-          >
+          还没有账号？<el-button link @click="goToRegister">立即注册</el-button>
         </p>
         <p>演示账号: admin / 123456</p>
       </div>

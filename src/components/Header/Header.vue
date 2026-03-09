@@ -3,6 +3,7 @@
   import { useRouter, useRoute } from "vue-router";
   import { useUserStore } from "@/store/user.js";
   import { useCartStore } from "@/store/cart.js";
+  import Home from "@/views/Home/Home.vue";
 
   // 导入图标组件
   import {
@@ -130,7 +131,7 @@
 
       <nav class="header-nav">
         <div class="nav-item" @click="navigateTo('/')">
-          <el-icon><Home /></el-icon>
+          <el-icon><HomeFilled /></el-icon>
           <span>首页</span>
         </div>
         <div class="nav-item" @click="navigateTo('/category')">

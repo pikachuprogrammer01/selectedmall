@@ -2,7 +2,8 @@
   import { ref, computed } from "vue";
   import { useRouter, useRoute } from "vue-router";
   import { Filter, ArrowDown, ArrowUp } from "@element-plus/icons-vue";
-  import { useProductStore } from "@/store/product";
+  import { useProductStore } from "@/store/product.js";
+  import ProductCard from "@/components/ProductCard/ProductCard.vue";
 
   const router = useRouter();
   const route = useRoute();
@@ -15,7 +16,7 @@
   const sortOrder = ref("asc");
 
   // 模拟商品数据
-  const products = useProductStore().products;
+  const productsStore = useProductStore();
 
   // 分页
   const currentPage = ref(1);
@@ -26,8 +27,10 @@
   const filteredProducts = computed(() => {
     let result =
       currentCategory.value === "全部商品"
-        ? products.value
-        : products.value.filter((p) => p.category === currentCategory.value);
+        ? productsStore.products
+        : productsStore.products.filter(
+            (p) => p.category === currentCategory.value,
+          );
 
     // 排序
     if (sortBy.value !== "default") {
@@ -43,7 +46,7 @@
       });
     }
 
-    return result || [];
+    return result;
   });
 
   // 分页后的商品

@@ -87,7 +87,7 @@ const router = createRouter({
 })
   
 // 全局路由守卫，检查用户是否登录
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, from) => {
   const publicPages = ['/login', '/register']
   const authRequired = !publicPages.includes(to.path)
   const token = localStorage.getItem('token')
@@ -95,9 +95,7 @@ router.beforeEach((to, from, next) => {
     setTimeout(() => {
       ElMessage.info("请先登录再访问！")
     }, 500);
-    next('/login')
-  } else {
-    next()
+    return "/login"
   }
 })
 
