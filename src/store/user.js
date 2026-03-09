@@ -77,6 +77,7 @@ export const useUserStore = defineStore('user', {
           const ID = 1;
           this.ids.push(ID);
           storage.set('id', ID);
+          const token = 'mock-token-' + Date.now()
           this.token = token
           storage.set('token', token)
           
@@ -138,7 +139,7 @@ export const useUserStore = defineStore('user', {
     logout() {
       this.userInfo = null
       this.token = null
-      this.ids = null;
+      this.ids = [];
       this.isLoggedIn = false
       storage.remove('token')
       storage.remove('userInfo')

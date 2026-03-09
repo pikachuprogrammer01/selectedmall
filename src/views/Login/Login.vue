@@ -14,7 +14,8 @@
     remember: false,
   });
 
-  const ruleFormRef = ref();
+  const registerRuleFormRef = ref();
+  const loginRuleFormRef = ref();
   const registerForm = ref({
     username: "",
     password: "",
@@ -29,7 +30,7 @@
   const handleLogin = async () => {
     loading.value = true;
     try {
-      ruleFormRef.value.validate(async (valid) => {
+      loginRuleFormRef.value.validate(async (valid) => {
         if (valid) {
           await userStore.login(
             loginForm.value.username,
@@ -37,7 +38,7 @@
             loginForm.value.remember,
           );
           ElMessage.success("登录成功！");
-          ruleFormRef.value.resetFields();
+          loginRuleFormRef.value.resetFields();
           router.push("/");
         } else {
           ElMessage.error("请完善用户名和密码");
@@ -79,7 +80,19 @@
     }
   };
 
-  const rules = {
+  const loginRules = {
+    username: [
+      { required: true, message: "请输入用户名", trigger: "blur" },
+      { min: 3, max: 20, message: "用户名长度3-20位", trigger: "blur" },
+    ],
+
+    password: [
+      { required: true, message: "请输入密码", trigger: "blur" },
+      { min: 6, message: "密码至少6位", trigger: "blur" },
+    ],
+  };
+
+  const registerRules = {
     username: [
       { required: true, message: "请输入用户名", trigger: "blur" },
       { min: 3, max: 20, message: "用户名长度3-20位", trigger: "blur" },
@@ -101,10 +114,10 @@
   const handleRegister = async () => {
     loading.value = true;
     try {
-      ruleFormRef.value.validate((valid) => {
+      registerRuleFormRef.value.validate((valid) => {
         if (valid) {
           ElMessage.success("注册成功！");
-          ruleFormRef.value.resetFields();
+          registerRuleFormRef.value.resetFields();
           userStore.register({
             username: registerForm.value.username,
             password: registerForm.value.password,
@@ -143,7 +156,12 @@
 
       <el-tabs v-model="activeTab" class="login-tabs">
         <el-tab-pane label="登录" name="login">
-          <el-form :model="loginForm" label-position="top">
+          <el-form
+            ref="loginRuleFormRef"
+            :rules="loginRules"
+            :model="loginForm"
+            label-position="top"
+          >
             <el-form-item label="用户名">
               <el-input
                 v-model.trim="loginForm.username"
@@ -188,9 +206,9 @@
         <el-tab-pane label="快速注册" name="register">
           <el-form
             label-position="top"
-            ref="ruleFormRef"
+            ref="registerRuleFormRef"
             :model="registerForm"
-            :rules="rules"
+            :rules="registerRules"
           >
             <el-form-item label="用户名" prop="username">
               <el-input

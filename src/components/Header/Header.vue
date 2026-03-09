@@ -1,8 +1,8 @@
 <script setup>
   import { ref, computed } from "vue";
   import { useRouter, useRoute } from "vue-router";
-  import { useUserStore } from "@/store/user";
-  import { useCartStore } from "@/store/cart";
+  import { useUserStore } from "@/store/user.js";
+  import { useCartStore } from "@/store/cart.js";
 
   // 导入图标组件
   import {
@@ -15,6 +15,7 @@
     Goods,
     Grid,
   } from "@element-plus/icons-vue";
+  import { ElMessageBox, ElMessage } from "element-plus";
 
   const router = useRouter();
   const route = useRoute();
@@ -36,8 +37,20 @@
 
   // 登出
   const handleLogout = () => {
-    userStore.logout();
-    navigateTo("/login");
+    ElMessageBox.confirm("确定要退出登录吗？", "警告", {
+      confirmButtonText: "确定",
+      cancelButtonText: "取消",
+      type: "warning",
+    })
+      .then(() => {
+        ElMessage.success("退出登录成功！");
+        userStore.logout();
+        navigateTo("/login");
+      })
+      .catch(() => {
+        // 取消操作
+        ElMessage.info("已取消退出登录");
+      });
   };
 
   // 搜索
@@ -91,7 +104,11 @@
                     <el-dropdown-item command="orders">
                       <el-icon><ShoppingBag /></el-icon> 我的订单
                     </el-dropdown-item>
-                    <el-dropdown-item command="logout" divided>
+                    <el-dropdown-item
+                      command="logout"
+                      @click.enter="handleLogout"
+                      divided
+                    >
                       <el-icon><SwitchButton /></el-icon> 退出登录
                     </el-dropdown-item>
                   </el-dropdown-menu>
