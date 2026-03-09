@@ -11,7 +11,6 @@
   const loginForm = ref({
     username: "admin",
     password: "123456",
-    remember: false,
   });
 
   const registerRuleFormRef = ref();
@@ -35,7 +34,6 @@
           await userStore.login(
             loginForm.value.username,
             loginForm.value.password,
-            loginForm.value.remember,
           );
           ElMessage.success("登录成功！");
           router.push("/");
@@ -181,7 +179,6 @@
 
             <el-form-item>
               <div class="form-options">
-                <el-checkbox v-model="loginForm.remember">记住我</el-checkbox>
                 <el-button link @click="handleForgotPassword">
                   忘记密码？
                 </el-button>

@@ -54,12 +54,6 @@ function setID() {
   return ID;
 }
 
-// 记住用户信息
-function remberUserInfo(userInfo) {
-  this.userInfo = userInfo
-  storage.set('userInfo', userInfo)
-}
-
 export const useUserStore = defineStore('user', {
   state: () => ({
     userInfo: storage.get('userInfo', null),
@@ -70,7 +64,7 @@ export const useUserStore = defineStore('user', {
   }),
   actions: {
     // 登录
-    async login(username, password, remember) {
+    async login(username, password) {
       // 模拟登录，实际项目中应该调用API
       return new Promise((resolve, reject) => {
         if (!this.userList.some(u => u.username === 'admin' && u.password === '123456' && u.id === 1)) {
@@ -85,9 +79,8 @@ export const useUserStore = defineStore('user', {
           
           this.isLoggedIn = true
           
-          if (remember) {
-            remberUserInfo.call(this, userInfo);
-          }
+          this.userInfo = userInfo
+          storage.set('userInfo', userInfo)
 
           resolve(userInfo)
           return
@@ -104,9 +97,8 @@ export const useUserStore = defineStore('user', {
             
             this.isLoggedIn = true
             
-            if (remember) {
-              remberUserInfo.call(this, userInfo);
-            }
+            this.userInfo = userInfo
+            storage.set('userInfo', userInfo)
             
             resolve(userInfo)
           } else {
@@ -126,9 +118,8 @@ export const useUserStore = defineStore('user', {
           storage.set('token', token)
           this.isLoggedIn = true
 
-          if (remember) {
-            remberUserInfo.call(this, userInfo);
-          }
+          this.userInfo = userInfo
+          storage.set('userInfo', userInfo)
           
           resolve(userInfo)
         }, 500)
