@@ -9,7 +9,11 @@ const specMap = {
   material: "材质",
   size: "尺寸",
   weight: "重量",
-  origin: "产地"
+  origin: "产地",
+  volume: "容量",
+  fragranceType: "香型",
+  gender: "适用性别",
+  shelfLife: "保质期",
 }
 
 export default specMap

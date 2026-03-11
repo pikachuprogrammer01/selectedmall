@@ -1,5 +1,5 @@
 <script setup>
-  import { ref, computed, onMounted } from "vue";
+  import { ref, computed, onMounted, watch } from "vue";
   import { useRouter, useRoute } from "vue-router";
   import {
     Star,
@@ -23,14 +23,27 @@
   // 模拟商品数据
   const productsStore = useProductStore();
 
-  const currentProduct = computed(() => {
-    return (
-      productsStore.products.find((p) => p.id === productId.value) ||
-      productsStore.products[0]
-    );
-  });
+  // currentProduct 用 ref + watch route.params.id
+  const currentProduct = ref(null);
 
-  const selectedImage = productId.value || 0;
+  // 初始化 currentProduct
+  const initProduct = () => {
+    const id = parseInt(route.params.id);
+    const product = productsStore.products.find((p) => p.id === id);
+    currentProduct.value = product || productsStore.products[0];
+  };
+
+  // 监听路由变化更新 currentProduct
+  watch(
+    () => route.params.id,
+    () => {
+      initProduct();
+      // 逐渐回到顶部
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    },
+    { immediate: true },
+  );
+
   const quantity = ref(1);
 
   const relatedProducts = computed(() => {
@@ -42,10 +55,6 @@
       )
       .slice(0, 4);
   });
-
-  const handleImageClick = (index) => {
-    selectedImage.value = index;
-  };
 
   const handleAddToCart = () => {
     cartStore.addToCart({
@@ -102,7 +111,7 @@
             <el-icon><ChatDotRound /></el-icon>
             商品描述
           </div>
-          <OverflowTooltip :content="currentProduct.description" />
+          <OverflowTooltip :text="currentProduct.description" />
         </div>
 
         <div class="product-specs">
@@ -133,7 +142,7 @@
         </div>
 
         <div class="product-share">
-          <el-button size="small">
+          <el-button size="small" @click="ElMessage.info('分享功能待开发中')">
             <el-icon><Share /></el-icon>
             分享
           </el-button>
@@ -156,9 +165,7 @@
           v-for="product in relatedProducts"
           :key="product.id"
           :product="product"
-          @click="
-            router.push({ path: '/productDetail', query: { id: product.id } })
-          "
+          @click="router.push({ path: `/productDetail/${product.id}` })"
         />
       </div>
     </div>

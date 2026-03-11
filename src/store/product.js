@@ -14,7 +14,7 @@ export const useProductStore = defineStore('products', {
         { key: "brand", value: "Calvin Klein" },
         { key: "volume", value: "100ml" },
         { key: "fragranceType", value: "Citrus Fresh" },
-        { key: "gender", value: "Unisex" }
+        { key: "gender", value: "无性别区分" }
       ]
     },
     {
@@ -543,17 +543,15 @@ export const useProductStore = defineStore('products', {
     },
     {
       id: 79,
-      title: "皮带",
-      description: "经典男士皮带。",
+      title: "笔记本电脑",
+      description: "Gucci 笔记本电脑，适合日常办公和娱乐，配备高性能处理器和大容量存储，提供流畅的使用体验，是时尚与功能的完美结合。",
       price: 24.99,
-      categories: "服装鞋帽",
+      categories: "电脑办公",
       image: "/images/79.jpg",
       stock: 170,
       specs: [
-        { key: "type", value: "Belt" },
-        { key: "material", value: "Leather" },
-        { key: "brand", value: "Gucci" },
-        { key: "size", value: "110cm" }
+        { key: "type", value: "笔记本电脑" },
+        { key: "brand", value: "Gucci" }
       ]
     },
     {
@@ -565,7 +563,7 @@ export const useProductStore = defineStore('products', {
       image: "/images/80.jpg",
       stock: 150,
       specs: [
-        { key: "type", value: "Sunglasses" },
+        { key: "type", value: "太阳镜" },
         { key: "lensType", value: "UV400" },
         { key: "brand", value: "RayBan" },
         { key: "frameMaterial", value: "Metal" }
@@ -618,10 +616,10 @@ export const useProductStore = defineStore('products', {
     },
     {
       id: 85,
-      title: "机械键盘",
-      description: "高性能机械键盘。",
+      title: "上衣",
+      description: "时尚舒适的上衣，适合各种场合穿着，采用优质面料，设计简约大方，提供多种颜色选择，是衣橱必备的百搭单品。",
       price: 129.99,
-      categories: "电脑办公",
+      categories: "服装鞋帽",
       image: "/images/85.jpg",
       stock: 140,
       specs: [
