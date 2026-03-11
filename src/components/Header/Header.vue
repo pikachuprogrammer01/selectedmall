@@ -24,6 +24,7 @@
   const cartStore = useCartStore();
 
   const isMenuOpen = ref(false);
+  const searchContent = ref("");
 
   // 计算购物车商品数量
   const cartCount = computed(() => {
@@ -56,7 +57,15 @@
 
   // 搜索
   const handleSearch = () => {
-    router.push("/search");
+    searchContent.value = searchContent.value.trim();
+    if (searchContent.value) {
+      router.push({
+        path: "/searchResult",
+        query: { keyword: searchContent.value },
+      });
+    } else {
+      router.push("/search");
+    }
   };
 </script>
 
@@ -72,10 +81,11 @@
         <div class="search-bar" @click="handleSearch">
           <el-input
             placeholder="搜索商品..."
+            v-model="searchContent"
             :prefix-icon="Search"
             size="large"
             clearable
-            @keyup.enter="handleSearch"
+            @change="handleSearch"
           />
         </div>
 

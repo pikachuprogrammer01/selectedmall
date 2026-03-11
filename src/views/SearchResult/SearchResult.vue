@@ -25,8 +25,7 @@
   const filteredProducts = computed(() => {
     let result = productsStore.products.filter(
       (p) =>
-        p.title.toLowerCase().includes(keyword.value.toLowerCase()) ||
-        p.category.toLowerCase().includes(keyword.value.toLowerCase()),
+        p.title.includes(keyword.value) || p.categories.includes(keyword.value),
     );
 
     // 排序
@@ -79,13 +78,6 @@
 
   const handlePageChange = (page) => {
     currentPage.value = page;
-  };
-
-  const goToProductDetail = (product) => {
-    router.push({
-      path: "/productDetail",
-      query: { id: product.id },
-    });
   };
 </script>
 
@@ -142,7 +134,7 @@
           v-for="product in paginatedProducts"
           :key="product.id"
           :product="product"
-          @click="goToProductDetail(product)"
+          @click="router.push({ path: `/productDetail/${product.id}` })"
         />
       </div>
 
