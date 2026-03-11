@@ -45,8 +45,7 @@
   // 查看商品详情
   const goToProductDetail = (product) => {
     router.push({
-      path: "/productDetail",
-      query: { id: product.id },
+      path: `/productDetail/${product.id}`,
     });
   };
 
