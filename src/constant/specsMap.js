@@ -14,6 +14,7 @@ const specMap = {
   fragranceType: "香型",
   gender: "适用性别",
   shelfLife: "保质期",
+  type: "类型",
 }
 
 export default specMap

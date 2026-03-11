@@ -24,13 +24,6 @@
   const handleCategoryChange = (category) => {
     currentCategory.value = category;
   };
-
-  const goToProductDetail = (product) => {
-    router.push({
-      path: "/productDetail",
-      query: { id: product.id },
-    });
-  };
 </script>
 
 <template>
@@ -56,7 +49,7 @@
             v-for="product in filteredProducts"
             :key="product.id"
             :product="product"
-            @click="goToProductDetail(product)"
+            @click="router.push({ path: `/productDetail/${product.id}` })"
           />
         </div>
       </div>

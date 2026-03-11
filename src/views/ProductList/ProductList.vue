@@ -9,7 +9,7 @@
   const route = useRoute();
 
   // 当前分类
-  const currentCategory = computed(() => route.query.category || "全部商品");
+  const currentCategory = ref(route.query?.category || "全部商品");
 
   // 排序方式
   const sortBy = ref("default");
@@ -21,15 +21,15 @@
   // 分页
   const currentPage = ref(1);
   const pageSize = ref(8);
-  const total = computed(() => filteredProducts.value.length);
+  const total = computed(() => filteredProducts().length);
 
   // 筛选后的商品
-  const filteredProducts = computed(() => {
+  const filteredProducts = function () {
     let result =
       currentCategory.value === "全部商品"
         ? productsStore.products
         : productsStore.products.filter(
-            (p) => p.category === currentCategory.value,
+            (p) => p.categories === currentCategory.value,
           );
 
     // 排序
@@ -47,21 +47,14 @@
     }
 
     return result;
-  });
+  };
 
   // 分页后的商品
   const paginatedProducts = computed(() => {
     const start = (currentPage.value - 1) * pageSize.value;
     const end = start + pageSize.value;
-    return filteredProducts.value.slice(start, end);
+    return filteredProducts().slice(start, end);
   });
-
-  const goToProductDetail = (product) => {
-    router.push({
-      path: "/productDetail",
-      query: { id: product.id },
-    });
-  };
 
   const handleSortChange = (value) => {
     sortBy.value = value;
@@ -108,7 +101,7 @@
           v-for="product in paginatedProducts"
           :key="product.id"
           :product="product"
-          @click="goToProductDetail(product)"
+          @click="router.push({ path: `/productDetail/${product.id}` })"
         />
       </div>
     </div>

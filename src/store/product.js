@@ -29,7 +29,7 @@ export const useProductStore = defineStore('products', {
         { key: "brand", value: "Chanel" },
         { key: "volume", value: "100ml" },
         { key: "fragranceType", value: "Oriental Floral" },
-        { key: "gender", value: "Women" }
+        { key: "gender", value: "女性" }
       ]
     },
     {
@@ -44,7 +44,7 @@ export const useProductStore = defineStore('products', {
         { key: "brand", value: "Dior" },
         { key: "volume", value: "100ml" },
         { key: "fragranceType", value: "Floral" },
-        { key: "gender", value: "Women" }
+        { key: "gender", value: "女性" }
       ]
     },
     {
@@ -58,8 +58,8 @@ export const useProductStore = defineStore('products', {
       specs: [
         { key: "brand", value: "Dolce & Gabbana" },
         { key: "volume", value: "75ml" },
-        { key: "fragranceType", value: "Fruity Floral" },
-        { key: "gender", value: "Women" }
+        { key: "fragranceType", value: "水果y Floral" },
+        { key: "gender", value: "女性" }
       ]
     },
     {
@@ -74,7 +74,7 @@ export const useProductStore = defineStore('products', {
         { key: "brand", value: "Gucci" },
         { key: "volume", value: "100ml" },
         { key: "fragranceType", value: "Floral" },
-        { key: "gender", value: "Women" }
+        { key: "gender", value: "女性" }
       ]
     },
 
@@ -89,8 +89,8 @@ export const useProductStore = defineStore('products', {
       specs: [
         { key: "type", value: "Beef" },
         { key: "size", value: "500g" },
-        { key: "shelfLife", value: "7 days" },
-        { key: "storage", value: "Refrigerated" }
+        { key: "shelfLife", value: "7 天" },
+        { key: "storage", value: "冷藏" }
       ]
     },
     {
@@ -104,8 +104,8 @@ export const useProductStore = defineStore('products', {
       specs: [
         { key: "type", value: "Cat Food" },
         { key: "size", value: "2kg" },
-        { key: "shelfLife", value: "12 months" },
-        { key: "storage", value: "Dry place" }
+        { key: "shelfLife", value: "12 个月" },
+        { key: "storage", value: "干燥处" }
       ]
     },
     {
@@ -119,8 +119,8 @@ export const useProductStore = defineStore('products', {
       specs: [
         { key: "type", value: "Chicken" },
         { key: "size", value: "1kg" },
-        { key: "shelfLife", value: "5 days" },
-        { key: "storage", value: "Refrigerated" }
+        { key: "shelfLife", value: "5 天" },
+        { key: "storage", value: "冷藏" }
       ]
     },
     {
@@ -132,10 +132,10 @@ export const useProductStore = defineStore('products', {
       image: "/images/20.jpg",
       stock: 400,
       specs: [
-        { key: "type", value: "Vegetable Oil" },
+        { key: "type", value: "蔬菜 Oil" },
         { key: "size", value: "1L" },
-        { key: "shelfLife", value: "18 months" },
-        { key: "storage", value: "Room temperature" }
+        { key: "shelfLife", value: "18 个月" },
+        { key: "storage", value: "常温" }
       ]
     },
     {
@@ -147,10 +147,10 @@ export const useProductStore = defineStore('products', {
       image: "/images/21.jpg",
       stock: 350,
       specs: [
-        { key: "type", value: "Vegetable" },
+        { key: "type", value: "蔬菜" },
         { key: "size", value: "500g" },
-        { key: "shelfLife", value: "3 days" },
-        { key: "storage", value: "Refrigerated" }
+        { key: "shelfLife", value: "3 天" },
+        { key: "storage", value: "冷藏" }
       ]
     },
     {
@@ -162,10 +162,10 @@ export const useProductStore = defineStore('products', {
       image: "/images/22.jpg",
       stock: 420,
       specs: [
-        { key: "type", value: "Dog Food" },
+        { key: "type", value: "狗粮" },
         { key: "size", value: "3kg" },
-        { key: "shelfLife", value: "12 months" },
-        { key: "storage", value: "Dry place" }
+        { key: "shelfLife", value: "12 个月" },
+        { key: "storage", value: "干燥处" }
       ]
     },
     {
@@ -177,10 +177,10 @@ export const useProductStore = defineStore('products', {
       image: "/images/23.jpg",
       stock: 600,
       specs: [
-        { key: "type", value: "Eggs" },
-        { key: "size", value: "12pcs" },
-        { key: "shelfLife", value: "15 days" },
-        { key: "storage", value: "Refrigerated" }
+        { key: "type", value: "鸡蛋" },
+        { key: "size", value: "12个" },
+        { key: "shelfLife", value: "15 天" },
+        { key: "storage", value: "冷藏" }
       ]
     },
     {
@@ -192,10 +192,10 @@ export const useProductStore = defineStore('products', {
       image: "/images/24.jpg",
       stock: 260,
       specs: [
-        { key: "type", value: "Fish" },
+        { key: "type", value: "鱼" },
         { key: "size", value: "500g" },
-        { key: "shelfLife", value: "5 days" },
-        { key: "storage", value: "Frozen" }
+        { key: "shelfLife", value: "5 天" },
+        { key: "storage", value: "冰冻" }
       ]
     },
     {
@@ -207,10 +207,10 @@ export const useProductStore = defineStore('products', {
       image: "/images/25.jpg",
       stock: 340,
       specs: [
-        { key: "type", value: "Vegetable" },
+        { key: "type", value: "蔬菜" },
         { key: "size", value: "500g" },
-        { key: "shelfLife", value: "4 days" },
-        { key: "storage", value: "Refrigerated" }
+        { key: "shelfLife", value: "4 天" },
+        { key: "storage", value: "冷藏" }
       ]
     },
     {
@@ -222,10 +222,10 @@ export const useProductStore = defineStore('products', {
       image: "/images/26.jpg",
       stock: 360,
       specs: [
-        { key: "type", value: "Vegetable" },
+        { key: "type", value: "蔬菜" },
         { key: "size", value: "300g" },
-        { key: "shelfLife", value: "4 days" },
-        { key: "storage", value: "Refrigerated" }
+        { key: "shelfLife", value: "4 天" },
+        { key: "storage", value: "冷藏" }
       ]
     },
     {
@@ -239,8 +239,8 @@ export const useProductStore = defineStore('products', {
       specs: [
         { key: "type", value: "Honey" },
         { key: "size", value: "500g" },
-        { key: "shelfLife", value: "24 months" },
-        { key: "storage", value: "Room temperature" }
+        { key: "shelfLife", value: "24 个月" },
+        { key: "storage", value: "常温" }
       ]
     },
     {
@@ -254,8 +254,8 @@ export const useProductStore = defineStore('products', {
       specs: [
         { key: "type", value: "Ice Cream" },
         { key: "size", value: "500ml" },
-        { key: "shelfLife", value: "12 months" },
-        { key: "storage", value: "Frozen" }
+        { key: "shelfLife", value: "12 个月" },
+        { key: "storage", value: "冰冻" }
       ]
     },
     {
@@ -269,8 +269,8 @@ export const useProductStore = defineStore('products', {
       specs: [
         { key: "type", value: "Juice" },
         { key: "size", value: "1L" },
-        { key: "shelfLife", value: "12 months" },
-        { key: "storage", value: "Room temperature" }
+        { key: "shelfLife", value: "12 个月" },
+        { key: "storage", value: "常温" }
       ]
     },
     {
@@ -282,10 +282,10 @@ export const useProductStore = defineStore('products', {
       image: "/images/30.jpg",
       stock: 300,
       specs: [
-        { key: "type", value: "Fruit" },
+        { key: "type", value: "水果" },
         { key: "size", value: "500g" },
-        { key: "shelfLife", value: "5 days" },
-        { key: "storage", value: "Refrigerated" }
+        { key: "shelfLife", value: "5 天" },
+        { key: "storage", value: "冷藏" }
       ]
     },
     {
@@ -297,10 +297,10 @@ export const useProductStore = defineStore('products', {
       image: "/images/31.jpg",
       stock: 350,
       specs: [
-        { key: "type", value: "Fruit" },
+        { key: "type", value: "水果" },
         { key: "size", value: "500g" },
-        { key: "shelfLife", value: "5 days" },
-        { key: "storage", value: "Refrigerated" }
+        { key: "shelfLife", value: "5 天" },
+        { key: "storage", value: "冷藏" }
       ]
     },
     {
@@ -314,8 +314,8 @@ export const useProductStore = defineStore('products', {
       specs: [
         { key: "type", value: "Milk" },
         { key: "size", value: "1L" },
-        { key: "shelfLife", value: "7 days" },
-        { key: "storage", value: "Refrigerated" }
+        { key: "shelfLife", value: "7 天" },
+        { key: "storage", value: "冷藏" }
       ]
     },
     {
@@ -327,10 +327,10 @@ export const useProductStore = defineStore('products', {
       image: "/images/33.jpg",
       stock: 200,
       specs: [
-        { key: "type", value: "Fruit" },
+        { key: "type", value: "水果" },
         { key: "size", value: "400g" },
-        { key: "shelfLife", value: "3 days" },
-        { key: "storage", value: "Refrigerated" }
+        { key: "shelfLife", value: "3 天" },
+        { key: "storage", value: "冷藏" }
       ]
     },
     {
@@ -344,8 +344,8 @@ export const useProductStore = defineStore('products', {
       specs: [
         { key: "brand", value: "Nescafe" },
         { key: "size", value: "200g" },
-        { key: "shelfLife", value: "24 months" },
-        { key: "storage", value: "Dry place" }
+        { key: "shelfLife", value: "24 个月" },
+        { key: "storage", value: "干燥处" }
       ]
     },
     {
@@ -357,10 +357,10 @@ export const useProductStore = defineStore('products', {
       image: "/images/35.jpg",
       stock: 360,
       specs: [
-        { key: "type", value: "Vegetable" },
+        { key: "type", value: "蔬菜" },
         { key: "size", value: "1kg" },
-        { key: "shelfLife", value: "7 days" },
-        { key: "storage", value: "Cool dry place" }
+        { key: "shelfLife", value: "7 天" },
+        { key: "storage", value: "干燥处" }
       ]
     },
     {
@@ -374,8 +374,8 @@ export const useProductStore = defineStore('products', {
       specs: [
         { key: "type", value: "Protein Powder" },
         { key: "size", value: "1kg" },
-        { key: "shelfLife", value: "24 months" },
-        { key: "storage", value: "Dry place" }
+        { key: "shelfLife", value: "24 个月" },
+        { key: "storage", value: "干燥处" }
       ]
     },
     {
@@ -387,25 +387,24 @@ export const useProductStore = defineStore('products', {
       image: "/images/37.jpg",
       stock: 320,
       specs: [
-        { key: "type", value: "Vegetable" },
+        { key: "type", value: "蔬菜" },
         { key: "size", value: "500g" },
-        { key: "shelfLife", value: "7 days" },
-        { key: "storage", value: "Room temperature" }
+        { key: "shelfLife", value: "7 天" },
+        { key: "storage", value: "常温" }
       ]
     },
     {
       id: 38,
-      title: "大米",
-      description: "优质大米，是日常主食。",
+      title: "礼盒",
+      description: "精美礼盒，适合送礼或自用，内含多种精选食品和饮品，满足不同口味需求，是节日和特殊场合的理想选择。",
       price: 5.99,
-      categories: "食品饮料",
+      categories: "运动户外",
       image: "/images/38.jpg",
       stock: 500,
       specs: [
         { key: "type", value: "Rice" },
-        { key: "size", value: "5kg" },
-        { key: "shelfLife", value: "12 months" },
-        { key: "storage", value: "Dry place" }
+        { key: "shelfLife", value: "12 个月" },
+        { key: "storage", value: "干燥处" }
       ]
     },
     {
@@ -417,10 +416,10 @@ export const useProductStore = defineStore('products', {
       image: "/images/39.jpg",
       stock: 450,
       specs: [
-        { key: "type", value: "Soft Drink" },
+        { key: "type", value: "碳酸饮料" },
         { key: "size", value: "330ml" },
-        { key: "shelfLife", value: "12 months" },
-        { key: "storage", value: "Room temperature" }
+        { key: "shelfLife", value: "12 个月" },
+        { key: "storage", value: "常温" }
       ]
     },
     {
@@ -432,10 +431,10 @@ export const useProductStore = defineStore('products', {
       image: "/images/40.jpg",
       stock: 280,
       specs: [
-        { key: "type", value: "Fruit" },
+        { key: "type", value: "水果" },
         { key: "size", value: "500g" },
-        { key: "shelfLife", value: "3 days" },
-        { key: "storage", value: "Refrigerated" }
+        { key: "shelfLife", value: "3 天" },
+        { key: "storage", value: "冷藏" }
       ]
     },
     {
@@ -447,9 +446,9 @@ export const useProductStore = defineStore('products', {
       image: "/images/41.jpg",
       stock: 400,
       specs: [
-        { key: "type", value: "Tissue" },
+        { key: "type", value: "纸巾" },
         { key: "size", value: "3 packs" },
-        { key: "material", value: "Wood pulp" }
+        { key: "material", value: "木浆" }
       ]
     },
     {
@@ -463,82 +462,74 @@ export const useProductStore = defineStore('products', {
       specs: [
         { key: "type", value: "Mineral Water" },
         { key: "size", value: "500ml" },
-        { key: "storage", value: "Room temperature" }
+        { key: "storage", value: "常温" }
       ]
     },
     {
       id: 43,
-      title: "苹果",
-      description: "新鲜红苹果，口感清甜。",
+      title: "座椅",
+      description: "舒适座椅，适合家庭和办公室使用，采用优质材料制作，设计简约大方，提供多种颜色选择，是提升生活品质的理想选择。",
       price: 2.99,
-      categories: "食品饮料",
+      categories: "家用电器",
       image: "/images/43.jpg",
       stock: 420,
       specs: [
-        { key: "type", value: "Fruit" },
-        { key: "size", value: "500g" },
-        { key: "origin", value: "China" },
-        { key: "storage", value: "Refrigerated" }
+        { key: "origin", value: "中国" },
+        { key: "material", value: "木质" }
       ]
     },
     {
       id: 44,
-      title: "香蕉",
-      description: "成熟香甜香蕉，富含钾元素。",
+      title: "相框",
+      description: "精美相框，适合展示照片或艺术作品，采用优质材料制作，设计简约大方，提供多种尺寸选择，是家庭和办公室装饰的理想选择。",
       price: 1.99,
-      categories: "食品饮料",
+      categories: "家用电器",
       image: "/images/44.jpg",
       stock: 380,
       specs: [
-        { key: "type", value: "Fruit" },
-        { key: "size", value: "500g" },
-        { key: "origin", value: "Philippines" },
-        { key: "storage", value: "Room temperature" }
+        { key: "origin", value: "中国" },
+        { key: "material", value: "木质" }
       ]
     },
     {
       id: 45,
-      title: "橙子",
-      description: "维生素C丰富的橙子。",
+      title: "绿植",
+      description: "适合室内装饰的盆栽植物，提供清新绿意，提升居家环境的舒适度。",
       price: 2.59,
-      categories: "食品饮料",
+      categories: "家用电器",
       image: "/images/45.jpg",
       stock: 350,
       specs: [
-        { key: "type", value: "Fruit" },
-        { key: "size", value: "500g" },
-        { key: "origin", value: "China" },
-        { key: "storage", value: "Refrigerated" }
+        { key: "type", value: "盆栽" },
+        { key: "origin", value: "中国" },
+        { key: "material", value: "陶瓷" }
       ]
     },
     {
       id: 46,
-      title: "西红柿",
-      description: "新鲜西红柿，适合沙拉或烹饪。",
+      title: "盆栽",
+      description: "适合室内装饰的盆栽植物，提供清新绿意，提升居家环境的舒适度。",
       price: 1.79,
-      categories: "食品饮料",
+      categories: "家用电器",
       image: "/images/46.jpg",
       stock: 410,
       specs: [
-        { key: "type", value: "Vegetable" },
-        { key: "size", value: "500g" },
-        { key: "origin", value: "China" },
-        { key: "storage", value: "Refrigerated" }
+        { key: "type", value: "盆栽" },
+        { key: "origin", value: "中国" },
+        { key: "material", value: "陶瓷" }
       ]
     },
     {
       id: 47,
-      title: "胡萝卜",
-      description: "营养丰富的胡萝卜。",
+      title: "灯",
+      description: "座地灯/阅读灯,适合卧室或客厅使用，提供柔和照明，营造温馨氛围。",
       price: 1.39,
-      categories: "食品饮料",
+      categories: "家用电器",
       image: "/images/47.jpg",
       stock: 390,
       specs: [
-        { key: "type", value: "Vegetable" },
-        { key: "size", value: "500g" },
-        { key: "origin", value: "China" },
-        { key: "storage", value: "Cool dry place" }
+        { key: "type", value: "灯具" },
+        { key: "origin", value: "中国" }
       ]
     },
     {
@@ -556,23 +547,24 @@ export const useProductStore = defineStore('products', {
     },
     {
       id: 80,
-      title: "太阳镜",
-      description: "时尚防紫外线太阳镜。",
+      title: "笔记本电脑",
+      description: "RayBan 笔记本电脑，适合日常办公和娱乐，配备高性能处理器和大容量存储，提供流畅的使用体验，是时尚与功能的完美结合。",
       price: 29.99,
-      categories: "服装鞋帽",
+      categories: "电脑办公",
       image: "/images/80.jpg",
       stock: 150,
       specs: [
-        { key: "type", value: "太阳镜" },
-        { key: "lensType", value: "UV400" },
+        { key: "type", value: "笔记本电脑" },
         { key: "brand", value: "RayBan" },
-        { key: "frameMaterial", value: "Metal" }
+        { key: "cpu", value: "Intel i5" },
+        { key: "ram", value: "16GB" },
+        { key: "storage", value: "1024GB SSD" }
       ]
     },
     {
       id: 82,
       title: "笔记本电脑",
-      description: "轻薄高性能笔记本。",
+      description: "高性能游戏本，适合游戏玩家和专业用户，配备强大显卡和高速处理器，提供卓越的游戏体验和高效的工作性能。",
       price: 1299.99,
       categories: "电脑办公",
       image: "/images/82.jpg",
@@ -586,77 +578,77 @@ export const useProductStore = defineStore('products', {
     },
     {
       id: 83,
-      title: "平板电脑",
-      description: "便携娱乐平板。",
+      title: "衬衫",
+      description: "时尚舒适的衬衫，适合各种场合穿着，采用优质面料，设计简约大方，提供多种颜色选择，是衣橱必备的百搭单品。",
       price: 499.99,
-      categories: "手机数码",
+      categories: "服装鞋帽",
       image: "/images/83.jpg",
       stock: 110,
       specs: [
-        { key: "brand", value: "Apple" },
-        { key: "model", value: "iPad" },
-        { key: "storage", value: "64GB" },
-        { key: "screenSize", value: "10.9 inch" }
+        { key: "brand", value: "Gucci" },
+        { key: "material", value: "棉纤维" },
+        { key: "size", value: "L" },
+        { key: "color", value: "黑白相间" }
       ]
     },
     {
       id: 84,
-      title: "蓝牙耳机",
-      description: "无线降噪耳机。",
+      title: "上衣",
+      description: "时尚舒适的上衣，适合各种场合穿着，采用优质面料，设计简约大方，提供多种颜色选择，是衣橱必备的百搭单品。",
       price: 199.99,
-      categories: "手机数码",
+      categories: "服装鞋帽",
       image: "/images/84.jpg",
       stock: 180,
       specs: [
-        { key: "brand", value: "Sony" },
-        { key: "type", value: "Bluetooth" },
-        { key: "batteryLife", value: "30h" },
-        { key: "noiseCanceling", value: "Yes" }
+        { key: "brand", value: "adidas" },
+        { key: "type", value: "上衣" },
+        { key: "size", value: "L" },
+        { key: "color", value: "白色" }
       ]
     },
     {
       id: 85,
-      title: "上衣",
-      description: "时尚舒适的上衣，适合各种场合穿着，采用优质面料，设计简约大方，提供多种颜色选择，是衣橱必备的百搭单品。",
+      title: "衬衫",
+      description: "时尚舒适的衬衫，适合各种场合穿着，采用优质面料，设计简约大方，提供多种颜色选择，是衣橱必备的百搭单品。",
       price: 129.99,
       categories: "服装鞋帽",
       image: "/images/85.jpg",
       stock: 140,
       specs: [
-        { key: "brand", value: "Logitech" },
-        { key: "switchType", value: "Blue Switch" },
-        { key: "connection", value: "USB" },
-        { key: "backlight", value: "RGB" }
+        { key: "brand", value: "Gucci" },
+        { key: "material", value: "棉纤维" },
+        { key: "size", value: "L" },
+        { key: "color", value: "红色" }
       ]
     },
     {
       id: 86,
-      title: "无线鼠标",
-      description: "轻便无线鼠标。",
+      title: "衬衫",
+      description: "时尚舒适的衬衫，适合各种场合穿着，采用优质面料，设计简约大方，提供多种颜色选择，是衣橱必备的百搭单品。",
       price: 39.99,
-      categories: "电脑办公",
+      categories: "服装鞋帽",
       image: "/images/86.jpg",
       stock: 210,
       specs: [
-        { key: "brand", value: "Logitech" },
-        { key: "connection", value: "Wireless" },
-        { key: "dpi", value: "1600" },
-        { key: "batteryType", value: "AA" }
+        { key: "brand", value: "Gucci" },
+        { key: "material", value: "棉纤维" },
+        { key: "size", value: "M" },
+        { key: "color", value: "蓝色" }
       ]
     },
     {
       id: 87,
-      title: "显示器",
-      description: "高清电脑显示器。",
+      title: "衬衫",
+      description: "时尚舒适的衬衫，适合各种场合穿着，采用优质面料，设计简约大方，提供多种颜色选择，是衣橱必备的百搭单品。",
       price: 229.99,
-      categories: "电脑办公",
+      categories: "服装鞋帽",
       image: "/images/87.jpg",
       stock: 130,
       specs: [
-        { key: "brand", value: "Samsung" },
-        { key: "screenSize", value: "27 inch" },
-        { key: "resolution", value: "1920x1080" },
-        { key: "panelType", value: "IPS" }
+        { key: "brand", value: "Gucci" },
+        { key: "material", value: "棉纤维" },
+        { key: "size", value: "M" },
+        { key: "color", value: "绿色" }
       ]
     }
     ]
