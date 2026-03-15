@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import storage from '@/utils/storage.js'
 import USER from '@/constant/user.js'
+import addressMessage from '@/constant/address.js'
 
 // 添加用户数据到用户列表
 function addUserList (user, password) {
@@ -53,6 +54,17 @@ export const useUserStore = defineStore('user', {
       email: 'admin@example.com',
       phone: '13888888888',
       password: USER.INIT_ADMIN_PASSWORD
+    }],
+    addressList: storage.get(addressMessage.ADDRESS_LIST) || [{
+      id: 1,
+      name: '张三',
+      phone: '13888888888',
+      region: {
+        codes: ['110000', '110100', '110101'],
+        names: ['北京市', '北京市', '东城区']
+      },
+      detail: '北京市东城区东直门',
+      isDefault: true
     }],
   }),
   actions: {
@@ -153,6 +165,46 @@ export const useUserStore = defineStore('user', {
           storage.set(USER.USERINFO, this.userInfo);
         }
       }
-    }
+    },
+
+    // 添加地址
+    addAddress (address) {
+      const id = Date.now();
+      address.id = id
+      this.addressList.push(address)
+
+      storage.set(addressMessage.ADDRESS_LIST, this.addressList)
+    },
+
+    // 删除地址
+    deleteAddress (addressId) {
+      this.addressList = this.addressList.filter(address => address.id !== addressId)
+      storage.set(addressMessage.ADDRESS, this.addressList)
+    },
+
+    // 更新地址
+    updateAddress (address) {
+      const index = this.addressList.findIndex(a => a.id === address.id)
+
+      if (index !== -1) {
+
+        Object.assign(this.addressList[index], address)
+        this.setDefault(this.addressList[index].id);
+      }
+    },
+
+    // 设置默认地址
+    setDefault (id) {
+      const targetId = Number(id)
+      const exist = this.addressList.some(a => a.id === targetId)
+
+      if (!exist) return
+      this.addressList = this.addressList.map(addr => ({
+        ...addr,
+        isDefault: addr.id === targetId
+      }))
+
+      storage.set(addressMessage.ADDRESS_LIST, this.addressList)
+    },
   }
 })

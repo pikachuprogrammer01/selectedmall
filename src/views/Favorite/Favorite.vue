@@ -2,53 +2,21 @@
   import { ref, computed } from "vue";
   import { useRouter } from "vue-router";
   import { ElMessage, ElMessageBox } from "element-plus";
+  import favoriteMessage from "@/constant/favorite.js";
+  import { useFavoriteStore } from "@/store/favorite.js";
+  import { useCartStore } from "@/store/cart.js";
 
   const router = useRouter();
 
   // 收藏商品数据
-  const favorites = ref([
-    {
-      id: 1,
-      name: "智能手机 X Pro",
-      price: 3999,
-      image: "https://via.placeholder.com/300x300?text=Phone",
-      category: "手机数码",
-      stock: 100,
-      description: "最新旗舰手机",
-    },
-    {
-      id: 2,
-      name: "笔记本电脑 Air",
-      price: 5999,
-      image: "https://via.placeholder.com/300x300?text=Laptop",
-      category: "电脑办公",
-      stock: 50,
-      description: "轻薄便携",
-    },
-    {
-      id: 3,
-      name: "无线耳机",
-      price: 999,
-      image: "https://via.placeholder.com/300x300?text=Headphone",
-      category: "手机数码",
-      stock: 200,
-      description: "高清音质",
-    },
-    {
-      id: 4,
-      name: "智能手表",
-      price: 1299,
-      image: "https://via.placeholder.com/300x300?text=Watch",
-      category: "手机数码",
-      stock: 80,
-      description: "健康监测",
-    },
-  ]);
+  const favorites = useFavoriteStore();
 
   const selectedIds = ref([]);
 
   const selectedProducts = computed(() => {
-    return favorites.value.filter((fav) => selectedIds.value.includes(fav.id));
+    return favorites.favorite.filter((fav) =>
+      selectedIds.value.includes(fav.id),
+    );
   });
 
   const totalAmount = computed(() => {
@@ -76,7 +44,7 @@
   };
 
   const handleRemoveFavorite = (id) => {
-    ElMessageBox.confirm("确定要移除该收藏商品吗？", "提示", {
+    ElMessageBox.confirm(favoriteMessage.COMFIRM_REMOVE, "提示", {
       confirmButtonText: "确定",
       cancelButtonText: "取消",
       type: "warning",
@@ -84,14 +52,14 @@
       .then(() => {
         favorites.value = favorites.value.filter((fav) => fav.id !== id);
         selectedIds.value = selectedIds.value.filter((item) => item !== id);
-        ElMessage.success("已移除收藏商品");
+        ElMessage.success(favoriteMessage.SUCCESS_REMOVE);
       })
       .catch(() => {});
   };
 
   const handleRemoveSelected = () => {
     if (selectedIds.value.length === 0) {
-      ElMessage.warning("请先选择要移除的商品");
+      ElMessage.warning(favoriteMessage.SELECT_REMOVE);
       return;
     }
 
@@ -109,13 +77,13 @@
           (fav) => !selectedIds.value.includes(fav.id),
         );
         selectedIds.value = [];
-        ElMessage.success("已移除选中的收藏商品");
+        ElMessage.success(favoriteMessage.SUCCESS_REMOVE);
       })
       .catch(() => {});
   };
 
   const handleAddToCart = (product) => {
-    // 模拟添加到购物车
+    useCartStore.addToCart(product);
     ElMessage.success(`已将 "${product.name}" 添加到购物车`);
   };
 
@@ -145,7 +113,7 @@
           返回
         </el-button>
         <h1>我的收藏</h1>
-        <span class="count">共 {{ favorites.length }} 件商品</span>
+        <span class="count">共 {{ favorites.length || 0 }} 件商品</span>
       </div>
 
       <div class="header-actions">
@@ -158,7 +126,7 @@
           批量移除 ({{ selectedIds.length }})
         </el-button>
 
-        <el-button @click="handleEdit">
+        <el-button v-if="favorites.length > 0" @click="handleEdit">
           <el-icon><Edit /></el-icon>
           管理收藏
         </el-button>

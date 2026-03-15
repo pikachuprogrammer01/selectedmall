@@ -1,9 +1,8 @@
 <script setup>
   import { ref, computed } from "vue";
-  import { useRouter, useRoute } from "vue-router";
+  import { useRouter } from "vue-router";
   import { useUserStore } from "@/store/user.js";
   import { useCartStore } from "@/store/cart.js";
-  import Home from "@/views/Home/Home.vue";
 
   // 导入图标组件
   import {
@@ -19,7 +18,6 @@
   import { ElMessageBox, ElMessage } from "element-plus";
 
   const router = useRouter();
-  const route = useRoute();
   const userStore = useUserStore();
   const cartStore = useCartStore();
 
@@ -70,7 +68,8 @@
 
   // 处理菜单命令跳转
   const handleMenuCommand = (command) => {
-    router.push(command);
+    // 替换跳转路径
+    router.replace(`/${command}`);
   };
 </script>
 
@@ -115,8 +114,8 @@
                 </span>
                 <template #dropdown>
                   <el-dropdown-menu>
-                    <el-dropdown-item command="profile">
-                      <el-icon><User /></el-icon> 个人中心
+                    <el-dropdown-item command="user">
+                      <el-icon><User /></el-icon> 我的
                     </el-dropdown-item>
                     <el-dropdown-item command="orders">
                       <el-icon><ShoppingBag /></el-icon> 我的订单

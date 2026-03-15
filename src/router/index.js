@@ -14,6 +14,7 @@ import UserCenter from '@/views/UserCenter/UserCenter.vue'
 import Profile from '@/views/Profile/Profile.vue'
 import Address from '@/views/Address/Address.vue'
 import Favorite from '@/views/Favorite/Favorite.vue'
+import NotFound from '@/views/NotFound/NotFound.vue'
 import { ElMessage } from "element-plus";
 
 const routes = [
@@ -78,6 +79,11 @@ const routes = [
   {
     path: '/favorite',
     component: Favorite
+  },
+  {
+    path: "/:pathMatch(.*)*",
+    name: "NotFound",
+    component: NotFound
   }
 ]
 
@@ -85,7 +91,7 @@ const router = createRouter({
   history: createWebHistory(),
   routes
 })
-  
+
 // 全局路由守卫，检查用户是否登录
 router.beforeEach((to, from) => {
   const publicPages = ['/login', '/register']

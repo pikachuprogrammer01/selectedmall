@@ -1,13 +1,14 @@
 import { defineStore } from 'pinia'
-import storage from '@/utils/storage'
+import storage from '@/utils/storage.js'
+import cartMessage from '@/constant/cart.js'
 
-export const useCartStore = defineStore('cart', {
+export const useCartStore = defineStore(cartMessage.CART, {
   state: () => ({
-    cartItems: storage.get('cartItems', [])
+    cartItems: storage.get(cartMessage.CART_ITEMS, [])
   }),
   actions: {
     // 添加到购物车
-    addToCart(product) {
+    addToCart (product) {
       const existingItem = this.cartItems.find(item =>
         item.productId === product.id
       )
@@ -24,28 +25,28 @@ export const useCartStore = defineStore('cart', {
         })
       }
 
-      storage.set('cartItems', this.cartItems)
+      storage.set(cartMessage.CART_ITEMS, this.cartItems)
     },
 
     // 从购物车移除
-    removeFromCart(productId) {
+    removeFromCart (productId) {
       this.cartItems = this.cartItems.filter(item => item.productId !== productId)
-      storage.set('cartItems', this.cartItems)
+      storage.set(cartMessage.CART_ITEMS, this.cartItems)
     },
 
     // 更新商品数量
-    updateCartCount({ productId, count }) {
+    updateCartCount ({ productId, count }) {
       const item = this.cartItems.find(item => item.productId === productId)
       if (item) {
         item.count = count
-        storage.set('cartItems', this.cartItems)
+        storage.set(cartMessage.CART_ITEMS, this.cartItems)
       }
     },
 
     // 清空购物车
-    clearCart() {
+    clearCart () {
       this.cartItems = []
-      storage.remove('cartItems')
+      storage.remove(cartMessage.CART_ITEMS)
     }
   }
 })

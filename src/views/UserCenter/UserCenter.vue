@@ -10,6 +10,10 @@
   } from "@element-plus/icons-vue";
   import { useUserStore } from "@/store/user.js";
   import { useOrderStore } from "@/store/order.js";
+  import Favorite from "@/views/Favorite/Favorite.vue";
+  import Address from "@/views/Address/Address.vue";
+  import OrderList from "@/views/OrderList/OrderList.vue";
+  import { useFavoriteStore } from "@/store/favorite.js";
 
   const router = useRouter();
   const userStore = useUserStore();
@@ -20,8 +24,8 @@
   const menuItems = [
     { name: "profile", icon: User, label: "个人资料" },
     { name: "orders", icon: Goods, label: "我的订单" },
-    { name: "favorites", icon: Star, label: "我的收藏" },
-    { name: "addresses", icon: Location, label: "收货地址" },
+    { name: "favorite", icon: Star, label: "我的收藏" },
+    { name: "address", icon: Location, label: "收货地址" },
     { name: "settings", icon: Setting, label: "设置" },
   ];
 
@@ -32,7 +36,10 @@
 
   const handleMenuClick = (menuName) => {
     currentMenu.value = menuName;
-    router.push({ name: menuName });
+    if (menuName === "settings") {
+      return;
+    }
+    router.push(`/${menuName}`);
   };
 
   const handleLogout = () => {
@@ -45,18 +52,18 @@
   });
 
   const hasFavorites = computed(() => {
-    return userStore.userInfo?.favorites?.length > 0 || false;
+    return useFavoriteStore.getFavorites > 0 || false;
   });
 
   const hasAddresses = computed(() => {
-    return userStore.userInfo?.addresses?.length > 0 || false;
+    return userStore.addresses?.length > 0 || false;
   });
 </script>
 
 <template>
   <div class="user-center">
     <div class="page-header">
-      <h1>用户中心</h1>
+      <h1>我的</h1>
     </div>
 
     <div class="user-center-content">
@@ -113,22 +120,56 @@
       <div class="user-content">
         <div v-if="currentMenu === 'profile' && userStore.isLoggedIn">
           <h3>个人资料</h3>
-          <el-empty description="个人信息功能开发中" />
+          <el-card class="info-card">
+            <template #header>
+              <div class="card-header">
+                <span>用户信息</span>
+                <el-button
+                  type="primary"
+                  size="small"
+                  @click="router.push('/profile')"
+                >
+                  修改信息
+                </el-button>
+              </div>
+            </template>
+
+            <el-descriptions :column="1" border>
+              <el-descriptions-item label="用户名">
+                {{ userStore?.userInfo?.username }}
+              </el-descriptions-item>
+
+              <el-descriptions-item label="昵称">
+                {{ userStore?.userInfo?.name }}
+              </el-descriptions-item>
+
+              <el-descriptions-item label="电子邮箱">
+                {{ userStore?.userInfo?.email }}
+              </el-descriptions-item>
+
+              <el-descriptions-item label="手机号">
+                {{ userStore?.userInfo?.phone }}
+              </el-descriptions-item>
+            </el-descriptions>
+          </el-card>
         </div>
 
         <div v-if="currentMenu === 'orders' && userStore.isLoggedIn">
           <h3>我的订单</h3>
-          <el-empty :description="hasOrders ? '' : '暂无订单'" />
+          <OrderList v-if="hasOrders" />
+          <el-empty v-else :description="hasOrders ? '' : '暂无订单'" />
         </div>
 
-        <div v-if="currentMenu === 'favorites' && userStore.isLoggedIn">
+        <div v-if="currentMenu === 'favorite' && userStore.isLoggedIn">
           <h3>我的收藏</h3>
-          <el-empty :description="hasFavorites ? '' : '暂无收藏商品'" />
+          <Favorite v-if="hasFavorites" />
+          <el-empty v-else :description="hasFavorites ? '' : '暂无收藏商品'" />
         </div>
 
-        <div v-if="currentMenu === 'addresses' && userStore.isLoggedIn">
+        <div v-if="currentMenu === 'address' && userStore.isLoggedIn">
           <h3>收货地址</h3>
-          <el-empty :description="hasAddresses ? '' : '暂无收货地址'" />
+          <Address v-if="hasAddresses" />
+          <el-empty v-else :description="hasAddresses ? '' : '暂无收货地址'" />
         </div>
 
         <div v-if="currentMenu === 'settings' && userStore.isLoggedIn">
@@ -165,7 +206,7 @@
     max-width: 1200px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: 250px 1fr;
+    grid-template-columns: auto 1fr;
     gap: 20px;
   }
 
@@ -231,6 +272,12 @@
     padding: 30px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     min-height: 400px;
+  }
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
   .user-content h3 {

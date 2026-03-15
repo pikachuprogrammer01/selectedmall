@@ -98,6 +98,10 @@
 <template>
   <div class="order-list">
     <div class="page-header">
+      <el-button type="text" @click="router.back()">
+        <el-icon><ArrowLeft /></el-icon>
+        返回
+      </el-button>
       <h1>我的订单</h1>
     </div>
 
@@ -199,6 +203,8 @@
   }
 
   .page-header {
+    display: flex;
+    align-items: center;
     background: #fff;
     padding: 20px;
     margin-bottom: 20px;
@@ -209,6 +215,7 @@
     font-size: 24px;
     font-weight: 600;
     color: #333;
+    margin-left: 10px;
   }
 
   .order-content {
