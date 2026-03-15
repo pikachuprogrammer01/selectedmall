@@ -1,61 +1,105 @@
 <script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { User, Lock, Phone, Edit } from '@element-plus/icons-vue'
-import { useUserStore } from '@/store/user'
-import { ElMessage, ElMessageBox } from 'element-plus'
+  import { ref } from "vue";
+  import { useRouter } from "vue-router";
+  import { User, Lock, Phone, Edit } from "@element-plus/icons-vue";
+  import { useUserStore } from "@/store/user.js";
+  import { ElMessage, ElMessageBox } from "element-plus";
+  import storage from "@/utils/storage.js";
+  import USER from "@/constant/user.js";
 
-const router = useRouter()
-const userStore = useUserStore()
+  const router = useRouter();
+  const userStore = useUserStore();
 
-const userInfo = ref({
-  username: userStore.userInfo?.username || '',
-  name: userStore.userInfo?.name || '',
-  email: userStore.userInfo?.email || '',
-  phone: userStore.userInfo?.phone || ''
-})
+  const userInfo = ref({
+    username: userStore.userInfo?.username || "",
+    name: userStore.userInfo?.name || "",
+    email: userStore.userInfo?.email || "",
+    phone: userStore.userInfo?.phone || "",
+  });
 
-const editMode = ref(false)
+  const editMode = ref(false);
 
-const handleEdit = () => {
-  editMode.value = true
-}
+  const handleEdit = () => {
+    editMode.value = true;
+  };
 
-const handleSave = () => {
-  // 保存个人信息
-  userStore.userInfo = {
-    ...userStore.userInfo,
-    ...userInfo.value
-  }
-  ElMessage.success('个人信息已更新')
-  editMode.value = false
-}
+  const handleSave = () => {
+    const id = storage.get(USER.USERINFO).id;
 
-const handleCancel = () => {
-  // 恢复原始信息
-  userInfo.value = {
-    username: userStore.userInfo?.username || '',
-    name: userStore.userInfo?.name || '',
-    email: userStore.userInfo?.email || '',
-    phone: userStore.userInfo?.phone || ''
-  }
-  editMode.value = false
-}
+    // 保存个人信息
+    const user = userStore.userList.find((u) => u.id === id);
+    if (user) {
+      Object.assign(user, userInfo.value);
+      userStore.updateUser(user);
+      ElMessage.success("个人信息已更新");
+    } else {
+      userInfo.value = storage.get(USER.USERINFO) || {};
+      ElMessage.error("用户不存在，更新失败！");
+    }
+    editMode.value = false;
+  };
 
-const handleLogout = () => {
-  ElMessageBox.confirm('确定要退出登录吗？', '提示', {
-    confirmButtonText: '确定',
-    cancelButtonText: '取消',
-    type: 'warning'
-  }).then(() => {
-    userStore.logout()
-    router.push('/login')
-  }).catch(() => {})
-}
+  const handleCancel = () => {
+    // 恢复原始信息
+    userInfo.value = {
+      username: userStore.userInfo?.username || "",
+      name: userStore.userInfo?.name || "",
+      email: userStore.userInfo?.email || "",
+      phone: userStore.userInfo?.phone || "",
+    };
+    editMode.value = false;
+  };
 
-const handlePasswordChange = () => {
-  ElMessage.info('密码修改功能开发中')
-}
+  const handleLogout = () => {
+    ElMessageBox.confirm("确定要退出登录吗？", "提示", {
+      confirmButtonText: "确定",
+      cancelButtonText: "取消",
+      type: "warning",
+    })
+      .then(() => {
+        userStore.logout();
+        router.push("/login");
+      })
+      .catch(() => {});
+  };
+
+  const passwords = ref({
+    current: "",
+    newPassword: "",
+    confirmPassword: "",
+  });
+
+  const handlePasswordChange = () => {
+    // 先校验输入的密码是否合法
+    if (
+      !passwords.value.current ||
+      !passwords.value.newPassword ||
+      !passwords.value.confirmPassword
+    ) {
+      ElMessage.error("请完整填写密码信息");
+      return;
+    }
+
+    // 验证当前密码是否正确
+    const id = storage.get(USER.USERINFO).id;
+    const user = userStore.userList.find((u) => u.id === id);
+    if (!user || user.password !== passwords.value.current) {
+      ElMessage.error("当前密码不正确");
+      return;
+    }
+
+    // 验证新密码和确认密码是否一致
+    if (passwords.value.newPassword !== passwords.value.confirmPassword) {
+      ElMessage.error("新密码和确认密码不一致");
+      return;
+    }
+
+    // 更新密码
+    userStore.updateUserPassword(id, passwords.value.newPassword);
+    userStore.logout();
+    ElMessage.success("密码修改成功，请重新登录");
+    router.push("/login");
+  };
 </script>
 
 <template>
@@ -105,7 +149,7 @@ const handlePasswordChange = () => {
           <el-form label-position="top">
             <el-form-item label="用户名">
               <el-input
-                v-model="userInfo.username"
+                v-model.trim="userInfo.username"
                 :disabled="!editMode"
                 placeholder="请输入用户名"
               />
@@ -113,7 +157,7 @@ const handlePasswordChange = () => {
 
             <el-form-item label="昵称">
               <el-input
-                v-model="userInfo.name"
+                v-model.trim="userInfo.name"
                 :disabled="!editMode"
                 placeholder="请输入昵称"
               />
@@ -121,7 +165,7 @@ const handlePasswordChange = () => {
 
             <el-form-item label="电子邮箱">
               <el-input
-                v-model="userInfo.email"
+                v-model.trim="userInfo.email"
                 :disabled="!editMode"
                 placeholder="请输入电子邮箱"
               />
@@ -129,7 +173,7 @@ const handlePasswordChange = () => {
 
             <el-form-item label="手机号">
               <el-input
-                v-model="userInfo.phone"
+                v-model.trim="userInfo.phone"
                 :disabled="!editMode"
                 placeholder="请输入手机号"
               />
@@ -148,12 +192,13 @@ const handlePasswordChange = () => {
           </div>
 
           <el-form label-position="top">
-            <el-form-item label="当前密码">
+            <el-form-item label="当前密码" prop="currentPassword">
               <el-input
                 type="password"
                 placeholder="请输入当前密码"
                 :prefix-icon="Lock"
                 show-password
+                v-model.trim="passwords.current"
               />
             </el-form-item>
 
@@ -163,6 +208,7 @@ const handlePasswordChange = () => {
                 placeholder="请输入新密码"
                 :prefix-icon="Lock"
                 show-password
+                v-model.trim="passwords.newPassword"
               />
             </el-form-item>
 
@@ -172,6 +218,7 @@ const handlePasswordChange = () => {
                 placeholder="请再次输入新密码"
                 :prefix-icon="Lock"
                 show-password
+                v-model.trim="passwords.confirmPassword"
               />
             </el-form-item>
           </el-form>
@@ -210,165 +257,164 @@ const handlePasswordChange = () => {
             </div>
           </div>
 
-          <el-button type="danger" @click="handleLogout">
-            退出登录
-          </el-button>
+          <el-button type="danger" @click="handleLogout"> 退出登录 </el-button>
         </div>
       </div>
     </div>
+    <BackToTop />
   </div>
 </template>
 
 <style scoped>
-.profile {
-  min-height: 100vh;
-  background: #f5f5f5;
-  padding: 20px;
-}
-
-.page-header {
-  background: #fff;
-  padding: 20px;
-  margin-bottom: 20px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.page-header h1 {
-  font-size: 24px;
-  font-weight: 600;
-  color: #333;
-}
-
-.profile-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 350px 1fr;
-  gap: 20px;
-}
-
-.profile-card {
-  background: #fff;
-  border-radius: 8px;
-  padding: 30px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  text-align: center;
-}
-
-.profile-header {
-  margin-bottom: 30px;
-}
-
-.profile-name h2 {
-  font-size: 24px;
-  margin-bottom: 10px;
-  color: #333;
-}
-
-.profile-name p {
-  color: #666;
-  font-size: 14px;
-}
-
-.profile-stats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-}
-
-.stat-item {
-  padding: 15px;
-  background: #f5f5f5;
-  border-radius: 8px;
-}
-
-.stat-item h3 {
-  font-size: 28px;
-  font-weight: bold;
-  color: #409eff;
-  margin-bottom: 5px;
-}
-
-.stat-item p {
-  color: #666;
-  font-size: 14px;
-}
-
-.profile-form {
-  background: #fff;
-  border-radius: 8px;
-  padding: 30px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.section {
-  margin-bottom: 40px;
-  padding-bottom: 40px;
-  border-bottom: 1px solid #eee;
-}
-
-.section:last-child {
-  border-bottom: none;
-  margin-bottom: 0;
-  padding-bottom: 0;
-}
-
-.section-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.section-header h3 {
-  font-size: 18px;
-  font-weight: 600;
-  color: #333;
-}
-
-.form-actions {
-  display: flex;
-  gap: 15px;
-  margin-top: 20px;
-}
-
-.security-info {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  margin-bottom: 20px;
-}
-
-.info-item {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  padding: 15px;
-  background: #f5f5f5;
-  border-radius: 8px;
-}
-
-.info-item .el-icon {
-  font-size: 24px;
-  color: #409eff;
-}
-
-.info-item .label {
-  color: #999;
-  font-size: 14px;
-  margin-bottom: 0;
-}
-
-.info-item .value {
-  font-size: 16px;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 0;
-}
-
-@media (max-width: 768px) {
-  .profile-content {
-    grid-template-columns: 1fr;
+  .profile {
+    min-height: 100vh;
+    background: #f5f5f5;
+    padding: 20px;
   }
-}
+
+  .page-header {
+    background: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .page-header h1 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+  }
+
+  .profile-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    gap: 20px;
+  }
+
+  .profile-card {
+    background: #fff;
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+
+  .profile-header {
+    margin-bottom: 30px;
+  }
+
+  .profile-name h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #333;
+  }
+
+  .profile-name p {
+    color: #666;
+    font-size: 14px;
+  }
+
+  .profile-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .stat-item {
+    padding: 15px;
+    background: #f5f5f5;
+    border-radius: 8px;
+  }
+
+  .stat-item h3 {
+    font-size: 28px;
+    font-weight: bold;
+    color: #409eff;
+    margin-bottom: 5px;
+  }
+
+  .stat-item p {
+    color: #666;
+    font-size: 14px;
+  }
+
+  .profile-form {
+    background: #fff;
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .section {
+    margin-bottom: 40px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid #eee;
+  }
+
+  .section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .section-header h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+  }
+
+  .security-info {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+
+  .info-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    background: #f5f5f5;
+    border-radius: 8px;
+  }
+
+  .info-item .el-icon {
+    font-size: 24px;
+    color: #409eff;
+  }
+
+  .info-item .label {
+    color: #999;
+    font-size: 14px;
+    margin-bottom: 0;
+  }
+
+  .info-item .value {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 768px) {
+    .profile-content {
+      grid-template-columns: 1fr;
+    }
+  }
 </style>

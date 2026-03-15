@@ -67,6 +67,11 @@
       router.push("/search");
     }
   };
+
+  // 处理菜单命令跳转
+  const handleMenuCommand = (command) => {
+    router.push(command);
+  };
 </script>
 
 <template>

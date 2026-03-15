@@ -5,7 +5,6 @@
   import { useBannerStore } from "@/store/banner";
   import { useProductStore } from "@/store/product";
   import CategoryMenu from "@/components/CategoryMenu/CategoryMenu.vue";
-  import BackToTop from "@/components/BackToTop/BackToTop.vue";
   import { ShoppingCart, Star, Histogram } from "@element-plus/icons-vue";
   import OverflowTooltip from "@/components/OverflowTooltip/OverflowTooltip.vue";
 
@@ -20,18 +19,12 @@
 
   // 热门商品
   const hotProducts = computed(() => {
-    const randomProducts = [...productsStore.products].sort(
-      () => 0.5 - Math.random(),
-    );
-    return randomProducts.slice(0, 4);
+    return productsStore.products.filter((p) => p.hot);
   });
 
   // 新品推荐
   const newProducts = computed(() => {
-    const randomProducts = [...productsStore.products].sort(
-      () => 0.5 - Math.random(),
-    );
-    return randomProducts.slice(0, 4);
+    return productsStore.products.filter((p) => p.recommend);
   });
 
   // 跳转到商品列表
@@ -153,7 +146,6 @@
         </div>
       </div>
     </div>
-
     <BackToTop />
   </div>
 </template>

@@ -115,6 +115,7 @@
         @current-change="handlePageChange"
       />
     </div>
+    <BackToTop />
   </div>
 </template>
 

@@ -1,185 +1,196 @@
 <script setup>
-import { ref, computed } from 'vue'
-import { useRouter } from 'vue-router'
-import { Edit, Delete, Location, User, Phone, HomeFilled } from '@element-plus/icons-vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
+  import { ref, computed } from "vue";
+  import { useRouter } from "vue-router";
+  import {
+    Edit,
+    Delete,
+    Location,
+    User,
+    Phone,
+    HomeFilled,
+  } from "@element-plus/icons-vue";
+  import { ElMessage, ElMessageBox } from "element-plus";
 
-const router = useRouter()
+  const router = useRouter();
 
-// 收货地址
-const addressList = ref([
-  {
-    id: 1,
-    name: '张三',
-    phone: '13800138000',
-    province: '北京市',
-    city: '北京市',
-    district: '朝阳区',
-    detail: '某某街道123号',
-    isDefault: true
-  },
-  {
-    id: 2,
-    name: '张三',
-    phone: '13800138000',
-    province: '北京市',
-    city: '北京市',
-    district: '海淀区',
-    detail: '某某街道456号',
-    isDefault: false
-  },
-  {
-    id: 3,
-    name: '李四',
-    phone: '13900139000',
-    province: '上海市',
-    city: '上海市',
-    district: '浦东新区',
-    detail: '某某路789号',
-    isDefault: false
-  }
-])
+  // 收货地址
+  const addressList = ref([
+    {
+      id: 1,
+      name: "张三",
+      phone: "13800138000",
+      province: "北京市",
+      city: "北京市",
+      district: "朝阳区",
+      detail: "某某街道123号",
+      isDefault: true,
+    },
+    {
+      id: 2,
+      name: "张三",
+      phone: "13800138000",
+      province: "北京市",
+      city: "北京市",
+      district: "海淀区",
+      detail: "某某街道456号",
+      isDefault: false,
+    },
+    {
+      id: 3,
+      name: "李四",
+      phone: "13900139000",
+      province: "上海市",
+      city: "上海市",
+      district: "浦东新区",
+      detail: "某某路789号",
+      isDefault: false,
+    },
+  ]);
 
-const selectedAddress = ref(null)
-const editingAddress = ref(null)
-const showAddDialog = ref(false)
-const showEditDialog = ref(false)
+  const selectedAddress = ref(null);
+  const editingAddress = ref(null);
+  const showAddDialog = ref(false);
+  const showEditDialog = ref(false);
 
-const newAddress = ref({
-  name: '',
-  phone: '',
-  province: '',
-  city: '',
-  district: '',
-  detail: ''
-})
+  const newAddress = ref({
+    name: "",
+    phone: "",
+    province: "",
+    city: "",
+    district: "",
+    detail: "",
+  });
 
-const isDefault = computed(() => {
-  return selectedAddress.value && selectedAddress.value.isDefault
-})
+  const isDefault = computed(() => {
+    return selectedAddress.value && selectedAddress.value.isDefault;
+  });
 
-const addressForm = ref({
-  name: '',
-  phone: '',
-  province: '',
-  city: '',
-  district: '',
-  detail: '',
-  isDefault: false
-})
+  const addressForm = ref({
+    name: "",
+    phone: "",
+    province: "",
+    city: "",
+    district: "",
+    detail: "",
+    isDefault: false,
+  });
 
-const handleSelectAddress = (address) => {
-  selectedAddress.value = address
-}
+  const handleSelectAddress = (address) => {
+    selectedAddress.value = address;
+  };
 
-const handleAddAddress = () => {
-  showAddDialog.value = true
-  editingAddress.value = null
-}
+  const handleAddAddress = () => {
+    showAddDialog.value = true;
+    editingAddress.value = null;
+  };
 
-const handleEditAddress = (address) => {
-  showEditDialog.value = true
-  editingAddress.value = address
-  addressForm.value = {
-    ...address
-  }
-}
+  const handleEditAddress = (address) => {
+    showEditDialog.value = true;
+    editingAddress.value = address;
+    addressForm.value = {
+      ...address,
+    };
+  };
 
-const handleDeleteAddress = (id) => {
-  if (addressList.value.length === 1) {
-    ElMessage.warning('至少保留一个地址')
-    return
-  }
-
-  ElMessageBox.confirm('确定要删除该地址吗？', '提示', {
-    confirmButtonText: '确定',
-    cancelButtonText: '取消',
-    type: 'warning'
-  }).then(() => {
-    addressList.value = addressList.value.filter(addr => addr.id !== id)
-    if (selectedAddress.value && selectedAddress.value.id === id) {
-      selectedAddress.value = addressList.value[0]
+  const handleDeleteAddress = (id) => {
+    if (addressList.value.length === 1) {
+      ElMessage.warning("至少保留一个地址");
+      return;
     }
-    ElMessage.success('地址已删除')
-  }).catch(() => {})
-}
 
-const handleSetDefault = (address) => {
-  addressList.value.forEach(addr => {
-    addr.isDefault = false
-  })
-  address.isDefault = true
-  selectedAddress.value = address
-  ElMessage.success('已设置为默认地址')
-}
+    ElMessageBox.confirm("确定要删除该地址吗？", "提示", {
+      confirmButtonText: "确定",
+      cancelButtonText: "取消",
+      type: "warning",
+    })
+      .then(() => {
+        addressList.value = addressList.value.filter((addr) => addr.id !== id);
+        if (selectedAddress.value && selectedAddress.value.id === id) {
+          selectedAddress.value = addressList.value[0];
+        }
+        ElMessage.success("地址已删除");
+      })
+      .catch(() => {});
+  };
 
-const handleSaveAddress = () => {
-  if (!addressForm.value.name || !addressForm.value.phone) {
-    ElMessage.warning('请填写联系人姓名和手机号')
-    return
-  }
+  const handleSetDefault = (address) => {
+    addressList.value.forEach((addr) => {
+      addr.isDefault = false;
+    });
+    address.isDefault = true;
+    selectedAddress.value = address;
+    ElMessage.success("已设置为默认地址");
+  };
 
-  if (addressForm.value.phone.length !== 11) {
-    ElMessage.warning('手机号格式不正确')
-    return
-  }
+  const handleSaveAddress = () => {
+    if (!addressForm.value.name || !addressForm.value.phone) {
+      ElMessage.warning("请填写联系人姓名和手机号");
+      return;
+    }
 
-  if (editingAddress.value) {
-    // 编辑现有地址
-    const index = addressList.value.findIndex(addr => addr.id === editingAddress.value.id)
-    if (index !== -1) {
-      addressList.value[index] = {
-        ...addressForm.value,
-        id: editingAddress.value.id
+    if (addressForm.value.phone.length !== 11) {
+      ElMessage.warning("手机号格式不正确");
+      return;
+    }
+
+    if (editingAddress.value) {
+      // 编辑现有地址
+      const index = addressList.value.findIndex(
+        (addr) => addr.id === editingAddress.value.id,
+      );
+      if (index !== -1) {
+        addressList.value[index] = {
+          ...addressForm.value,
+          id: editingAddress.value.id,
+        };
       }
+      showEditDialog.value = false;
+      ElMessage.success("地址已更新");
+    } else {
+      // 添加新地址
+      const newId = Date.now();
+      addressList.value.push({
+        ...addressForm.value,
+        id: newId,
+      });
+      showAddDialog.value = false;
+      ElMessage.success("地址已添加");
     }
-    showEditDialog.value = false
-    ElMessage.success('地址已更新')
-  } else {
-    // 添加新地址
-    const newId = Date.now()
-    addressList.value.push({
-      ...addressForm.value,
-      id: newId
-    })
-    showAddDialog.value = false
-    ElMessage.success('地址已添加')
-  }
 
-  // 如果是默认地址，更新所有地址的默认状态
-  if (addressForm.value.isDefault) {
-    addressList.value.forEach(addr => {
-      addr.isDefault = false
-    })
-    addressList.value[addressList.value.length - 1].isDefault = true
-  }
+    // 如果是默认地址，更新所有地址的默认状态
+    if (addressForm.value.isDefault) {
+      addressList.value.forEach((addr) => {
+        addr.isDefault = false;
+      });
+      addressList.value[addressList.value.length - 1].isDefault = true;
+    }
 
-  // 清空表单
-  addressForm.value = {
-    name: '',
-    phone: '',
-    province: '',
-    city: '',
-    district: '',
-    detail: '',
-    isDefault: false
-  }
-}
+    // 清空表单
+    addressForm.value = {
+      name: "",
+      phone: "",
+      province: "",
+      city: "",
+      district: "",
+      detail: "",
+      isDefault: false,
+    };
+  };
 
-const handleCancel = () => {
-  showAddDialog.value = false
-  showEditDialog.value = false
-  editingAddress.value = null
-  addressForm.value = {
-    name: '',
-    phone: '',
-    province: '',
-    city: '',
-    district: '',
-    detail: '',
-    isDefault: false
-  }
-}
+  const handleCancel = () => {
+    showAddDialog.value = false;
+    showEditDialog.value = false;
+    editingAddress.value = null;
+    addressForm.value = {
+      name: "",
+      phone: "",
+      province: "",
+      city: "",
+      district: "",
+      detail: "",
+      isDefault: false,
+    };
+  };
 </script>
 
 <template>
@@ -204,14 +215,19 @@ const handleCancel = () => {
           <div class="address-header">
             <div class="address-name">
               <span class="name">{{ address.name }}</span>
-              <el-tag v-if="address.isDefault" type="primary" size="small">默认</el-tag>
+              <el-tag v-if="address.isDefault" type="primary" size="small"
+                >默认</el-tag
+              >
             </div>
             <div class="address-phone">{{ address.phone }}</div>
           </div>
 
           <div class="address-detail">
             <el-icon><Location /></el-icon>
-            <span>{{ address.province }} {{ address.city }} {{ address.district }} {{ address.detail }}</span>
+            <span
+              >{{ address.province }} {{ address.city }} {{ address.district }}
+              {{ address.detail }}</span
+            >
           </div>
         </div>
 
@@ -222,9 +238,13 @@ const handleCancel = () => {
           </el-button>
           <el-button type="primary" text @click="handleSetDefault(address)">
             <el-icon><HomeFilled /></el-icon>
-            {{ address.isDefault ? '取消默认' : '设为默认' }}
+            {{ address.isDefault ? "取消默认" : "设为默认" }}
           </el-button>
-          <el-button type="danger" text @click="handleDeleteAddress(address.id)">
+          <el-button
+            type="danger"
+            text
+            @click="handleDeleteAddress(address.id)"
+          >
             <el-icon><Delete /></el-icon>
             删除
           </el-button>
@@ -278,115 +298,116 @@ const handleCancel = () => {
         <el-button type="primary" @click="handleSaveAddress">保存</el-button>
       </template>
     </el-dialog>
+    <BackToTop />
   </div>
 </template>
 
 <style scoped>
-.address {
-  min-height: 100vh;
-  background: #f5f5f5;
-  padding: 20px;
-}
+  .address {
+    min-height: 100vh;
+    background: #f5f5f5;
+    padding: 20px;
+  }
 
-.page-header {
-  background: #fff;
-  padding: 20px;
-  margin-bottom: 20px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.page-header h1 {
-  font-size: 24px;
-  font-weight: 600;
-  color: #333;
-}
-
-.address-list {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.address-card {
-  background: #fff;
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  cursor: pointer;
-  transition: all 0.3s;
-  border: 2px solid #eee;
-}
-
-.address-card:hover {
-  border-color: #409eff;
-}
-
-.address-card.selected {
-  border-color: #409eff;
-  background: #ecf5ff;
-}
-
-.address-main {
-  flex: 1;
-}
-
-.address-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-}
-
-.address-name {
-  font-size: 16px;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.address-phone {
-  font-size: 16px;
-  color: #666;
-}
-
-.address-detail {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: #666;
-}
-
-.address-detail .el-icon {
-  color: #409eff;
-}
-
-.address-actions {
-  display: flex;
-  gap: 10px;
-}
-
-@media (max-width: 768px) {
   .page-header {
+    background: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .page-header h1 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+  }
+
+  .address-list {
+    display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 20px;
   }
 
   .address-card {
-    flex-direction: column;
+    background: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
     align-items: flex-start;
-    gap: 15px;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: 2px solid #eee;
+  }
+
+  .address-card:hover {
+    border-color: #409eff;
+  }
+
+  .address-card.selected {
+    border-color: #409eff;
+    background: #ecf5ff;
+  }
+
+  .address-main {
+    flex: 1;
+  }
+
+  .address-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+
+  .address-name {
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .address-phone {
+    font-size: 16px;
+    color: #666;
+  }
+
+  .address-detail {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #666;
+  }
+
+  .address-detail .el-icon {
+    color: #409eff;
   }
 
   .address-actions {
-    width: 100%;
-    justify-content: flex-end;
+    display: flex;
+    gap: 10px;
   }
-}
+
+  @media (max-width: 768px) {
+    .page-header {
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .address-card {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 15px;
+    }
+
+    .address-actions {
+      width: 100%;
+      justify-content: flex-end;
+    }
+  }
 </style>

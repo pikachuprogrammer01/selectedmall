@@ -2,8 +2,9 @@
   import { ref } from "vue";
   import { useRouter } from "vue-router";
   import { User, Lock, Message, ArrowRight } from "@element-plus/icons-vue";
-  import { useUserStore } from "@/store/user";
+  import { useUserStore } from "@/store/user.js";
   import { ElMessage } from "element-plus";
+  import { loginMessage, registerMessage } from "@/constant/message.js";
 
   const router = useRouter();
   const userStore = useUserStore();
@@ -30,20 +31,25 @@
     loading.value = true;
     try {
       loginRuleFormRef.value.validate(async (valid) => {
+        let result;
         if (valid) {
-          await userStore.login(
+          result = await userStore.login(
             loginForm.value.username,
             loginForm.value.password,
           );
-          ElMessage.success("登录成功！");
-          router.push("/");
+          if (result === loginMessage.SUCCESS) {
+            ElMessage.success(result);
+            router.push("/");
+          } else {
+            ElMessage.error(result);
+          }
         } else {
-          ElMessage.error("请完善用户名和密码");
+          ElMessage.error(loginMessage.ERR_USERNAME_PASSWORD_LACK);
           return false;
         }
       });
     } catch (error) {
-      ElMessage.error(error || "登录失败");
+      ElMessage.error(error || loginMessage.FAIL);
     } finally {
       loading.value = false;
     }
@@ -113,7 +119,7 @@
     try {
       registerRuleFormRef.value.validate((valid) => {
         if (valid) {
-          ElMessage.success("注册成功！");
+          ElMessage.success(registerMessage.SUCCESS);
           userStore.register({
             username: registerForm.value.username,
             password: registerForm.value.password,
@@ -122,12 +128,12 @@
           });
           router.push("/login");
         } else {
-          ElMessage.error("请完善注册信息");
+          ElMessage.error(registerMessage.ERR_MESSAGE_LACK);
           return false;
         }
       });
     } catch (error) {
-      ElMessage.error(error || "注册失败");
+      ElMessage.error(error || registerMessage.FAIL);
     } finally {
       loading.value = false;
     }
@@ -262,6 +268,7 @@
         <p>演示账号: admin / 123456</p>
       </div>
     </div>
+    <BackToTop />
   </div>
 </template>
 

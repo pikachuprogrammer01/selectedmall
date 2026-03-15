@@ -94,14 +94,17 @@
       ruleFormRef.value.validate((valid) => {
         if (valid) {
           ElMessage.success("注册成功！");
-          ruleFormRef.value.resetFields();
           userStore.register({
             username: registerForm.value.username,
             password: registerForm.value.password,
             phone: registerForm.value.phone,
             email: registerForm.value.email,
           });
-          router.push("/login");
+          registerSuccess.value = true;
+          setTimeout(() => {
+            router.push("/login");
+          }, 1000);
+          registerSuccess.value = false;
         } else {
           ElMessage.error("请完善注册信息");
           return false;
@@ -212,6 +215,8 @@
         </p>
       </div>
     </div>
+
+    <BackToTop />
   </div>
 </template>
 
