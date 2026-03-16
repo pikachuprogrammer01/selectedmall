@@ -1,44 +1,23 @@
 <script setup>
-  import { ref, computed, onMounted } from "vue";
-  import { useRouter } from "vue-router";
-  import {
-    Edit,
-    Location,
-    Phone,
-    Document,
-    Delete,
-  } from "@element-plus/icons-vue";
-  import { useCartStore } from "@/store/cart";
-  import { useUserStore } from "@/store/user";
+  import { ref, computed } from "vue";
+  import { useRouter, useRoute } from "vue-router";
+  import { Edit, Location, Document, Delete } from "@element-plus/icons-vue";
   import { ElMessage } from "element-plus";
+  import { useCartStore } from "@/store/cart.js";
+  import { useUserStore } from "@/store/user.js";
+  import { useOrderStore } from "@/store/order.js";
+  import { useProductStore } from "@/store/product.js";
+  import AddressDialog from "@/components/AddressDialog/AddressDialog.vue";
 
   const router = useRouter();
+  const route = useRoute();
+
   const cartStore = useCartStore();
   const userStore = useUserStore();
+  const orderStore = useOrderStore();
+  const productStore = useProductStore();
 
-  // 收货地址
-  const addressList = ref([
-    {
-      id: 1,
-      name: "张三",
-      phone: "13800138000",
-      province: "北京市",
-      city: "北京市",
-      district: "朝阳区",
-      detail: "某某街道123号",
-      isDefault: true,
-    },
-    {
-      id: 2,
-      name: "张三",
-      phone: "13800138000",
-      province: "北京市",
-      city: "北京市",
-      district: "海淀区",
-      detail: "某某街道456号",
-      isDefault: false,
-    },
-  ]);
+  const addressList = computed(() => userStore.addressList || []);
 
   const selectedAddress = computed(() => {
     return (
@@ -46,39 +25,94 @@
     );
   });
 
-  // 选中地址
   const handleSelectAddress = (address) => {
-    addressList.value.forEach((addr) => (addr.isDefault = false));
-    address.isDefault = true;
-    selectedAddress.value = address;
+    userStore.setDefault(address.id);
   };
+
+  const handleDeleteAddress = (id) => {
+    userStore.deleteAddress(id);
+  };
+
+  const dialogVisible = ref(false);
+  const editingAddress = ref(null);
 
   // 添加地址
   const handleAddAddress = () => {
-    router.push("/address");
+    editingAddress.value = null;
+    dialogVisible.value = true;
   };
 
-  // 修改地址
+  // 编辑地址
   const handleEditAddress = (address) => {
-    router.push({ path: "/address", query: { id: address.id } });
+    editingAddress.value = address;
+    dialogVisible.value = true;
   };
 
-  // 订单商品
+  // 保存地址
+  const handleSaveAddress = (data) => {
+    if (editingAddress.value) {
+      userStore.updateAddress({
+        ...data,
+        id: editingAddress.value.id,
+      });
+    } else {
+      userStore.addAddress(data);
+    }
+  };
+
   const orderItems = computed(() => {
-    return cartStore.cartItems.filter((item) => item.checked);
+    // 购物车结算：ids=1,2,3
+    const ids = route.query.ids ? route.query.ids.split(",") : null;
+
+    // 商品详情购买：id=1
+    const productId = route.query.id;
+    const quantity = Number(route.query.quantity || 1);
+
+    if (ids) {
+      return cartStore.cartItems
+        .filter((item) => ids.includes(String(item.productId)))
+        .map((item) => ({
+          ...item,
+          count: item.count,
+        }));
+    }
+
+    // 先从购物车找
+    let product = cartStore.cartItems.find(
+      (item) => item.productId == productId,
+    );
+
+    // 如果购物车没有，从商品库找
+    if (!product) {
+      product = productStore.products.find(
+        (item) => item.productId == productId,
+      );
+    }
+
+    if (!product) return [];
+
+    return [
+      {
+        ...product,
+        count: quantity,
+      },
+    ];
   });
 
-  // 订单金额
+  const productIds = computed(() => {
+    return orderItems.value.map((item) => item.productId);
+  });
+  //
+
   const totalAmount = computed(() => {
-    return orderItems.value.reduce((total, item) => {
+    const result = orderItems.value.reduce((total, item) => {
       return total + item.price * item.count;
     }, 0);
+    return result.toFixed(2);
   });
 
-  // 订单备注
   const remark = ref("");
 
-  // 提交订单
   const handleSubmit = async () => {
     if (!userStore.isLoggedIn) {
       ElMessage.warning("请先登录");
@@ -91,30 +125,30 @@
       return;
     }
 
+    if (!selectedAddress.value) {
+      ElMessage.warning("请选择收货地址");
+      return;
+    }
+
     try {
       const orderData = {
         address: selectedAddress.value,
         items: orderItems.value,
+        productIds: productIds.value,
         totalAmount: totalAmount.value,
         remark: remark.value,
       };
 
-      await cartStore.addOrder(orderData);
+      await orderStore.addOrder(orderData);
+
       ElMessage.success("订单提交成功");
+
       router.push("/orders");
-    } catch (e) {
+    } catch (err) {
       ElMessage.error("订单提交失败");
     }
   };
-
-  onMounted(() => {
-    if (orderItems.value.length === 0) {
-      ElMessage.warning("购物车为空");
-      router.push("/cart");
-    }
-  });
 </script>
-
 <template>
   <div class="order-confirm">
     <div class="page-header">
@@ -134,35 +168,32 @@
             v-for="address in addressList"
             :key="address.id"
             class="address-item"
-            :class="{ selected: selectedAddress.id === address.id }"
+            :class="{ selected: selectedAddress?.id === address.id }"
             @click="handleSelectAddress(address)"
           >
             <div class="address-main">
               <div class="address-name">
                 {{ address.name }} {{ address.phone }}
-                <el-tag v-if="address.isDefault" type="primary" size="small"
-                  >默认</el-tag
-                >
+                <el-tag v-if="address.isDefault" type="primary" size="small">
+                  默认
+                </el-tag>
               </div>
+
               <div class="address-detail">
-                {{ address.province }} {{ address.city }} {{ address.district }}
-                {{ address.detail }}
+                {{ address.region?.names?.join(",") }} {{ address.detail }}
               </div>
             </div>
 
             <div class="address-actions">
-              <el-button
-                type="primary"
-                text
-                @click="handleEditAddress(address)"
-              >
+              <el-button text @click.stop="handleEditAddress(address)">
                 <el-icon><Edit /></el-icon>
                 修改
               </el-button>
+
               <el-button
-                type="danger"
                 text
-                @click="handleDeleteAddress(address.id)"
+                type="danger"
+                @click.stop="handleDeleteAddress(address.id)"
               >
                 <el-icon><Delete /></el-icon>
                 删除
@@ -179,7 +210,7 @@
         </div>
       </div>
 
-      <!-- 订单商品 -->
+      <!-- 商品 -->
       <div class="section">
         <div class="section-header">
           <el-icon><Document /></el-icon>
@@ -192,17 +223,21 @@
             v-for="item in orderItems"
             :key="item.productId"
           >
-            <img :src="item.image" :alt="item.name" />
+            <img :src="item.image" :alt="item.title" />
+
             <div class="product-info">
-              <h3>{{ item.name }}</h3>
+              <h3>{{ item.title }}</h3>
               <p class="product-quantity">数量: {{ item.count }}</p>
             </div>
-            <div class="product-price">¥{{ item.price * item.count }}</div>
+
+            <div class="product-price">
+              ¥{{ (item.price * item.count).toFixed(2) }}
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- 订单金额 -->
+      <!-- 金额 -->
       <div class="section">
         <div class="section-header">
           <el-icon><Document /></el-icon>
@@ -214,10 +249,12 @@
             <span>商品总价</span>
             <span>¥{{ totalAmount }}</span>
           </div>
+
           <div class="amount-row">
             <span>运费</span>
             <span>¥0.00</span>
           </div>
+
           <div class="amount-row total">
             <span>实付款</span>
             <span class="total-price">¥{{ totalAmount }}</span>
@@ -225,7 +262,7 @@
         </div>
       </div>
 
-      <!-- 订单备注 -->
+      <!-- 备注 -->
       <div class="section">
         <div class="section-header">
           <el-icon><Document /></el-icon>
@@ -240,7 +277,7 @@
         />
       </div>
 
-      <!-- 提交订单 -->
+      <!-- 提交 -->
       <div class="submit-section">
         <el-button
           type="primary"
@@ -252,6 +289,14 @@
         </el-button>
       </div>
     </div>
+
+    <!-- 地址弹窗组件 -->
+    <AddressDialog
+      v-model:visible="dialogVisible"
+      :address="editingAddress"
+      @save="handleSaveAddress"
+    />
+
     <BackToTop />
   </div>
 </template>
@@ -264,10 +309,10 @@
   }
 
   .page-header {
-    background: #fff;
+    background: white;
     padding: 20px;
     margin-bottom: 20px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
   }
 
   .page-header h1 {
@@ -278,11 +323,11 @@
 
   .order-content {
     max-width: 1200px;
-    margin: 0 auto;
+    margin: auto;
   }
 
   .section {
-    background: #fff;
+    background: white;
     border-radius: 8px;
     padding: 20px;
     margin-bottom: 20px;
@@ -295,23 +340,26 @@
     font-size: 18px;
     font-weight: 600;
     margin-bottom: 20px;
-    color: #333;
   }
 
   .address-list {
-    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
   }
 
   .address-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px;
+
+    padding: 18px;
+
     border: 2px solid #eee;
     border-radius: 8px;
-    margin-bottom: 15px;
+
     cursor: pointer;
-    transition: all 0.3s;
+    transition: 0.3s;
   }
 
   .address-item:hover {
@@ -330,7 +378,8 @@
   .address-name {
     font-size: 16px;
     font-weight: 600;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
+
     display: flex;
     align-items: center;
     gap: 10px;
@@ -347,6 +396,7 @@
   }
 
   .add-address {
+    margin-top: 15px;
     text-align: center;
   }
 
@@ -358,7 +408,9 @@
   .product-item {
     display: flex;
     align-items: center;
+
     padding: 15px 0;
+
     border-bottom: 1px solid #eee;
   }
 
@@ -369,19 +421,21 @@
   .product-item img {
     width: 80px;
     height: 80px;
+
     object-fit: cover;
-    margin-right: 15px;
+
     border-radius: 4px;
+
+    margin-right: 15px;
   }
 
   .product-info {
     flex: 1;
-    margin-right: 20px;
   }
 
   .product-info h3 {
     font-size: 16px;
-    margin-bottom: 5px;
+    margin-bottom: 6px;
   }
 
   .product-quantity {
@@ -403,26 +457,26 @@
   .amount-row {
     display: flex;
     justify-content: space-between;
-    padding: 10px 0;
+    padding: 8px 0;
     color: #666;
   }
 
   .amount-row.total {
     font-size: 20px;
     font-weight: bold;
-    margin-top: 20px;
-    padding-top: 20px;
+    margin-top: 10px;
+    padding-top: 15px;
     border-top: 2px solid #eee;
   }
 
   .total-price {
     color: #ff4d4f;
-    font-size: 28px;
+    font-size: 26px;
   }
 
   .submit-section {
     text-align: right;
-    padding: 20px 0;
+    margin-top: 20px;
   }
 
   @media (max-width: 768px) {
@@ -437,12 +491,25 @@
     .address-item {
       flex-direction: column;
       align-items: flex-start;
-      gap: 15px;
+      gap: 10px;
     }
 
     .address-actions {
       width: 100%;
       justify-content: flex-end;
+    }
+
+    .product-item {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .product-item img {
+      margin-bottom: 10px;
+    }
+
+    .product-price {
+      align-self: flex-end;
     }
   }
 </style>

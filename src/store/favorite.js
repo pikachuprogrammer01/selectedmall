@@ -9,10 +9,18 @@ export const useFavoriteStore = defineStore(favoriteMessage.FAVORITE, {
   actions: {
     // 添加到收藏
     addToFavorites (product) {
-      const exists = this.favorites.find(item => item.id === product.id)
+      let exists;
+      try {
+        exists = this.favorites.find(item => item.id === product.id)
+      } catch (error) {
+        return favoriteMessage.FAIL_ADD
+      }
       if (!exists) {
         this.favorites.push(product)
         storage.set(favoriteMessage.FAVORITES, this.favorites)
+        return favoriteMessage.SUCCESS_ADD
+      } else {
+        return favoriteMessage.WARN_ADDED
       }
     },
 

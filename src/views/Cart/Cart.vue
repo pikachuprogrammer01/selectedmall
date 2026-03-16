@@ -2,23 +2,20 @@
   import { ref, computed } from "vue";
   import { useRouter } from "vue-router";
   import { ArrowRight } from "@element-plus/icons-vue";
-  import { useCartStore } from "@/store/cart";
+  import { useCartStore } from "@/store/cart.js";
   import { ElMessage, ElMessageBox } from "element-plus";
 
   const router = useRouter();
   const cartStore = useCartStore();
 
+  // 选中的商品ID
   const selectedProducts = ref([]);
 
   // 购物车商品
-  const cartItems = computed(() => cartStore.cartItems);
+  const cartItems = computed(() => cartStore.cartItems || []);
 
-  // 选中商品
-  const isSelected = computed(() => {
-    return cartItems.value.some((item) =>
-      selectedProducts.value.includes(item.productId),
-    );
-  });
+  // 是否选中商品
+  const isSelected = computed(() => selectedProducts.value.length > 0);
 
   // 计算总价
   const totalPrice = computed(() => {
@@ -27,14 +24,12 @@
       .reduce((total, item) => total + item.price * item.count, 0);
   });
 
-  // 选中所有
+  // 全选
   const selectAll = computed({
-    get: () => {
-      return (
-        cartItems.value.length > 0 &&
-        selectedProducts.value.length === cartItems.value.length
-      );
-    },
+    get: () =>
+      cartItems.value.length > 0 &&
+      selectedProducts.value.length === cartItems.value.length,
+
     set: (value) => {
       if (value) {
         selectedProducts.value = cartItems.value.map((item) => item.productId);
@@ -44,8 +39,10 @@
     },
   });
 
+  // 选择商品
   const handleSelectProduct = (productId) => {
     const index = selectedProducts.value.indexOf(productId);
+
     if (index > -1) {
       selectedProducts.value.splice(index, 1);
     } else {
@@ -53,10 +50,12 @@
     }
   };
 
+  // 修改数量
   const handleQuantityChange = ({ productId, count }) => {
     cartStore.updateCartCount({ productId, count });
   };
 
+  // 删除商品
   const handleRemoveProduct = (productId) => {
     ElMessageBox.confirm("确定要从购物车移除该商品吗？", "提示", {
       confirmButtonText: "确定",
@@ -65,14 +64,17 @@
     })
       .then(() => {
         cartStore.removeFromCart(productId);
+
         selectedProducts.value = selectedProducts.value.filter(
           (id) => id !== productId,
         );
+
         ElMessage.success("已移除商品");
       })
       .catch(() => {});
   };
 
+  // 清空购物车
   const handleClearCart = () => {
     if (cartItems.value.length === 0) return;
 
@@ -89,15 +91,22 @@
       .catch(() => {});
   };
 
+  // 去结算
   const handleCheckout = () => {
     if (!isSelected.value) {
       ElMessage.warning("请选择要购买的商品");
       return;
     }
 
-    router.push("/orderConfirm");
+    router.push({
+      path: "/orderConfirm",
+      query: {
+        ids: selectedProducts.value.join(","), // 传递多个商品
+      },
+    });
   };
 
+  // 商品详情
   const goToProductDetail = (product) => {
     router.push({
       path: "/productDetail",
@@ -116,18 +125,17 @@
       <div class="cart-items">
         <div class="cart-item" v-for="item in cartItems" :key="item.productId">
           <el-checkbox
-            v-model="item.checked"
             :model-value="selectedProducts.includes(item.productId)"
             @change="handleSelectProduct(item.productId)"
           />
 
           <div class="item-image" @click="goToProductDetail(item)">
-            <img :src="item.image" :alt="item.name" />
+            <img :src="item.image" :alt="item.title" />
           </div>
 
           <div class="item-info">
-            <h3 @click="goToProductDetail(item)">{{ item.name }}</h3>
-            <p class="item-price">¥{{ item.price }}</p>
+            <h3 @click="goToProductDetail(item)">{{ item.title }}</h3>
+            <p class="item-price"><span>单价：</span> ¥{{ item.price }}</p>
           </div>
 
           <div class="item-actions">
@@ -145,7 +153,7 @@
           </div>
 
           <div class="item-total">
-            <span>¥{{ item.price * item.count }}</span>
+            总价：<span>¥{{ item.price * item.count }}</span>
           </div>
 
           <div class="item-remove">
@@ -178,7 +186,10 @@
           <div class="summary-row">
             <span>已选商品 {{ selectedProducts.length }} 件</span>
             <span
-              >合计: <span class="total-price">¥{{ totalPrice }}</span></span
+              >合计:
+              <span class="total-price"
+                >¥{{ totalPrice.toFixed(2) }}</span
+              ></span
             >
           </div>
 
@@ -283,6 +294,10 @@
     font-weight: bold;
   }
 
+  .item-price span {
+    color: #333;
+  }
+
   .item-actions {
     margin-right: 20px;
   }
@@ -291,6 +306,10 @@
     margin-right: 20px;
     font-size: 16px;
     font-weight: 600;
+  }
+
+  .item-total span {
+    color: #ff4d4f;
   }
 
   .item-remove {

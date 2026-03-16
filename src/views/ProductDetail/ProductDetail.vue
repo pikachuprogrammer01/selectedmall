@@ -13,17 +13,20 @@
   import ProductSpecs from "@/components/ProductSpecs/ProductSpecs.vue";
   import ProductCard from "@/components/ProductCard/ProductCard.vue";
   import OverflowTooltip from "@/components/OverflowTooltip/OverflowTooltip.vue";
+  import { useFavoriteStore } from "@/store/favorite.js";
+  import cartMessage from "@/constant/cart.js";
+  import favoriteMessage from "@/constant/favorite.js";
 
   const router = useRouter();
   const route = useRoute();
   const cartStore = useCartStore();
+  const favoriteStore = useFavoriteStore();
 
-  const productId = computed(() => parseInt(route.query.id) || 1);
+  const productId = computed(() => parseInt(route.params.id) || 1);
 
-  // 模拟商品数据
+  // 商品数据
   const productsStore = useProductStore();
 
-  // currentProduct 用 ref + watch route.params.id
   const currentProduct = ref(null);
 
   // 初始化 currentProduct
@@ -61,7 +64,7 @@
       ...currentProduct.value,
       id: currentProduct.value.id,
     });
-    ElMessage.success("已添加到购物车");
+    ElMessage.success(cartMessage.ADDED_TO_CART);
   };
 
   const handleBuyNow = () => {
@@ -69,7 +72,17 @@
       ElMessage.warning("库存不足");
       return;
     }
+    // 添加到购物车
     handleAddToCart();
+
+    // 跳转到订单确认页面
+    router.push({
+      path: "/orderConfirm",
+      query: {
+        id: currentProduct.value.id,
+        quantity: quantity.value,
+      },
+    });
   };
 
   onMounted(() => {
@@ -77,6 +90,21 @@
       router.push("/");
     }
   });
+
+  const handleFavorite = (product) => {
+    const result = favoriteStore.addToFavorites(product);
+    switch (result) {
+      case favoriteMessage.SUCCESS_ADD:
+        ElMessage.success(result);
+        break;
+      case favoriteMessage.WARN_ADDED:
+        ElMessage.warning(result);
+        break;
+      default:
+        ElMessage.error(result);
+        break;
+    }
+  };
 </script>
 
 <template>
@@ -146,7 +174,7 @@
             <el-icon><Share /></el-icon>
             分享
           </el-button>
-          <el-button size="small">
+          <el-button @click="handleFavorite(currentProduct)" size="small">
             <el-icon><Star /></el-icon>
             收藏
           </el-button>

@@ -1,88 +1,110 @@
 <script setup>
-  import { ref, watch, onMounted, defineProps, defineEmits } from "vue";
-
+  import { ref, onMounted, watch } from "vue";
+  import { useUserStore } from "@/store/user.js";
   const props = defineProps({
-    modelValue: {
-      type: Object,
-      default: () => ({
-        codes: [],
-        names: [],
-      }),
+    addressList: {
+      type: Array,
+      default: () => [],
     },
   });
 
-  const emit = defineEmits(["update:modelValue", "change"]);
+  const emit = defineEmits(["select"]);
 
-  const cascaderRef = ref(null);
-  const selected = ref([]);
+  const userStore = useUserStore();
+  const selectedAddressId = ref(null);
 
-  const options = ref([]);
+  const selectAddress = (address) => {
+    selectedAddressId.value = address.id;
+    emit("select", address);
+  };
 
-  // 回显
+  /* 选择地址 */
+  onMounted(() => {
+    if (!props.addressList.length) return;
+
+    const defaultAddress =
+      props.addressList.find((item) => item.isDefault) || props.addressList[0];
+
+    selectedAddressId.value = defaultAddress.id;
+
+    emit("select", defaultAddress);
+  });
+
   watch(
-    () => props.modelValue,
-    (val) => {
-      if (val?.codes) {
-        selected.value = val.codes;
-      }
+    () => userStore.addressList,
+    (list) => {
+      if (!list.length) return;
+
+      const defaultAddress = list.find((item) => item.isDefault) || list[0];
+
+      selectedAddressId.value = defaultAddress.id;
+
+      emit("select", defaultAddress);
     },
     { immediate: true },
   );
-
-  // 选择变化
-  const handleChange = (val) => {
-    const nodes = cascaderRef.value.getCheckedNodes();
-
-    const names = nodes[0]?.pathLabels || [];
-    const codes = nodes[0]?.pathValues || val;
-
-    const result = {
-      codes,
-      names,
-    };
-
-    emit("update:modelValue", result);
-    emit("change", result);
-  };
-
-  // 格式化数据
-  const formatData = (data) =>
-    data.map((province) => ({
-      value: province.code,
-      label: province.name,
-      children: province.children.map((city) => ({
-        value: city.code,
-        label: city.name,
-        children: city.children.map((area) => ({
-          value: area.code,
-          label: area.name,
-        })),
-      })),
-    }));
-
-  // 加载行政区
-  onMounted(async () => {
-    const res = await fetch(
-      "https://cdn.jsdelivr.net/gh/modood/Administrative-divisions-of-China/dist/pcas-code.json",
-    );
-    const data = await res.json();
-    options.value = formatData(data);
-  });
 </script>
 
 <template>
-  <el-cascader
-    ref="cascaderRef"
-    v-model="selected"
-    :options="options"
-    placeholder="请选择省市区"
-    @change="handleChange"
-    clearable
-  />
+  <div class="address-list">
+    <div
+      v-for="item in addressList"
+      :key="item.id"
+      class="address-card"
+      :class="{ active: selectedAddressId === item.id }"
+      @click="selectAddress(item)"
+    >
+      <div class="info">
+        <div class="top">
+          <span class="name">{{ item.name }}</span>
+          <span class="phone">{{ item.phone }}</span>
+
+          <el-tag v-if="item.isDefault" type="primary" size="small">
+            默认
+          </el-tag>
+        </div>
+
+        <div class="detail">
+          {{ item.region?.names?.join(",") }} {{ item.detail }}
+        </div>
+      </div>
+
+      <div class="actions">
+        <el-button text @click.stop="editAddress(item)">
+          <el-icon><Edit /></el-icon>
+          编辑
+        </el-button>
+
+        <el-button text @click.stop="setDefault(item.id)">
+          <el-icon><HomeFilled /></el-icon>
+          默认
+        </el-button>
+
+        <el-button text type="danger" @click.stop="deleteAddress(item.id)">
+          <el-icon><Delete /></el-icon>
+          删除
+        </el-button>
+      </div>
+    </div>
+  </div>
 </template>
 
 <style scoped>
-  .el-cascader {
-    width: 100%;
+  .address-card {
+    border: 2px solid #eee;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .address-card:hover {
+    border-color: #409eff;
+  }
+
+  .address-card.active {
+    border-color: #409eff;
+    background: #ecf5ff;
   }
 </style>

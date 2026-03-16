@@ -10,7 +10,8 @@ const favoriteMessage = {
   FAIL_REMOVE: '移除失败',
   SELECT_REMOVE: '请选择要移除的收藏',
   SELECT_ADD: '请选择要添加的收藏',
-  COMFIRM_REMOVE: '确定要移除吗？'
+  COMFIRM_REMOVE: '确定要移除吗？',
+  WARN_ADDED: '已添加过此收藏',
 }
 
 export default favoriteMessage

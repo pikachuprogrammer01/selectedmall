@@ -25,9 +25,7 @@
   const searchContent = ref("");
 
   // 计算购物车商品数量
-  const cartCount = computed(() => {
-    return cartStore.cartItems.reduce((total, item) => total + item.count, 0);
-  });
+  const cartCount = computed(() => cartStore.getCartItemsTotal());
 
   // 路由导航
   const navigateTo = (path) => {

@@ -8,7 +8,8 @@ const USER = {
   USER_NAME: 'User',
   INIT_ADMIN_PASSWORD: '123456',
   ADMIN_ID: 1,
-  MOCK_TOKEN: 'mock-token-'
+  MOCK_TOKEN: 'mock-token-',
+  USER_LIST: 'userList',
 }
 
 export default USER;

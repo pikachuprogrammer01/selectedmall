@@ -47,6 +47,11 @@ export const useCartStore = defineStore(cartMessage.CART, {
     clearCart () {
       this.cartItems = []
       storage.remove(cartMessage.CART_ITEMS)
+    },
+
+    // 获取购物车商品总数
+    getCartItemsTotal () {
+      return this.cartItems.reduce((total, item) => total + item.count, 0)
     }
   }
 })

@@ -47,7 +47,7 @@ export const useUserStore = defineStore('user', {
     userInfo: storage.get(USER.USERINFO),
     token: storage.get(USER.TOKEN),
     isLoggedIn: !!storage.get(USER.TOKEN),
-    userList: [{
+    userList: storage.get(USER.USER_LIST) || [{
       id: USER.ADMIN_ID,
       username: USER.ADMIN_USERNAME,
       name: USER.ADMIN_NAME,

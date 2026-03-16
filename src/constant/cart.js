@@ -1,5 +1,6 @@
 const cartMessage = {
   ADD_TO_CART: '添加到购物车',
+  ADDED_TO_CART: '已添加到购物车',
   CART: 'cart',
   CART_EMPTY: '购物车为空',
   CART_ITEMS: 'cartItems',

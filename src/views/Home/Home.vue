@@ -1,5 +1,5 @@
 <script setup>
-  import { ref, computed, onMounted } from "vue";
+  import { computed } from "vue";
   import { useRouter } from "vue-router";
   import { useCartStore } from "@/store/cart";
   import { useBannerStore } from "@/store/banner";
@@ -7,6 +7,7 @@
   import CategoryMenu from "@/components/CategoryMenu/CategoryMenu.vue";
   import { ShoppingCart, Star, Histogram } from "@element-plus/icons-vue";
   import OverflowTooltip from "@/components/OverflowTooltip/OverflowTooltip.vue";
+  import { ElMessage } from "element-plus";
 
   const router = useRouter();
   const cartStore = useCartStore();
