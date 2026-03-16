@@ -66,7 +66,8 @@
 
     // 商品详情购买：id=1
     const productId = route.query.id;
-    const quantity = Number(route.query.quantity || 1);
+    const quantity = cartStore.getProductCountById(productId) || 1;
+    console.log(quantity, cartStore.getProductCountById(productId), productId);
 
     if (ids) {
       return cartStore.cartItems

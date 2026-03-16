@@ -7,8 +7,8 @@
     ArrowLeft,
     Share,
   } from "@element-plus/icons-vue";
-  import { useCartStore } from "@/store/cart";
-  import { useProductStore } from "@/store/product";
+  import { useCartStore } from "@/store/cart.js";
+  import { useProductStore } from "@/store/product.js";
   import { ElMessage } from "element-plus";
   import ProductSpecs from "@/components/ProductSpecs/ProductSpecs.vue";
   import ProductCard from "@/components/ProductCard/ProductCard.vue";
@@ -74,13 +74,14 @@
     }
     // 添加到购物车
     handleAddToCart();
+    // 把当前商品数量更改
+    cartStore.updateCartCount(currentProduct.value.id, quantity.value);
 
     // 跳转到订单确认页面
     router.push({
       path: "/orderConfirm",
       query: {
         id: currentProduct.value.id,
-        quantity: quantity.value,
       },
     });
   };
@@ -122,7 +123,7 @@
         <div class="thumbnail-list">
           <img
             :src="currentProduct.image"
-            :alt="currentProduct.name"
+            :alt="currentProduct.title"
             class="thumbnail active"
           />
         </div>

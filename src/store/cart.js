@@ -35,7 +35,7 @@ export const useCartStore = defineStore(cartMessage.CART, {
     },
 
     // 更新商品数量
-    updateCartCount ({ productId, count }) {
+    updateCartCount (productId, count) {
       const item = this.cartItems.find(item => item.productId === productId)
       if (item) {
         item.count = count
@@ -52,6 +52,12 @@ export const useCartStore = defineStore(cartMessage.CART, {
     // 获取购物车商品总数
     getCartItemsTotal () {
       return this.cartItems.reduce((total, item) => total + item.count, 0)
-    }
+    },
+
+    // 通过商品ID获取商品数量
+    getProductCountById (productId) {
+      const item = this.cartItems.find(item => item.productId === Number(productId))
+      return item ? item.count : 0
+    },
   }
 })
