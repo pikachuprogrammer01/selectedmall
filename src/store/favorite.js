@@ -30,6 +30,13 @@ export const useFavoriteStore = defineStore(favoriteMessage.FAVORITE, {
       storage.set(favoriteMessage.FAVORITES, this.favorites)
     },
 
+    // 通过 id 批量移除
+    removeFavoritesByIds (ids) {
+      this.favorites = this.favorites.filter(
+        item => !ids.includes(item.id)
+      );
+    },
+
     // 清空收藏
     clearFavorites () {
       this.favorites = []

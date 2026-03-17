@@ -49,7 +49,7 @@
       type: "warning",
     })
       .then(() => {
-        favorites.value = favorites.value.filter((fav) => fav.id !== id);
+        favoritesStore.removeFavoritesByIds([id]);
         selectedIds.value = selectedIds.value.filter((item) => item !== id);
         ElMessage.success(favoriteMessage.SUCCESS_REMOVE);
       })
@@ -72,9 +72,7 @@
       },
     )
       .then(() => {
-        favorites.value = favorites.value.filter(
-          (fav) => !selectedIds.value.includes(fav.id),
-        );
+        favoritesStore.removeFavoritesByIds(selectedIds.value);
         selectedIds.value = [];
         ElMessage.success(favoriteMessage.SUCCESS_REMOVE);
       })
@@ -171,7 +169,7 @@
       <div class="action-buttons">
         <div class="total-info">
           <span>已选 {{ selectedIds.length }} 件，合计:</span>
-          <span class="total-price">¥{{ totalAmount }}</span>
+          <span class="total-price">¥{{ totalAmount.toFixed(2) }}</span>
         </div>
 
         <el-button
