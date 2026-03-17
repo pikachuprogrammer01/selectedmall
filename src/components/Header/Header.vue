@@ -66,6 +66,9 @@
 
   // 处理菜单命令跳转
   const handleMenuCommand = (command) => {
+    if (command === "logout") {
+      return;
+    }
     // 替换跳转路径
     router.replace(`/${command}`);
   };

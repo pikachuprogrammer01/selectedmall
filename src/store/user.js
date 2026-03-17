@@ -6,7 +6,7 @@ import addressMessage from '@/constant/address.js'
 
 // 添加用户数据到用户列表
 function addUserList (user, password) {
-  const id = USER.ADMIN_ID++;
+  const id = USER.ADMIN_ID += 2;
   const token = (USER.MOCK_TOKEN + Date.now());
   const name = USER.USER_NAME
   const userInfo = {

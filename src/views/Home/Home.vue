@@ -56,11 +56,7 @@
     <div class="banner-section">
       <el-carousel height="400px" arrow="always">
         <el-carousel-item v-for="(banner, index) in banners" :key="index">
-          <img
-            :src="banner.image"
-            :alt="banner.link"
-            @click="goToCategory(banner.link)"
-          />
+          <img :src="banner.image" :alt="banner.id" />
         </el-carousel-item>
       </el-carousel>
     </div>
