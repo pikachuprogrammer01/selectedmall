@@ -138,7 +138,9 @@ export const useUserStore = defineStore('user', {
       this.userInfo = null
       this.token = null
       this.isLoggedIn = false
+      const userList = storage.get(USER.USER_LIST);
       storage.clear()
+      storage.set(USER.USER_LIST, userList)
     },
 
     // 更新用户信息

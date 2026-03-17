@@ -119,13 +119,8 @@
     try {
       registerRuleFormRef.value.validate((valid) => {
         if (valid) {
+          userStore.register(registerForm.value);
           ElMessage.success(registerMessage.SUCCESS);
-          userStore.register({
-            username: registerForm.value.username,
-            password: registerForm.value.password,
-            phone: registerForm.value.phone,
-            email: registerForm.value.email,
-          });
           registerForm.value = {
             username: "",
             password: "",
