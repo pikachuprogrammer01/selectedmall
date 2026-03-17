@@ -4,19 +4,18 @@
   import { ElMessage, ElMessageBox } from "element-plus";
   import favoriteMessage from "@/constant/favorite.js";
   import { useFavoriteStore } from "@/store/favorite.js";
-  import { useCartStore } from "@/store/cart.js";
+  import ProductCard from "@/components/ProductCard/ProductCard.vue";
 
   const router = useRouter();
 
   // 收藏商品数据
-  const favorites = useFavoriteStore();
+  const favoritesStore = useFavoriteStore();
+  const favorites = computed(() => favoritesStore.getFavorites());
 
   const selectedIds = ref([]);
 
   const selectedProducts = computed(() => {
-    return favorites.favorite.filter((fav) =>
-      selectedIds.value.includes(fav.id),
-    );
+    return favorites.value.filter((fav) => selectedIds.value.includes(fav.id));
   });
 
   const totalAmount = computed(() => {
@@ -82,24 +81,18 @@
       .catch(() => {});
   };
 
-  const handleAddToCart = (product) => {
-    useCartStore.addToCart(product);
-    ElMessage.success(`已将 "${product.name}" 添加到购物车`);
-  };
+  const handleAddToCart = () => {
+    if (selectedIds.value.length === 0) {
+      ElMessage.warning(favoriteMessage.SELECT_ADD);
+      return;
+    }
 
-  const handleBuyNow = (product) => {
-    // 模拟立即购买
-    ElMessage.success(`已开始购买 "${product.name}"`);
-  };
-
-  const handleEdit = () => {
-    router.push("/profile");
+    ElMessage.success(favoriteMessage.SUCCESS_ADD);
   };
 
   const goToProductDetail = (product) => {
     router.push({
-      path: "/productDetail",
-      query: { id: product.id },
+      path: `/productDetail/${product.id}`,
     });
   };
 </script>
@@ -125,11 +118,6 @@
           <el-icon><Delete /></el-icon>
           批量移除 ({{ selectedIds.length }})
         </el-button>
-
-        <el-button v-if="favorites.length > 0" @click="handleEdit">
-          <el-icon><Edit /></el-icon>
-          管理收藏
-        </el-button>
       </div>
     </div>
 
@@ -146,27 +134,11 @@
             @change="handleSelectProduct(product.id)"
           />
 
-          <div class="product-image" @click="goToProductDetail(product)">
-            <img :src="product.image" :alt="product.name" />
-            <div class="product-overlay">
-              <el-button
-                type="primary"
-                size="small"
-                @click.stop="handleAddToCart(product)"
-              >
-                <el-icon><ShoppingCart /></el-icon>
-                加入购物车
-              </el-button>
-              <el-button size="small" @click.stop="handleBuyNow(product)">
-                立即购买
-              </el-button>
-            </div>
-          </div>
-
           <div class="product-info">
-            <h3 @click="goToProductDetail(product)">{{ product.name }}</h3>
-            <p class="product-category">{{ product.category }}</p>
-            <div class="product-price">¥{{ product.price }}</div>
+            <ProductCard
+              @click="goToProductDetail(product)"
+              :product="product"
+            />
             <el-button
               type="danger"
               text
@@ -274,26 +246,6 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
 
-  .product-image {
-    width: 150px;
-    height: 150px;
-    position: relative;
-    cursor: pointer;
-    overflow: hidden;
-    border-radius: 8px;
-  }
-
-  .product-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.3s;
-  }
-
-  .product-image:hover img {
-    transform: scale(1.05);
-  }
-
   .product-overlay {
     position: absolute;
     bottom: 0;
@@ -306,36 +258,6 @@
     gap: 8px;
     transform: translateY(100%);
     transition: transform 0.3s;
-  }
-
-  .product-image:hover .product-overlay {
-    transform: translateY(0);
-  }
-
-  .product-info {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-
-  .product-info h3 {
-    font-size: 18px;
-    margin-bottom: 10px;
-    cursor: pointer;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .product-info h3:hover {
-    color: #409eff;
-  }
-
-  .product-category {
-    color: #999;
-    font-size: 14px;
-    margin-bottom: 10px;
   }
 
   .product-price {
@@ -386,11 +308,6 @@
   @media (max-width: 768px) {
     .favorite-item {
       flex-direction: column;
-    }
-
-    .product-image {
-      width: 120px;
-      height: 120px;
     }
 
     .product-overlay {

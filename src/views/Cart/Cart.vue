@@ -113,6 +113,14 @@
       query: { id: product.productId },
     });
   };
+
+  const handleSelectAll = (value) => {
+    if (value) {
+      selectedProducts.value = cartItems.value.map((item) => item.productId);
+    } else {
+      selectedProducts.value = [];
+    }
+  };
 </script>
 
 <template>

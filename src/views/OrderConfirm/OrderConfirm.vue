@@ -67,7 +67,6 @@
     // 商品详情购买：id=1
     const productId = route.query.id;
     const quantity = cartStore.getProductCountById(productId) || 1;
-    console.log(quantity, cartStore.getProductCountById(productId), productId);
 
     if (ids) {
       return cartStore.cartItems
@@ -232,7 +231,7 @@
             </div>
 
             <div class="product-price">
-              ¥{{ (item.price * item.count).toFixed(2) }}
+              <span>价格：</span>¥{{ (item.price * item.count).toFixed(2) }}
             </div>
           </div>
         </div>
@@ -448,6 +447,11 @@
     font-size: 18px;
     font-weight: bold;
     color: #ff4d4f;
+  }
+
+  .product-price span {
+    color: #666;
+    margin-left: 10px;
   }
 
   .amount-details {
