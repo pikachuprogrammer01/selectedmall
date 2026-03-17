@@ -23,6 +23,7 @@ function addUserList (user, password) {
   })
 
   this.userList.push(userInfoDetail.value) // 将用户信息添加到用户列表中
+  storage.set(USER.USER_LIST, this.userList)
 
   return token
 }
@@ -73,9 +74,9 @@ export const useUserStore = defineStore('user', {
       // 模拟登录，实际项目中应该调用API
       return new Promise((resolve, reject) => {
         // 如果是系统用户则保存 token
+        const token = USER.MOCK_TOKEN + Date.now()
+        this.token = token
         if (isAdminLogin(this, username, password)) {
-          const token = USER.MOCK_TOKEN + Date.now()
-          this.token = token
           storage.set(USER.TOKEN, token)
 
           const userInfo = {
@@ -98,13 +99,12 @@ export const useUserStore = defineStore('user', {
           // 简单的用户验证
           const user = this.userList.find(u => u.username === username && u.password === password);
           if (user) {
-            this.token = USER.MOCK_TOKEN + Date.now()
             storage.set(USER.TOKEN, token)
 
             this.isLoggedIn = true
 
-            this.userInfo = userInfo
-            storage.set(USER.USERINFO, userInfo)
+            this.userInfo = user
+            storage.set(USER.USERINFO, user)
 
             resolve('登录成功')
           } else {
@@ -138,9 +138,7 @@ export const useUserStore = defineStore('user', {
       this.userInfo = null
       this.token = null
       this.isLoggedIn = false
-      storage.remove(USER.TOKEN)
-      storage.remove(USER.USERINFO)
-      storage.remove(USER.USERID)
+      storage.clear()
     },
 
     // 更新用户信息

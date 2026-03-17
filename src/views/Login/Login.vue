@@ -126,7 +126,14 @@
             phone: registerForm.value.phone,
             email: registerForm.value.email,
           });
-          router.push("/login");
+          registerForm.value = {
+            username: "",
+            password: "",
+            confirmPassword: "",
+            phone: "",
+            email: "",
+          };
+          activeTab.value = "login";
         } else {
           ElMessage.error(registerMessage.ERR_MESSAGE_LACK);
           return false;

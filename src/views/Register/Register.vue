@@ -100,6 +100,14 @@
             phone: registerForm.value.phone,
             email: registerForm.value.email,
           });
+          registerForm.value = {
+            username: "",
+            password: "",
+            confirmPassword: "",
+            phone: "",
+            email: "",
+            agree: false,
+          };
           registerSuccess.value = true;
           setTimeout(() => {
             router.push("/login");
