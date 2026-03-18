@@ -45,6 +45,8 @@
 
   // 添加到购物车
   const addToCart = (product) => {
+    console.log(product);
+
     cartStore.addToCart(product);
     ElMessage.success("已添加到购物车");
   };
@@ -80,10 +82,10 @@
             class="product-card"
           >
             <div class="product-image" @click="goToProductDetail(product)">
-              <img :src="product.image" :alt="product.name" />
+              <img :src="product.image" :alt="product.title" />
             </div>
             <div class="product-info">
-              <h3>{{ product.name }}</h3>
+              <h3>{{ product.title }}</h3>
               <p class="product-category">{{ product.categories }}</p>
               <OverflowTooltip :text="product.description" />
               <div class="product-price">¥{{ product.price }}</div>
@@ -118,10 +120,10 @@
             class="product-card"
           >
             <div class="product-image" @click="goToProductDetail(product)">
-              <img :src="product.image" :alt="product.name" />
+              <img :src="product.image" :alt="product.title" />
             </div>
             <div class="product-info">
-              <h3>{{ product.name }}</h3>
+              <h3>{{ product.title }}</h3>
               <p class="product-category">{{ product.categories }}</p>
               <OverflowTooltip :text="product.description" />
               <div class="product-price">¥{{ product.price }}</div>
@@ -243,6 +245,7 @@
   }
 
   .product-info {
+    text-align: center;
     padding: 15px;
   }
 

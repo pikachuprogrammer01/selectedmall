@@ -20,7 +20,7 @@
   // 计算总价
   const totalPrice = computed(() => {
     return cartItems.value
-      .filter((item) => selectedProducts.value.includes(item.productId))
+      .filter((item) => selectedProducts.value.includes(item.id))
       .reduce((total, item) => total + item.price * item.count, 0);
   });
 
@@ -32,7 +32,7 @@
 
     set: (value) => {
       if (value) {
-        selectedProducts.value = cartItems.value.map((item) => item.productId);
+        selectedProducts.value = cartItems.value.map((item) => item.id);
       } else {
         selectedProducts.value = [];
       }
@@ -51,8 +51,8 @@
   };
 
   // 修改数量
-  const handleQuantityChange = ({ productId, count }) => {
-    cartStore.updateCartCount({ productId, count });
+  const handleQuantityChange = ({ id, count }) => {
+    cartStore.updateCartCount(id, count);
   };
 
   // 删除商品
@@ -109,14 +109,13 @@
   // 商品详情
   const goToProductDetail = (product) => {
     router.push({
-      path: "/productDetail",
-      query: { id: product.productId },
+      path: `/productDetail/${product.id}`,
     });
   };
 
   const handleSelectAll = (value) => {
     if (value) {
-      selectedProducts.value = cartItems.value.map((item) => item.productId);
+      selectedProducts.value = cartItems.value.map((item) => item.id);
     } else {
       selectedProducts.value = [];
     }
@@ -131,10 +130,10 @@
 
     <div class="cart-content" v-if="cartItems.length > 0">
       <div class="cart-items">
-        <div class="cart-item" v-for="item in cartItems" :key="item.productId">
+        <div class="cart-item" v-for="item in cartItems" :key="item.id">
           <el-checkbox
-            :model-value="selectedProducts.includes(item.productId)"
-            @change="handleSelectProduct(item.productId)"
+            :model-value="selectedProducts.includes(item.id)"
+            @change="handleSelectProduct(item.id)"
           />
 
           <div class="item-image" @click="goToProductDetail(item)">
@@ -153,7 +152,7 @@
               @change="
                 (val) =>
                   handleQuantityChange({
-                    productId: item.productId,
+                    id: item.id,
                     count: val,
                   })
               "
@@ -165,11 +164,7 @@
           </div>
 
           <div class="item-remove">
-            <el-button
-              type="danger"
-              text
-              @click="handleRemoveProduct(item.productId)"
-            >
+            <el-button type="danger" text @click="handleRemoveProduct(item.id)">
               删除
             </el-button>
           </div>

@@ -60,10 +60,8 @@
   });
 
   const handleAddToCart = () => {
-    cartStore.addToCart({
-      ...currentProduct.value,
-      id: currentProduct.value.id,
-    });
+    currentProduct.value.count = quantity.value;
+    cartStore.addToCart(currentProduct.value);
     ElMessage.success(cartMessage.ADDED_TO_CART);
   };
 
@@ -74,12 +72,10 @@
     }
     // 添加到购物车
     handleAddToCart();
-    // 把当前商品数量更改
-    cartStore.updateCartCount(currentProduct.value.id, quantity.value);
 
     // 跳转到订单确认页面
     router.push({
-      path: "/orderConfirm",
+      path: `/orderConfirm`,
       query: {
         id: currentProduct.value.id,
       },
@@ -118,7 +114,7 @@
     <div class="product-container">
       <div class="product-images">
         <div class="main-image">
-          <img :src="currentProduct.image" :alt="currentProduct.name" />
+          <img :src="currentProduct.image" :alt="currentProduct.title" />
         </div>
         <div class="thumbnail-list">
           <img

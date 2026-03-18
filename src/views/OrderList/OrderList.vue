@@ -96,7 +96,7 @@
   };
 
   const handleBuyAgain = (order) => {
-    const productIds = order.items.map((item) => item.productId);
+    const productIds = order.items.map((item) => item.id);
 
     cartStore.addToCart(productIds);
 
@@ -153,11 +153,7 @@
 
           <!-- 商品列表 -->
           <div class="order-items">
-            <div
-              v-for="item in order.items"
-              :key="item.productId"
-              class="order-item"
-            >
+            <div v-for="item in order.items" :key="item.id" class="order-item">
               <img :src="item.image" :alt="item.title" />
 
               <div class="item-info">

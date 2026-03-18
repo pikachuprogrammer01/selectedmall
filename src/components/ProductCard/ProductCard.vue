@@ -42,10 +42,8 @@
   );
 
   const handleAddToCart = () => {
-    cartStore.addToCart({
-      ...currentProduct.value,
-      id: currentProduct.value.id,
-    });
+    currentProduct.value.count = quantity.value;
+    cartStore.addToCart(currentProduct.value);
     ElMessage.success(cartMessage.ADDED_TO_CART);
   };
 
@@ -95,7 +93,7 @@
       router.push({
         path: "/orderConfirm",
         query: {
-          id: currentProduct.value.id,
+          ids: currentProduct.value.id,
         },
       });
     }

@@ -23,7 +23,7 @@
 
   const productIds = computed(() => {
     if (!orderDetail.value) return [];
-    return orderDetail.value.items.map((item) => item.productId);
+    return orderDetail.value.items.map((item) => item.id);
   });
 
   const statusMap = {
@@ -46,7 +46,7 @@
   };
 
   const handleViewProduct = (product) => {
-    router.push(`/productDetail/${product.productId}`);
+    router.push(`/productDetail/${product.id}`);
   };
 
   const handleBuyAgain = () => {
@@ -152,7 +152,7 @@
         <div class="product-list">
           <div
             v-for="item in orderDetail.items"
-            :key="item.productId"
+            :key="item.id"
             class="product-item"
           >
             <img

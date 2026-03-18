@@ -70,7 +70,7 @@
 
     if (ids) {
       return cartStore.cartItems
-        .filter((item) => ids.includes(String(item.productId)))
+        .filter((item) => ids.includes(String(item.id)))
         .map((item) => ({
           ...item,
           count: item.count,
@@ -78,15 +78,11 @@
     }
 
     // 先从购物车找
-    let product = cartStore.cartItems.find(
-      (item) => item.productId == productId,
-    );
+    let product = cartStore.cartItems.find((item) => item.id == productId);
 
     // 如果购物车没有，从商品库找
     if (!product) {
-      product = productStore.products.find(
-        (item) => item.productId == productId,
-      );
+      product = productStore.products.find((item) => item.id == productId);
     }
 
     if (!product) return [];
@@ -100,7 +96,7 @@
   });
 
   const productIds = computed(() => {
-    return orderItems.value.map((item) => item.productId);
+    return orderItems.value.map((item) => item.id);
   });
   //
 
@@ -218,11 +214,7 @@
         </div>
 
         <div class="product-list">
-          <div
-            class="product-item"
-            v-for="item in orderItems"
-            :key="item.productId"
-          >
+          <div class="product-item" v-for="item in orderItems" :key="item.id">
             <img :src="item.image" :alt="item.title" />
 
             <div class="product-info">
