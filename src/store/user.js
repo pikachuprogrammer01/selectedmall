@@ -1,12 +1,18 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import storage from '@/utils/storage.js'
+import { useCartStore } from '@/store/cart.js'
+import { useFavoriteStore } from '@/store/favorite.js'
+import { useOrderStore } from '@/store/order.js'
+import cartMessage from '@/constant/cart.js'
+import favoriteMessage from '@/constant/favorite.js'
+import ordersMessage from '@/constant/orders.js'
 import USER from '@/constant/user.js'
 import addressMessage from '@/constant/address.js'
 
 // 添加用户数据到用户列表
 function addUserList (user, password) {
-  const id = USER.ADMIN_ID += 2;
+  const id = Date.now();
   const token = (USER.MOCK_TOKEN + Date.now());
   const name = USER.USER_NAME
   const userInfo = {
@@ -43,6 +49,19 @@ function isAdminLogin (that, username, password) {
   return flag;
 }
 
+/**
+ * 初始化用户数据
+ */
+function initUserData () {
+  const cartStore = useCartStore()
+  const favoriteStore = useFavoriteStore()
+  const orderStore = useOrderStore()
+
+  cartStore.cartItems = storage.get(cartMessage.CART_ITEMS, [])
+  favoriteStore.favorites = storage.get(favoriteMessage.FAVORITES, [])
+  orderStore.orders = storage.get(ordersMessage.ORDERS, [])
+}
+
 export const useUserStore = defineStore('user', {
   state: () => ({
     userInfo: storage.get(USER.USERINFO),
@@ -71,66 +90,86 @@ export const useUserStore = defineStore('user', {
   actions: {
     // 登录
     async login (username, password) {
-      // 模拟登录，实际项目中应该调用API
-      return new Promise((resolve, reject) => {
-        // 如果是系统用户则保存 token
+      // 管理员登录
+      if (isAdminLogin(this, username, password)) {
         const token = USER.MOCK_TOKEN + Date.now()
+
         this.token = token
-        if (isAdminLogin(this, username, password)) {
-          storage.set(USER.TOKEN, token)
+        storage.set(USER.TOKEN, token)
 
-          const userInfo = {
-            id: USER.ADMIN_ID,
-            username: USER.ADMIN_USERNAME,
-            name: USER.ADMIN_NAME,
-            email: 'admin@example.com',
-            phone: '13888888888',
-          };
-
-          this.isLoggedIn = true;
-
-          this.userInfo = userInfo;
-          storage.set(USER.USERINFO, userInfo);
-
-          resolve('登录成功')
-          return
+        const userInfo = {
+          id: USER.ADMIN_ID,
+          username: USER.ADMIN_USERNAME,
+          name: USER.ADMIN_NAME,
+          email: 'admin@example.com',
+          phone: '13888888888',
         }
-        setTimeout(() => {
-          // 简单的用户验证
-          const user = this.userList.find(u => u.username === username && u.password === password);
-          if (user) {
-            storage.set(USER.TOKEN, token)
 
-            this.isLoggedIn = true
+        this.isLoggedIn = true
+        this.userInfo = userInfo
+        storage.set(USER.USERINFO, userInfo)
 
-            this.userInfo = user
-            storage.set(USER.USERINFO, user)
+        initUserData()
 
-            resolve('登录成功')
-          } else {
-            resolve('用户名或密码错误')
-          }
-        }, 500)
-      }).catch(err => reject(err))
+        return '登录成功'
+      }
+
+      // 模拟延迟
+      await new Promise(r => setTimeout(r, 500))
+
+      const user = this.userList.find(
+        u => u.username === username && u.password === password
+      )
+
+      if (user) {
+        const token = USER.MOCK_TOKEN + Date.now()
+
+        this.token = token
+        storage.set(USER.TOKEN, token)
+
+        this.isLoggedIn = true
+        this.userInfo = user
+        storage.set(USER.USERINFO, user)
+
+        initUserData()
+
+        return '登录成功'
+      }
+
+      return '用户名或密码错误'
     },
 
     // 注册
     async register (userInfo) {
-      // 模拟注册，实际项目中应该调用API
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          const that = this;
-          const token = addUserList.call(that, userInfo, userInfo.password);
-          this.token = token
-          storage.set(USER.TOKEN, token)
-          this.isLoggedIn = true
+      // 判断用户是否已存在
+      const exist = this.userList.some(
+        u => u.id === userInfo.id
+      )
 
-          this.userInfo = userInfo
-          storage.set(USER.USERINFO, userInfo)
+      if (exist) {
+        return '用户已存在'
+      }
 
-          resolve(userInfo)
-        }, 500)
-      })
+      // 添加用户
+      const id = Date.now()
+      const newUser = {
+        id,
+        username: userInfo.username,
+        name: USER.USER_NAME,
+        email: userInfo.email,
+        phone: userInfo.phone,
+        password: userInfo.password
+      }
+
+      this.userList.push(newUser)
+      storage.set(USER.USER_LIST, this.userList)
+      return '注册成功，请登录'
+    },
+
+    // 移除注册异常用户
+    removeUser (userId = this.userList[this.userList.length - 1].id) {
+      this.userList = this.userList.filter(u => u.id !== userId)
+      storage.set(USER.USER_LIST, this.userList)
     },
 
     // 登出
@@ -138,9 +177,9 @@ export const useUserStore = defineStore('user', {
       this.userInfo = null
       this.token = null
       this.isLoggedIn = false
-      const userList = storage.get(USER.USER_LIST);
-      storage.clear()
-      storage.set(USER.USER_LIST, userList)
+
+      storage.remove(USER.USERINFO)
+      storage.remove(USER.TOKEN)
     },
 
     // 更新用户信息
@@ -179,7 +218,7 @@ export const useUserStore = defineStore('user', {
     // 删除地址
     deleteAddress (addressId) {
       this.addressList = this.addressList.filter(address => address.id !== addressId)
-      storage.set(addressMessage.ADDRESS, this.addressList)
+      storage.set(addressMessage.ADDRESS_LIST, this.addressList)
     },
 
     // 更新地址

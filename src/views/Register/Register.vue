@@ -88,13 +88,12 @@
   const loading = ref(false);
   const registerSuccess = ref(false);
 
-  const handleRegister = async () => {
+  const handleRegister = () => {
     loading.value = true;
     try {
-      ruleFormRef.value.validate((valid) => {
+      ruleFormRef.value.validate(async (valid) => {
         if (valid) {
-          ElMessage.success("注册成功！");
-          userStore.register({
+          const result = await userStore.register({
             username: registerForm.value.username,
             password: registerForm.value.password,
             phone: registerForm.value.phone,
@@ -108,17 +107,35 @@
             email: "",
             agree: false,
           };
+          switch (result) {
+            case "用户已存在":
+              userStore.removeUser();
+              ElMessage.error(result);
+              break;
+            case "注册成功，请登录":
+              ElMessage.success(result);
+              break;
+            default:
+              userStore.removeUser();
+              ElMessage.error("注册失败，请重试！");
+              loading.value = false;
+              return;
+          }
           registerSuccess.value = true;
           setTimeout(() => {
+            registerSuccess.value = false;
             router.push("/login");
           }, 1000);
-          registerSuccess.value = false;
         } else {
-          ElMessage.error("请完善注册信息");
+          registerForm.agree
+            ? ElMessage.error("请完善注册信息")
+            : ElMessage.error("请先阅读并同意用户协议和隐私政策");
+          userStore.removeUser();
           return false;
         }
       });
     } catch (error) {
+      userStore.removeUser();
       ElMessage.error(error || "注册失败");
     } finally {
       loading.value = false;
@@ -185,6 +202,7 @@
             v-model="registerForm.phone"
             placeholder="请输入手机号"
             :prefix-icon="Message"
+            maxlength="11"
           />
         </el-form-item>
 

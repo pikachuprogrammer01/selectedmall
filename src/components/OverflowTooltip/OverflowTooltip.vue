@@ -1,5 +1,5 @@
 <script setup>
-  import { defineProps, ref, nextTick } from "vue";
+  import { ref, nextTick } from "vue";
 
   const props = defineProps({
     text: {
