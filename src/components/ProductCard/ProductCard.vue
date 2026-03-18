@@ -1,11 +1,5 @@
 <script setup>
-  import {
-    ref,
-    watch,
-    defineProps,
-    defineEmits,
-    getCurrentInstance,
-  } from "vue";
+  import { ref, watch, getCurrentInstance } from "vue";
   import { useRoute, useRouter } from "vue-router";
   import OverflowTooltip from "@/components/OverflowTooltip/OverflowTooltip.vue";
   import { ShoppingCart, Lightning } from "@element-plus/icons-vue";

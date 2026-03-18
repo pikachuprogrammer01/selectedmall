@@ -1,16 +1,16 @@
 <script setup>
-import { computed } from 'vue'
-import { useUserStore } from '@/store/user'
-import { useRouter } from 'vue-router'
+  import { computed } from "vue";
+  import { useUserStore } from "@/store/user";
+  import { useRouter } from "vue-router";
 
-const router = useRouter()
-const userStore = useUserStore()
+  const router = useRouter();
+  const userStore = useUserStore();
 
-const currentYear = computed(() => new Date().getFullYear())
+  const currentYear = computed(() => new Date().getFullYear());
 
-const handleNav = (path) => {
-  router.push(path)
-}
+  const handleNav = (path) => {
+    router.push(path);
+  };
 </script>
 
 <template>
@@ -18,7 +18,10 @@ const handleNav = (path) => {
     <div class="footer-content">
       <div class="footer-section">
         <h3>关于我们</h3>
-        <p>Selected Mall 是一个专业的电商平台，致力于为您提供优质的商品和便捷的购物体验。</p>
+        <p>
+          Selected Mall
+          是一个专业的电商平台，致力于为您提供优质的商品和便捷的购物体验。
+        </p>
       </div>
       <div class="footer-section">
         <h3>购物指南</h3>
@@ -46,64 +49,67 @@ const handleNav = (path) => {
       </div>
     </div>
     <div class="footer-bottom">
-      <p>© {{ currentYear }} Selected Mall. All rights reserved.</p>
+      <p>
+        © {{ currentYear }} Selected Mall. All rights reserved. 5222330417
+        毛一欣
+      </p>
     </div>
   </footer>
 </template>
 
 <style scoped>
-.footer {
-  background: #333;
-  color: #fff;
-  margin-top: auto;
-}
-
-.footer-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 40px 20px;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 40px;
-}
-
-.footer-section h3 {
-  font-size: 18px;
-  margin-bottom: 20px;
-  color: #409eff;
-}
-
-.footer-section p {
-  line-height: 1.8;
-  color: #ccc;
-}
-
-.footer-section ul {
-  list-style: none;
-}
-
-.footer-section li {
-  line-height: 2;
-  color: #ccc;
-  cursor: pointer;
-  transition: color 0.3s;
-}
-
-.footer-section li:hover {
-  color: #409eff;
-}
-
-.footer-bottom {
-  background: #2a2a2a;
-  text-align: center;
-  padding: 20px 0;
-  color: #999;
-}
-
-@media (max-width: 768px) {
-  .footer-content {
-    grid-template-columns: 1fr;
-    gap: 30px;
+  .footer {
+    background: #333;
+    color: #fff;
+    margin-top: auto;
   }
-}
+
+  .footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px;
+  }
+
+  .footer-section h3 {
+    font-size: 18px;
+    margin-bottom: 20px;
+    color: #409eff;
+  }
+
+  .footer-section p {
+    line-height: 1.8;
+    color: #ccc;
+  }
+
+  .footer-section ul {
+    list-style: none;
+  }
+
+  .footer-section li {
+    line-height: 2;
+    color: #ccc;
+    cursor: pointer;
+    transition: color 0.3s;
+  }
+
+  .footer-section li:hover {
+    color: #409eff;
+  }
+
+  .footer-bottom {
+    background: #2a2a2a;
+    text-align: center;
+    padding: 20px 0;
+    color: #999;
+  }
+
+  @media (max-width: 768px) {
+    .footer-content {
+      grid-template-columns: 1fr;
+      gap: 30px;
+    }
+  }
 </style>
