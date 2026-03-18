@@ -1,12 +1,12 @@
-极选商城
+# 极选商城
 
-项目概述
+## 项目概述
 
 极选商城是一款基于 Vue3 + Element Plus 技术栈开发的电商前端系统。项目采用模块化和组件化的页面设计，提供了完整的商品展示、搜索、购物车、收藏、订单管理及用户中心等核心功能，能够满足基础的电商业务需求。
 
 本项目使用 VSCode 作为开发工具，结合 Pinia 实现全局状态管理，并通过本地存储优化数据持久化，同时利用 Vue Router 实现页面路由跳转。系统通过动态数据渲染和交互操作优化用户体验。
 
-技术栈
+### 技术栈
 
 框架：Vue 3
 
@@ -22,7 +22,7 @@ UI 组件库：Element Plus
 
 本地存储：localStorage / sessionStorage
 
-功能模块
+### 功能模块
 1. 商品展示
 
 商品列表展示，支持分页与分类筛选
@@ -73,24 +73,24 @@ UI 组件库：Element Plus
 
 状态持久化（localStorage 支持）
 
-安装与运行
+### 安装与运行
 克隆项目
 git clone https://github.com/你的用户名/selectedmall.git
 cd selectedmall
 安装依赖
 npm install
-# 或者使用 yarn
+#### 或者使用 yarn
 yarn install
 本地启动
 npm run dev
-# 或 yarn dev
+#### 或 yarn dev
 
 浏览器打开 http://localhost:5173
  访问项目（端口根据配置可能不同）。
 
 打包构建
 npm run build
-# 或 yarn build
+#### 或 yarn build
 
 生成的静态文件位于 dist 目录，可部署到任意静态服务器。
 
@@ -111,7 +111,7 @@ selectedmall/
 ├─ package.json
 ├─ vite.config.js           # Vite 配置
 └─ README.md
-核心技术实现
+## 核心技术实现
 1. 全局状态管理
 
 使用 Pinia 管理商品、用户信息、购物车、收藏等全局状态
