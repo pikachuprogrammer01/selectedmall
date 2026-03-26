@@ -56,7 +56,7 @@
     searchContent.value = searchContent.value.trim();
     if (searchContent.value) {
       router.push({
-        path: "/searchResult",
+        path: "/search",
         query: { keyword: searchContent.value },
       });
     } else {
