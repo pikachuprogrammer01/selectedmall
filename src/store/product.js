@@ -502,7 +502,7 @@ export const useProductStore = defineStore('products', {
       title: "盒装纸巾",
       description: "柔软纸巾，适合日常家庭使用。",
       price: 2.49,
-      categories: "食品饮料",
+      categories: "其他",
       image: "/images/41.jpg",
       stock: 400,
       specs: [

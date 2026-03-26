@@ -80,7 +80,7 @@
       <div class="header-top">
         <div class="logo" @click="navigateTo('/')">
           <el-icon><HomeFilled /></el-icon>
-          <span>Selected Mall</span>
+          <span>极选商城</span>
         </div>
 
         <div class="search-bar" @click="handleSearch">

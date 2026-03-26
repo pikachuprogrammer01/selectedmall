@@ -47,7 +47,7 @@
     ElMessage.success(cartMessage.ADDED_TO_CART);
   };
 
-  // 👇 获取当前实例
+  // 获取当前实例
   const instance = getCurrentInstance();
 
   /**

@@ -154,7 +154,7 @@
   <div class="login-container">
     <div class="login-card">
       <div class="login-header">
-        <h1>Selected Mall</h1>
+        <h1>极选商城</h1>
         <p>欢迎回来，请登录您的账号</p>
       </div>
 

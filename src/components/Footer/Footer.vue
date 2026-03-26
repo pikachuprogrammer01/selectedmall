@@ -19,7 +19,7 @@
       <div class="footer-section">
         <h3>关于我们</h3>
         <p>
-          Selected Mall
+          极选商城
           是一个专业的电商平台，致力于为您提供优质的商品和便捷的购物体验。
         </p>
       </div>
@@ -50,8 +50,7 @@
     </div>
     <div class="footer-bottom">
       <p>
-        © {{ currentYear }} Selected Mall. All rights reserved. 5222330417
-        毛一欣
+        © {{ currentYear }} 极选商城. All rights reserved. 5222330417 毛一欣
       </p>
     </div>
   </footer>
