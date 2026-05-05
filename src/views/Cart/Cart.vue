@@ -21,7 +21,11 @@
   const totalPrice = computed(() => {
     return cartItems.value
       .filter((item) => selectedProducts.value.includes(item.id))
-      .reduce((total, item) => total + item.price * item.count, 0);
+      .reduce((total, item) => {
+        const price = Number(item.price) || 0
+        const count = Number(item.count) || 0
+        return total + price * count
+      }, 0)
   });
 
   // 全选
@@ -160,7 +164,7 @@
           </div>
 
           <div class="item-total">
-            总价：<span>¥{{ item.price * item.count }}</span>
+            总价：<span>¥{{ (item.price * item.count || 0).toFixed(2) }}</span>
           </div>
 
           <div class="item-remove">
@@ -191,7 +195,7 @@
             <span
               >合计:
               <span class="total-price"
-                >¥{{ totalPrice.toFixed(2) }}</span
+                >¥{{ (totalPrice || 0).toFixed(2) }}</span
               ></span
             >
           </div>

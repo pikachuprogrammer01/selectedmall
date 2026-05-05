@@ -3,9 +3,15 @@ import storage from '@/utils/storage.js'
 import cartMessage from '@/constant/cart.js'
 
 export const useCartStore = defineStore(cartMessage.CART, {
-  state: () => ({
-    cartItems: storage.get(cartMessage.CART_ITEMS, [])
-  }),
+  state: () => {
+    const items = storage.get(cartMessage.CART_ITEMS, [])
+    // 兼容旧数据：确保每个商品都有 count 和 price 字段
+    items.forEach(item => {
+      if (typeof item.count !== 'number') item.count = 1
+      if (typeof item.price !== 'number') item.price = Number(item.price) || 0
+    })
+    return { cartItems: items }
+  },
   actions: {
     // 添加到购物车
     addToCart (product) {
@@ -14,9 +20,9 @@ export const useCartStore = defineStore(cartMessage.CART, {
       )
 
       if (existingItem) {
-        existingItem.count += 1
+        existingItem.count = (existingItem.count || 0) + 1
       } else {
-        this.cartItems.push(product)
+        this.cartItems.push({ ...product, count: product.count || 1 })
       }
 
       storage.set(cartMessage.CART_ITEMS, this.cartItems)
