@@ -1,5 +1,7 @@
 import { defineStore } from 'pinia'
 
+const BASE_URL = import.meta.env.BASE_URL
+
 export const useProductStore = defineStore('products', {
   state: () => ({
     products: [{
@@ -10,7 +12,7 @@ export const useProductStore = defineStore('products', {
       description: "CK One 是 Calvin Klein 推出的经典中性香水，以清新柑橘香调著称，适合日常使用。",
       price: 49.99,
       categories: "美妆护肤",
-      image: "/images/6.jpg",
+      image: BASE_URL + "images/6.jpg",
       stock: 200,
       specs: [
         { key: "brand", value: "Calvin Klein" },
@@ -27,7 +29,7 @@ export const useProductStore = defineStore('products', {
       description: "Coco Noir 是香奈儿推出的优雅神秘香水，融合葡萄柚、玫瑰和檀香木香调。",
       price: 129.99,
       categories: "美妆护肤",
-      image: "/images/7.jpg",
+      image: BASE_URL + "images/7.jpg",
       stock: 120,
       specs: [
         { key: "brand", value: "Chanel" },
@@ -44,7 +46,7 @@ export const useProductStore = defineStore('products', {
       description: "迪奥经典花香香水，融合依兰、玫瑰和茉莉。",
       price: 89.99,
       categories: "美妆护肤",
-      image: "/images/8.jpg",
+      image: BASE_URL + "images/8.jpg",
       stock: 150,
       specs: [
         { key: "brand", value: "Dior" },
@@ -61,7 +63,7 @@ export const useProductStore = defineStore('products', {
       description: "充满活力的果香花香型香水。",
       price: 69.99,
       categories: "美妆护肤",
-      image: "/images/9.jpg",
+      image: BASE_URL + "images/9.jpg",
       stock: 140,
       specs: [
         { key: "brand", value: "Dolce & Gabbana" },
@@ -78,7 +80,7 @@ export const useProductStore = defineStore('products', {
       description: "古驰经典花香香水。",
       price: 79.99,
       categories: "美妆护肤",
-      image: "/images/10.jpg",
+      image: BASE_URL + "images/10.jpg",
       stock: 130,
       specs: [
         { key: "brand", value: "Gucci" },
@@ -96,7 +98,7 @@ export const useProductStore = defineStore('products', {
       description: "高品质牛排，适合烧烤或煎制。",
       price: 12.99,
       categories: "食品饮料",
-      image: "/images/17.jpg",
+      image: BASE_URL + "images/17.jpg",
       stock: 300,
       specs: [
         { key: "type", value: "Beef" },
@@ -113,7 +115,7 @@ export const useProductStore = defineStore('products', {
       description: "营养均衡的猫粮。",
       price: 8.99,
       categories: "食品饮料",
-      image: "/images/18.jpg",
+      image: BASE_URL + "images/18.jpg",
       stock: 500,
       specs: [
         { key: "type", value: "Cat Food" },
@@ -130,7 +132,7 @@ export const useProductStore = defineStore('products', {
       description: "新鲜鸡肉，适合多种烹饪方式。",
       price: 9.99,
       categories: "食品饮料",
-      image: "/images/19.jpg",
+      image: BASE_URL + "images/19.jpg",
       stock: 280,
       specs: [
         { key: "type", value: "Chicken" },
@@ -147,7 +149,7 @@ export const useProductStore = defineStore('products', {
       description: "多用途植物油。",
       price: 4.99,
       categories: "食品饮料",
-      image: "/images/20.jpg",
+      image: BASE_URL + "images/20.jpg",
       stock: 400,
       specs: [
         { key: "type", value: "蔬菜 Oil" },
@@ -164,7 +166,7 @@ export const useProductStore = defineStore('products', {
       description: "清爽多汁的黄瓜。",
       price: 1.49,
       categories: "食品饮料",
-      image: "/images/21.jpg",
+      image: BASE_URL + "images/21.jpg",
       stock: 350,
       specs: [
         { key: "type", value: "蔬菜" },
@@ -181,7 +183,7 @@ export const useProductStore = defineStore('products', {
       description: "为狗狗提供均衡营养。",
       price: 10.99,
       categories: "食品饮料",
-      image: "/images/22.jpg",
+      image: BASE_URL + "images/22.jpg",
       stock: 420,
       specs: [
         { key: "type", value: "狗粮" },
@@ -198,7 +200,7 @@ export const useProductStore = defineStore('products', {
       description: "新鲜鸡蛋，适合早餐。",
       price: 2.99,
       categories: "食品饮料",
-      image: "/images/23.jpg",
+      image: BASE_URL + "images/23.jpg",
       stock: 600,
       specs: [
         { key: "type", value: "鸡蛋" },
@@ -215,7 +217,7 @@ export const useProductStore = defineStore('products', {
       description: "优质鱼排，适合煎烤烹饪。",
       price: 14.99,
       categories: "食品饮料",
-      image: "/images/24.jpg",
+      image: BASE_URL + "images/24.jpg",
       stock: 260,
       specs: [
         { key: "type", value: "鱼" },
@@ -232,7 +234,7 @@ export const useProductStore = defineStore('products', {
       description: "新鲜青椒，为菜肴增添颜色和风味。",
       price: 1.29,
       categories: "食品饮料",
-      image: "/images/25.jpg",
+      image: BASE_URL + "images/25.jpg",
       stock: 340,
       specs: [
         { key: "type", value: "蔬菜" },
@@ -249,7 +251,7 @@ export const useProductStore = defineStore('products', {
       description: "辛辣青椒，适合烹饪调味。",
       price: 0.99,
       categories: "食品饮料",
-      image: "/images/26.jpg",
+      image: BASE_URL + "images/26.jpg",
       stock: 360,
       specs: [
         { key: "type", value: "蔬菜" },
@@ -266,7 +268,7 @@ export const useProductStore = defineStore('products', {
       description: "天然纯蜂蜜，适合搭配面包或饮品。",
       price: 6.99,
       categories: "食品饮料",
-      image: "/images/27.jpg",
+      image: BASE_URL + "images/27.jpg",
       stock: 200,
       specs: [
         { key: "type", value: "Honey" },
@@ -283,7 +285,7 @@ export const useProductStore = defineStore('products', {
       description: "香甜顺滑的冰淇淋甜品。",
       price: 5.49,
       categories: "食品饮料",
-      image: "/images/28.jpg",
+      image: BASE_URL + "images/28.jpg",
       stock: 260,
       specs: [
         { key: "type", value: "Ice Cream" },
@@ -300,7 +302,7 @@ export const useProductStore = defineStore('products', {
       description: "富含维生素的清爽果汁饮料。",
       price: 3.99,
       categories: "食品饮料",
-      image: "/images/29.jpg",
+      image: BASE_URL + "images/29.jpg",
       stock: 420,
       specs: [
         { key: "type", value: "Juice" },
@@ -317,7 +319,7 @@ export const useProductStore = defineStore('products', {
       description: "营养丰富的猕猴桃水果。",
       price: 2.49,
       categories: "食品饮料",
-      image: "/images/30.jpg",
+      image: BASE_URL + "images/30.jpg",
       stock: 300,
       specs: [
         { key: "type", value: "水果" },
@@ -334,7 +336,7 @@ export const useProductStore = defineStore('products', {
       description: "酸爽柠檬，适合制作饮料或调味。",
       price: 0.79,
       categories: "食品饮料",
-      image: "/images/31.jpg",
+      image: BASE_URL + "images/31.jpg",
       stock: 350,
       specs: [
         { key: "type", value: "水果" },
@@ -351,7 +353,7 @@ export const useProductStore = defineStore('products', {
       description: "新鲜牛奶，富含蛋白质和钙质。",
       price: 3.49,
       categories: "食品饮料",
-      image: "/images/32.jpg",
+      image: BASE_URL + "images/32.jpg",
       stock: 380,
       specs: [
         { key: "type", value: "Milk" },
@@ -368,7 +370,7 @@ export const useProductStore = defineStore('products', {
       description: "甜美多汁的桑葚水果。",
       price: 4.99,
       categories: "食品饮料",
-      image: "/images/33.jpg",
+      image: BASE_URL + "images/33.jpg",
       stock: 200,
       specs: [
         { key: "type", value: "水果" },
@@ -385,7 +387,7 @@ export const useProductStore = defineStore('products', {
       description: "香醇速溶咖啡，适合日常饮用。",
       price: 7.99,
       categories: "食品饮料",
-      image: "/images/34.jpg",
+      image: BASE_URL + "images/34.jpg",
       stock: 260,
       specs: [
         { key: "brand", value: "Nescafe" },
@@ -402,7 +404,7 @@ export const useProductStore = defineStore('products', {
       description: "常见食材，可煮、炸或烤制。",
       price: 2.29,
       categories: "食品饮料",
-      image: "/images/35.jpg",
+      image: BASE_URL + "images/35.jpg",
       stock: 360,
       specs: [
         { key: "type", value: "蔬菜" },
@@ -419,7 +421,7 @@ export const useProductStore = defineStore('products', {
       description: "高蛋白营养补充品。",
       price: 19.99,
       categories: "食品饮料",
-      image: "/images/36.jpg",
+      image: BASE_URL + "images/36.jpg",
       stock: 180,
       specs: [
         { key: "type", value: "Protein Powder" },
@@ -436,7 +438,7 @@ export const useProductStore = defineStore('products', {
       description: "风味浓郁的红洋葱。",
       price: 1.99,
       categories: "食品饮料",
-      image: "/images/37.jpg",
+      image: BASE_URL + "images/37.jpg",
       stock: 320,
       specs: [
         { key: "type", value: "蔬菜" },
@@ -453,7 +455,7 @@ export const useProductStore = defineStore('products', {
       description: "精美礼盒，适合送礼或自用，内含多种精选食品和饮品，满足不同口味需求，是节日和特殊场合的理想选择。",
       price: 5.99,
       categories: "运动户外",
-      image: "/images/38.jpg",
+      image: BASE_URL + "images/38.jpg",
       stock: 500,
       specs: [
         { key: "type", value: "Rice" },
@@ -469,7 +471,7 @@ export const useProductStore = defineStore('products', {
       description: "多种口味的清凉碳酸饮料。",
       price: 1.99,
       categories: "食品饮料",
-      image: "/images/39.jpg",
+      image: BASE_URL + "images/39.jpg",
       stock: 450,
       specs: [
         { key: "type", value: "碳酸饮料" },
@@ -486,7 +488,7 @@ export const useProductStore = defineStore('products', {
       description: "香甜多汁的新鲜草莓。",
       price: 3.99,
       categories: "食品饮料",
-      image: "/images/40.jpg",
+      image: BASE_URL + "images/40.jpg",
       stock: 280,
       specs: [
         { key: "type", value: "水果" },
@@ -503,7 +505,7 @@ export const useProductStore = defineStore('products', {
       description: "柔软纸巾，适合日常家庭使用。",
       price: 2.49,
       categories: "其他",
-      image: "/images/41.jpg",
+      image: BASE_URL + "images/41.jpg",
       stock: 400,
       specs: [
         { key: "type", value: "纸巾" },
@@ -519,7 +521,7 @@ export const useProductStore = defineStore('products', {
       description: "纯净饮用水，保持身体水分。",
       price: 0.99,
       categories: "食品饮料",
-      image: "/images/42.jpg",
+      image: BASE_URL + "images/42.jpg",
       stock: 600,
       specs: [
         { key: "type", value: "Mineral Water" },
@@ -535,7 +537,7 @@ export const useProductStore = defineStore('products', {
       description: "舒适座椅，适合家庭和办公室使用，采用优质材料制作，设计简约大方，提供多种颜色选择，是提升生活品质的理想选择。",
       price: 2.99,
       categories: "家用电器",
-      image: "/images/43.jpg",
+      image: BASE_URL + "images/43.jpg",
       stock: 420,
       specs: [
         { key: "origin", value: "中国" },
@@ -550,7 +552,7 @@ export const useProductStore = defineStore('products', {
       description: "精美相框，适合展示照片或艺术作品，采用优质材料制作，设计简约大方，提供多种尺寸选择，是家庭和办公室装饰的理想选择。",
       price: 1.99,
       categories: "家用电器",
-      image: "/images/44.jpg",
+      image: BASE_URL + "images/44.jpg",
       stock: 380,
       specs: [
         { key: "origin", value: "中国" },
@@ -565,7 +567,7 @@ export const useProductStore = defineStore('products', {
       description: "适合室内装饰的盆栽植物，提供清新绿意，提升居家环境的舒适度。",
       price: 2.59,
       categories: "家用电器",
-      image: "/images/45.jpg",
+      image: BASE_URL + "images/45.jpg",
       stock: 350,
       specs: [
         { key: "type", value: "盆栽" },
@@ -581,7 +583,7 @@ export const useProductStore = defineStore('products', {
       description: "适合室内装饰的盆栽植物，提供清新绿意，提升居家环境的舒适度。",
       price: 1.79,
       categories: "家用电器",
-      image: "/images/46.jpg",
+      image: BASE_URL + "images/46.jpg",
       stock: 410,
       specs: [
         { key: "type", value: "盆栽" },
@@ -597,7 +599,7 @@ export const useProductStore = defineStore('products', {
       description: "座地灯/阅读灯,适合卧室或客厅使用，提供柔和照明，营造温馨氛围。",
       price: 1.39,
       categories: "家用电器",
-      image: "/images/47.jpg",
+      image: BASE_URL + "images/47.jpg",
       stock: 390,
       specs: [
         { key: "type", value: "灯具" },
@@ -612,7 +614,7 @@ export const useProductStore = defineStore('products', {
       description: "Gucci 笔记本电脑，适合日常办公和娱乐，配备高性能处理器和大容量存储，提供流畅的使用体验，是时尚与功能的完美结合。",
       price: 24.99,
       categories: "电脑办公",
-      image: "/images/79.jpg",
+      image: BASE_URL + "images/79.jpg",
       stock: 170,
       specs: [
         { key: "type", value: "笔记本电脑" },
@@ -627,7 +629,7 @@ export const useProductStore = defineStore('products', {
       description: "RayBan 笔记本电脑，适合日常办公和娱乐，配备高性能处理器和大容量存储，提供流畅的使用体验，是时尚与功能的完美结合。",
       price: 29.99,
       categories: "电脑办公",
-      image: "/images/80.jpg",
+      image: BASE_URL + "images/80.jpg",
       stock: 150,
       specs: [
         { key: "type", value: "笔记本电脑" },
@@ -645,7 +647,7 @@ export const useProductStore = defineStore('products', {
       description: "高性能游戏本，适合游戏玩家和专业用户，配备强大显卡和高速处理器，提供卓越的游戏体验和高效的工作性能。",
       price: 1299.99,
       categories: "电脑办公",
-      image: "/images/82.jpg",
+      image: BASE_URL + "images/82.jpg",
       stock: 90,
       specs: [
         { key: "brand", value: "Dell" },
@@ -662,7 +664,7 @@ export const useProductStore = defineStore('products', {
       description: "时尚舒适的衬衫，适合各种场合穿着，采用优质面料，设计简约大方，提供多种颜色选择，是衣橱必备的百搭单品。",
       price: 499.99,
       categories: "服装鞋帽",
-      image: "/images/83.jpg",
+      image: BASE_URL + "images/83.jpg",
       stock: 110,
       specs: [
         { key: "brand", value: "Gucci" },
@@ -679,7 +681,7 @@ export const useProductStore = defineStore('products', {
       description: "时尚舒适的上衣，适合各种场合穿着，采用优质面料，设计简约大方，提供多种颜色选择，是衣橱必备的百搭单品。",
       price: 199.99,
       categories: "服装鞋帽",
-      image: "/images/84.jpg",
+      image: BASE_URL + "images/84.jpg",
       stock: 180,
       specs: [
         { key: "brand", value: "adidas" },
@@ -696,7 +698,7 @@ export const useProductStore = defineStore('products', {
       description: "时尚舒适的衬衫，适合各种场合穿着，采用优质面料，设计简约大方，提供多种颜色选择，是衣橱必备的百搭单品。",
       price: 129.99,
       categories: "服装鞋帽",
-      image: "/images/85.jpg",
+      image: BASE_URL + "images/85.jpg",
       stock: 140,
       specs: [
         { key: "brand", value: "Gucci" },
@@ -713,7 +715,7 @@ export const useProductStore = defineStore('products', {
       description: "时尚舒适的衬衫，适合各种场合穿着，采用优质面料，设计简约大方，提供多种颜色选择，是衣橱必备的百搭单品。",
       price: 39.99,
       categories: "服装鞋帽",
-      image: "/images/86.jpg",
+      image: BASE_URL + "images/86.jpg",
       stock: 210,
       specs: [
         { key: "brand", value: "Gucci" },
@@ -730,7 +732,7 @@ export const useProductStore = defineStore('products', {
       description: "时尚舒适的衬衫，适合各种场合穿着，采用优质面料，设计简约大方，提供多种颜色选择，是衣橱必备的百搭单品。",
       price: 229.99,
       categories: "服装鞋帽",
-      image: "/images/87.jpg",
+      image: BASE_URL + "images/87.jpg",
       stock: 130,
       specs: [
         { key: "brand", value: "Gucci" },
