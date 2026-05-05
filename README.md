@@ -18,9 +18,9 @@ UI 组件库：Element Plus
 
 开发工具：VSCode
 
-构建工具：Vite / Webpack (可选)
+构建工具：Vite
 
-本地存储：localStorage / sessionStorage
+本地存储：localStorage
 
 ### 功能模块
 1. 商品展示

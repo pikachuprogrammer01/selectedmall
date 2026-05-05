@@ -14,15 +14,15 @@ export const useCartStore = defineStore(cartMessage.CART, {
   },
   actions: {
     // 添加到购物车
-    addToCart (product) {
+    addToCart (product, quantity = 1) {
       const existingItem = this.cartItems.find(item =>
         item.id === product.id
       )
 
       if (existingItem) {
-        existingItem.count = (existingItem.count || 0) + 1
+        existingItem.count = (existingItem.count || 0) + quantity
       } else {
-        this.cartItems.push({ ...product, count: product.count || 1 })
+        this.cartItems.push({ ...product, count: quantity })
       }
 
       storage.set(cartMessage.CART_ITEMS, this.cartItems)

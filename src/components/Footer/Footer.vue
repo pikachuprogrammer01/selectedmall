@@ -49,9 +49,7 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <p>
-        © {{ currentYear }} 极选商城. All rights reserved. 5222330417 毛一欣
-      </p>
+      <p>© {{ currentYear }} 极选商城. All rights reserved.</p>
     </div>
   </footer>
 </template>

@@ -42,8 +42,7 @@
   );
 
   const handleAddToCart = () => {
-    currentProduct.value.count = quantity.value;
-    cartStore.addToCart(currentProduct.value);
+    cartStore.addToCart(currentProduct.value, quantity.value);
     ElMessage.success(cartMessage.ADDED_TO_CART);
   };
 

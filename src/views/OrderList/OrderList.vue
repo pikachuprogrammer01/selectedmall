@@ -6,6 +6,7 @@
   import { useOrderStore } from "@/store/order";
   import { useUserStore } from "@/store/user";
   import { useCartStore } from "@/store/cart";
+  import { useProductStore } from "@/store/product";
 
   import { ElMessage, ElMessageBox } from "element-plus";
 
@@ -14,6 +15,7 @@
   const orderStore = useOrderStore();
   const userStore = useUserStore();
   const cartStore = useCartStore();
+  const productsStore = useProductStore();
 
   const filterStatus = ref("all");
 
@@ -96,9 +98,12 @@
   };
 
   const handleBuyAgain = (order) => {
-    const productIds = order.items.map((item) => item.id);
-
-    cartStore.addToCart(productIds);
+    order.items.forEach(item => {
+      const product = productsStore.products.find(p => p.id === item.id)
+      if (product) {
+        cartStore.addToCart(product, item.count || 1)
+      }
+    })
 
     ElMessage.success("已加入购物车");
   };

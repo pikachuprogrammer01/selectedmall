@@ -6,6 +6,7 @@
   import { useOrderStore } from "@/store/order";
   import { useUserStore } from "@/store/user";
   import { useCartStore } from "@/store/cart";
+  import { useProductStore } from "@/store/product";
   import Address from "@/views/Address/Address.vue";
 
   const router = useRouter();
@@ -14,6 +15,7 @@
   const orderStore = useOrderStore();
   const userStore = useUserStore();
   const cartStore = useCartStore();
+  const productsStore = useProductStore();
 
   const orderId = computed(() => Number(route.params.id));
 
@@ -50,7 +52,13 @@
   };
 
   const handleBuyAgain = () => {
-    cartStore.addToCart(productIds.value);
+    if (!orderDetail.value) return
+    orderDetail.value.items.forEach(item => {
+      const product = productsStore.products.find(p => p.id === item.id)
+      if (product) {
+        cartStore.addToCart(product, item.count || 1)
+      }
+    })
     ElMessage.success("已加入购物车");
   };
 
